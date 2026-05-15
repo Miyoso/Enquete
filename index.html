@@ -267,6 +267,110 @@ body { font-family:'Segoe UI',Tahoma,sans-serif; width:100vw; height:100vh; over
 .att-card-label { font-size:10px; color:#aaa; padding:5px 8px; text-align:center; }
 .mail-empty { color:#555; font-size:13px; padding:40px; text-align:center; font-style:italic; }
 .mv-sig { margin-top:24px; padding-top:14px; border-top:1px solid rgba(255,255,255,0.06); font-size:12px; color:#666; font-style:italic; }
+
+/* ── BROWSER ── */
+.browser-layout { display:flex; flex-direction:column; height:100%; }
+.browser-bar {
+  display:flex; align-items:center; gap:6px; padding:5px 8px;
+  background:#20252e; border-bottom:1px solid rgba(0,0,0,0.3); flex-shrink:0;
+}
+.br-navbtn {
+  background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.1);
+  color:#bbb; width:26px; height:22px; border-radius:3px; cursor:pointer; font-size:12px;
+  display:flex; align-items:center; justify-content:center;
+}
+.br-navbtn:hover { background:rgba(255,255,255,0.15); }
+.br-url {
+  flex:1; background:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.1);
+  border-radius:12px; padding:3px 12px; color:#9ecaff; font-size:11px;
+  cursor:text; user-select:text;
+}
+.browser-main { display:flex; flex:1; overflow:hidden; }
+.br-hist {
+  width:230px; flex-shrink:0; background:#161a22;
+  border-right:1px solid rgba(255,255,255,0.07); overflow-y:auto;
+}
+.br-hist::-webkit-scrollbar { width:5px; }
+.br-hist::-webkit-scrollbar-thumb { background:#333; border-radius:3px; }
+.br-hist-header {
+  padding:8px 12px; font-size:10px; font-weight:700; color:#888;
+  letter-spacing:1px; text-transform:uppercase; border-bottom:1px solid rgba(255,255,255,0.06);
+  position:sticky; top:0; background:#161a22;
+}
+.br-day { padding:6px 10px 2px; font-size:10px; color:#555; font-weight:700; text-transform:uppercase; letter-spacing:1px; }
+.br-hist-item {
+  display:flex; align-items:flex-start; gap:8px; padding:7px 10px;
+  border-bottom:1px solid rgba(255,255,255,0.03); cursor:pointer; transition:background .1s;
+}
+.br-hist-item:hover { background:rgba(255,255,255,0.05); }
+.br-hist-item.active { background:rgba(60,100,200,0.15); border-left:2px solid #4a80cc; }
+.br-hist-ico { font-size:14px; flex-shrink:0; margin-top:1px; }
+.br-hist-info { flex:1; overflow:hidden; }
+.br-hist-title { font-size:11px; color:#ccc; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.br-hist-url   { font-size:10px; color:#555; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.br-hist-time  { font-size:10px; color:#444; flex-shrink:0; }
+.br-page { flex:1; overflow-y:auto; background:#f1f1f1; }
+.br-page::-webkit-scrollbar { width:7px; }
+.br-page::-webkit-scrollbar-thumb { background:#bbb; border-radius:3px; }
+/* Page mocks */
+.bp { min-height:100%; }
+.bp-google { background:#fff; padding:60px 40px; text-align:center; }
+.bp-google .g-logo { font-size:48px; font-weight:900; margin-bottom:20px; letter-spacing:-2px; }
+.bp-google .g-logo span:nth-child(1){color:#4285f4}
+.bp-google .g-logo span:nth-child(2){color:#ea4335}
+.bp-google .g-logo span:nth-child(3){color:#fbbc05}
+.bp-google .g-logo span:nth-child(4){color:#4285f4}
+.bp-google .g-logo span:nth-child(5){color:#34a853}
+.bp-google .g-logo span:nth-child(6){color:#ea4335}
+.g-searchbar { border:1px solid #ddd; border-radius:24px; padding:10px 18px; font-size:14px; width:400px; max-width:100%; box-shadow:0 2px 8px rgba(0,0,0,0.1); display:block; margin:0 auto 20px; }
+.g-result { text-align:left; max-width:480px; margin:10px auto; padding:10px; border-bottom:1px solid #eee; }
+.g-result-title { color:#1a0dab; font-size:16px; cursor:pointer; }
+.g-result-url { color:#137333; font-size:12px; }
+.g-result-desc { color:#4d5156; font-size:13px; line-height:1.5; }
+.bp-youtube { background:#0f0f0f; padding:20px; }
+.yt-header { display:flex; align-items:center; gap:10px; margin-bottom:20px; }
+.yt-logo { color:#ff0000; font-weight:900; font-size:20px; }
+.yt-search { flex:1; background:#121212; border:1px solid #303030; color:#fff; padding:6px 12px; border-radius:20px; font-size:13px; }
+.yt-card { background:#1a1a1a; border-radius:8px; overflow:hidden; margin-bottom:14px; display:flex; gap:12px; }
+.yt-thumb { width:160px; height:90px; background:#333; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:30px; }
+.yt-info { padding:10px 10px 10px 0; }
+.yt-title { color:#fff; font-size:13px; margin-bottom:5px; line-height:1.4; }
+.yt-meta  { color:#aaa; font-size:11px; }
+.bp-insta { background:linear-gradient(135deg,#f9ce34,#ee2a7b,#6228d7); min-height:100%; display:flex; align-items:center; justify-content:center; }
+.insta-card { background:#fff; border-radius:12px; padding:30px; width:320px; text-align:center; box-shadow:0 10px 40px rgba(0,0,0,0.3); }
+.insta-logo { font-size:36px; margin-bottom:10px; }
+.insta-lock { font-size:13px; color:#555; margin-top:10px; }
+.insta-profile { text-align:left; }
+.insta-header { display:flex; align-items:center; gap:14px; margin-bottom:20px; padding:15px; border-bottom:1px solid #eee; }
+.insta-av { width:56px; height:56px; border-radius:50%; background:linear-gradient(135deg,#f9ce34,#ee2a7b); display:flex; align-items:center; justify-content:center; font-size:24px; }
+.insta-posts { display:grid; grid-template-columns:1fr 1fr 1fr; gap:2px; }
+.insta-post { aspect-ratio:1; background:#ddd; display:flex; align-items:center; justify-content:center; font-size:28px; }
+.bp-spotify { background:#121212; padding:20px; }
+.sp-header { display:flex; align-items:center; gap:10px; margin-bottom:20px; }
+.sp-logo { color:#1db954; font-size:22px; font-weight:900; }
+.sp-playlist { background:#282828; border-radius:8px; padding:16px; }
+.sp-pl-header { display:flex; align-items:center; gap:14px; margin-bottom:16px; }
+.sp-pl-cover { width:80px; height:80px; background:linear-gradient(135deg,#1db954,#1ed760); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:36px; }
+.sp-pl-info h3 { color:#fff; font-size:18px; }
+.sp-pl-info p { color:#b3b3b3; font-size:12px; }
+.sp-track { display:flex; align-items:center; gap:12px; padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.05); }
+.sp-tnum { color:#b3b3b3; font-size:12px; width:20px; text-align:center; }
+.sp-tinfo { flex:1; }
+.sp-tname { color:#fff; font-size:13px; }
+.sp-tartist { color:#b3b3b3; font-size:11px; }
+.sp-tdur { color:#b3b3b3; font-size:12px; }
+.bp-booking { background:#f5f5f5; padding:20px; }
+.bk-header { background:#003580; color:#fff; padding:14px 16px; border-radius:8px 8px 0 0; margin:-20px -20px 20px; }
+.bk-logo { font-size:20px; font-weight:900; }
+.bk-card { background:#fff; border-radius:8px; padding:16px; margin-bottom:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1); display:flex; gap:14px; }
+.bk-img { width:100px; height:70px; background:#cce; border-radius:4px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:28px; }
+.bk-info h4 { color:#003580; font-size:14px; margin-bottom:4px; }
+.bk-info p { color:#666; font-size:12px; margin-bottom:4px; }
+.bk-price { color:#cc0000; font-weight:700; font-size:16px; }
+.bp-fun { background:#fff; padding:20px; font-family:sans-serif; }
+.fun-title { font-size:20px; font-weight:700; margin-bottom:16px; color:#333; }
+.fun-img { background:#ffe; border:2px solid #ddd; border-radius:8px; padding:20px; text-align:center; font-size:40px; margin-bottom:8px; }
+.fun-caption { color:#666; font-size:13px; text-align:center; margin-bottom:16px; font-style:italic; }
 </style>
 </head>
 <body>
@@ -293,6 +397,10 @@ body { font-family:'Segoe UI',Tahoma,sans-serif; width:100vw; height:100vh; over
     <div class="d-icon" ondblclick="openFolder('Mes Documents')" onclick="selIcon(this)">
       <div class="di">📂</div>
       <div class="dl">Mes Documents</div>
+    </div>
+    <div class="d-icon" ondblclick="openBrowser()" onclick="selIcon(this)">
+      <div class="di">🌐</div>
+      <div class="dl">Internet</div>
     </div>
     <div class="d-icon" ondblclick="openMail()" onclick="selIcon(this)">
       <div class="di">📧</div>
@@ -345,6 +453,35 @@ body { font-family:'Segoe UI',Tahoma,sans-serif; width:100vw; height:100vh; over
     </div>
   </div>
   <div class="win-body" id="doc-body"></div>
+</div>
+
+<!-- ══════════════════════════ BROWSER WINDOW ════════════════════════ -->
+<div class="win" id="win-br" style="width:820px;height:520px;top:50px;left:100px;">
+  <div class="win-bar" id="bar-br">
+    <span class="win-ico">🌐</span>
+    <span class="win-ttl" id="br-ttl">Nouvel onglet</span>
+    <div class="wc">
+      <button class="btn-min" onclick="minWin('win-br')">—</button>
+      <button class="btn-max">+</button>
+      <button class="btn-close" onclick="closeWin('win-br')">✕</button>
+    </div>
+  </div>
+  <div class="browser-layout">
+    <div class="browser-bar">
+      <button class="br-navbtn">◀</button>
+      <button class="br-navbtn">▶</button>
+      <button class="br-navbtn">↻</button>
+      <div class="br-url" id="br-url">Accueil</div>
+    </div>
+    <div class="browser-main">
+      <div class="br-hist" id="br-hist">
+        <div class="br-hist-header">🕐 Historique</div>
+      </div>
+      <div class="br-page" id="br-page">
+        <div style="display:flex;align-items:center;justify-content:center;height:100%;color:#aaa;font-size:13px;">Sélectionnez une page dans l'historique.</div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- ══════════════════════════ MAIL WINDOW ═══════════════════════════ -->
@@ -495,8 +632,24 @@ const FS = {
   'OPS-INTERNAL':              { type:'folder', children:['ORDRE_ELIMINATION.doc','RENSEIGNEMENTS_POLICIERS'] },
   'RENSEIGNEMENTS_POLICIERS':  { type:'folder', children:['SUBJ_68_RICK_CASH.doc','SUBJ_45_JERRY_SIGNAL.doc'] },
   'Mes Documents':             { type:'folder', children:['notes_perso.txt','agenda.doc'] },
-  'Corbeille':                 { type:'folder', children:[] },
+  'Corbeille': { type:'folder', children:[
+    'Cde_Farine_#001_La_Molisana.doc','Cde_Farine_#002_Divella.doc',
+    'Cde_Farine_#003_La_Molisana.doc','Cde_Farine_#004_Caputo.doc',
+    'Cde_Farine_#005_Garofalo.doc','Cde_Farine_#006_La_Molisana.doc',
+    'Cde_Farine_#007_Divella.doc','Cde_Farine_#008_Caputo.doc',
+    'Cde_Farine_#009_La_Molisana.doc','Cde_Farine_#010_Garofalo.doc'
+  ]},
 
+  'Cde_Farine_#001_La_Molisana.doc': { type:'file', icon:'📄', content: bonCommande(1,'La Molisana S.p.A.','Campobasso','type 00 Extra Fine',50,'12 janvier 2026','LS-FREIGHT-2026-K44',85) },
+  'Cde_Farine_#002_Divella.doc':     { type:'file', icon:'📄', content: bonCommande(2,'Divella S.p.A.','Rutigliano (BA)','type 0 Superiore',80,'28 janvier 2026','LS-FREIGHT-2026-K51',78) },
+  'Cde_Farine_#003_La_Molisana.doc': { type:'file', icon:'📄', content: bonCommande(3,'La Molisana S.p.A.','Campobasso','type 00 Extra Fine',60,'09 février 2026','LS-FREIGHT-2026-K58',85) },
+  'Cde_Farine_#004_Caputo.doc':      { type:'file', icon:'📄', content: bonCommande(4,'Molino Caputo S.r.l.','Naples','Cuoco — Cuisine professionnelle',100,'21 février 2026','LS-FREIGHT-2026-K63',92) },
+  'Cde_Farine_#005_Garofalo.doc':    { type:'file', icon:'📄', content: bonCommande(5,'Pasta Garofalo S.p.A.','Gragnano (NA)','type 00 Biologica',40,'05 mars 2026','LS-FREIGHT-2026-K70',97) },
+  'Cde_Farine_#006_La_Molisana.doc': { type:'file', icon:'📄', content: bonCommande(6,'La Molisana S.p.A.','Campobasso','type 00 Extra Fine',75,'18 mars 2026','LS-FREIGHT-2026-K77',85) },
+  'Cde_Farine_#007_Divella.doc':     { type:'file', icon:'📄', content: bonCommande(7,'Divella S.p.A.','Rutigliano (BA)','type 0 Superiore',90,'02 avril 2026','LS-FREIGHT-2026-K84',78) },
+  'Cde_Farine_#008_Caputo.doc':      { type:'file', icon:'📄', content: bonCommande(8,'Molino Caputo S.r.l.','Naples','Nuvola — Extra légère',50,'14 avril 2026','LS-FREIGHT-2026-K91',99) },
+  'Cde_Farine_#009_La_Molisana.doc': { type:'file', icon:'📄', content: bonCommande(9,'La Molisana S.p.A.','Campobasso','type 00 Extra Fine',120,'28 avril 2026','LS-FREIGHT-2026-K98',85) },
+  'Cde_Farine_#010_Garofalo.doc':    { type:'file', icon:'📄', content: bonCommande(10,'Pasta Garofalo S.p.A.','Gragnano (NA)','type 00 Biologica',60,'10 mai 2026','LS-FREIGHT-2026-K105',97) },
   'ORDRE_ELIMINATION.doc': { type:'file', icon:'📄', content: docElimination() },
   'SUBJ_68_RICK_CASH.doc': { type:'file', icon:'📄', content: docRick() },
   'SUBJ_45_JERRY_SIGNAL.doc': { type:'file', icon:'📄', content: docJerry() },
@@ -683,7 +836,7 @@ function removeTB(id){
 }
 
 /* ═══════════════════════ DRAG ═══════════════════════ */
-['win-exp','win-doc','win-mail'].forEach(id=>{
+['win-exp','win-doc','win-mail','win-br'].forEach(id=>{
   const win=document.getElementById(id);
   const bar=document.getElementById('bar-'+id.replace('win-','bar-').replace('-',''));
 
@@ -707,7 +860,279 @@ function removeTB(id){
   document.addEventListener('mouseup',()=>drag=false);
 });
 
+/* ═══════════════════════ BROWSER ═══════════════════════ */
+const HISTORY = [
+  { day:'Aujourd\'hui — 15/05/2026', items:[
+    { t:'08:42', ico:'🔍', title:'météo Rome juin 2026 - Google', url:'google.com', page:'googleSearch', q:'météo Rome juin 2026', results:[
+      {title:'Météo Rome Juin 2026 — Prévisions 30 jours',url:'meteo.it/rome',desc:'Températures attendues 28-34°C, ensoleillement maximal. Parfait pour les vacances. Humidité modérée en soirée.'},
+      {title:'Rome en juin : que faire, météo, conseils',url:'routard.com/italie/rome',desc:'Le mois de juin à Rome est idéal. Les journées sont longues, les monuments ouverts tard. Prévoir crème solaire indice 50.'},
+    ]},
+    { t:'08:15', ico:'📸', title:'Instagram — sofia_loredan • Stories', url:'instagram.com', page:'instagram' },
+  ]},
+  { day:'Hier — 14/05/2026', items:[
+    { t:'23:12', ico:'▶️', title:'YouTube — Volare - Domenico Modugno (Official)', url:'youtube.com', page:'youtube', vid:'🎵', vidTitle:'Nel Blu Dipinto Di Blu (Volare)', channel:'DomenicoModugnoOfficial • 48M vues', related:[
+      {ico:'🎵',title:'O Sole Mio — Pavarotti',sub:'45M vues'},
+      {ico:'🎵',title:'Azzurro — Adriano Celentano',sub:'22M vues'},
+      {ico:'😂',title:'Compilation FAILS mafia filme caché 😂',sub:'8.2M vues'},
+    ]},
+    { t:'22:55', ico:'🔍', title:'SAS Javier Los Santos — Google', url:'google.com', page:'googleSearch', q:'SAS Javier Los Santos rendez-vous comment contacter', results:[
+      {title:'SAS Javier — Los Santos • Prise de rendez-vous en ligne',url:'sas-javier.ls-gov.fr',desc:'Prenez rendez-vous avec le cabinet Javier, spécialisé en droit des affaires, immobilier et contentieux. Disponibilités en ligne 24h/24.'},
+      {title:'[ANNUAIRE LS] Cabinet Javier — Avis et contacts',url:'annuaire-ls.com/javier',desc:'Note : ⭐⭐⭐⭐ (127 avis) — Très professionnel, discret, efficace. Tarifs sur devis. Adresse : 14 Rue Vinewood, Los Santos.'},
+      {title:'SAS Javier — Mentions légales',url:'sas-javier.ls-gov.fr/legal',desc:'Société par Actions Simplifiées au capital de 250 000 €. SIRET : 812 445 291 00018. Gérant : M. Javier R.'},
+    ]},
+    { t:'22:31', ico:'🎵', title:'Spotify — Playlist "Pizza & Vino 🍕"', url:'open.spotify.com', page:'spotify', plName:'Pizza & Vino 🍕', plDesc:'Per una serata perfetta', tracks:[
+      {n:1,name:'Volare',artist:'Domenico Modugno',dur:'3:03'},
+      {n:2,name:'Azzurro',artist:'Adriano Celentano',dur:'4:21'},
+      {n:3,name:'That\'s Amore',artist:'Dean Martin',dur:'2:53'},
+      {n:4,name:'Bella Ciao',artist:'Matteo Romano',dur:'3:18'},
+      {n:5,name:'O Sole Mio',artist:'Luciano Pavarotti',dur:'3:42'},
+      {n:6,name:'Caruso',artist:'Lucio Dalla',dur:'4:07'},
+    ]},
+    { t:'21:48', ico:'🔍', title:'SAS Javier disponibilité horaires — Google', url:'google.com', page:'googleSearch', q:'SAS Javier disponibilité horaires Los Santos', results:[
+      {title:'SAS Javier — Horaires d\'ouverture',url:'sas-javier.ls-gov.fr/horaires',desc:'Lun-Ven : 09h00 - 18h00. Samedi : 10h00 - 13h00. Urgences sur rendez-vous au 555-JAVIER.'},
+      {title:'SAS Javier — Contact',url:'sas-javier.ls-gov.fr/contact',desc:'contact@sas-javier.ls — Réponse sous 24h. Pour les dossiers urgents, mentionner la référence client dans l\'objet du mail.'},
+    ]},
+    { t:'21:10', ico:'🏨', title:'Booking.com — Hôtels Ibiza vue mer', url:'booking.com', page:'booking', dest:'Ibiza', hotels:[
+      {ico:'🏖️',name:'Ushuaïa Beach Hotel ★★★★★',desc:'Vue mer panoramique • Piscine infinity • Plage privée',price:'480 €/nuit'},
+      {ico:'🌅',name:'Hard Rock Hotel Ibiza ★★★★★',desc:'Directement sur la plage • Spa • 5 restaurants',price:'320 €/nuit'},
+      {ico:'🏝️',name:'Aguas de Ibiza Grand Luxe ★★★★★',desc:'Port de Santa Eulalia • Spa 1 400 m² • Vue mer',price:'290 €/nuit'},
+    ]},
+    { t:'19:30', ico:'▶️', title:'YouTube — MEME MAFIA drôle compilation 2026 😂', url:'youtube.com', page:'youtube', vid:'😂', vidTitle:'MEME MAFIA Italiana drôle compilation 2026 💀', channel:'MemesItaliani • 3.1M vues', related:[
+      {ico:'😂',title:'"Quand ta mamma découvre que tu as mangé la dernière mozzarella"',sub:'2.4M vues'},
+      {ico:'😂',title:'Nonna vs GPS — le clash de la décennie',sub:'5.8M vues'},
+      {ico:'😂',title:'Les gestes italiens expliqués en 3 min',sub:'12M vues'},
+    ]},
+    { t:'18:55', ico:'🍝', title:'cucina-italiana.net — Osso Buco Milanese', url:'cucina-italiana.net', page:'recette', plat:'Osso Buco alla Milanese 🍖', ingr:'Jarret de veau coupé épais, oignon, carotte, céleri, vin blanc sec, bouillon de veau, concentré de tomates, gremolata (persil, ail, zeste de citron)', etapes:[
+      'Fariner les rouelles de veau et les faire dorer à feu vif dans le beurre clarifié.',
+      'Faire revenir les légumes (oignon, carotte, céleri) dans la même poêle 5 min.',
+      'Déglacer avec le vin blanc sec, laisser réduire de moitié.',
+      'Ajouter le bouillon et le concentré de tomates. Cuire à couvert 1h30 à feu doux.',
+      'Servir chaud avec un risotto alla milanese. Parsemer de gremolata.',
+    ]},
+    { t:'17:22', ico:'🔍', title:'SAS Javier Los Santos coordonnées — Google', url:'google.com', page:'googleSearch', q:'SAS de Javier Los Santos contact coordonnées urgence', results:[
+      {title:'SAS Javier — Accueil',url:'sas-javier.ls-gov.fr',desc:'Cabinet de conseil et représentation légale. Fondé en 2018. Plus de 400 dossiers traités avec succès. Discrétion garantie.'},
+      {title:'Avis Google — SAS Javier Los Santos',url:'maps.google.com/sas-javier',desc:'⭐⭐⭐⭐⭐ "Très discret et efficace, résout les problèmes rapidement." — Maria L. • "Ne pose pas de questions inutiles." — Tony V.'},
+    ]},
+  ]},
+  { day:'Lundi 13/05/2026', items:[
+    { t:'22:30', ico:'🎵', title:'Spotify — Notti Italiane 🌙', url:'open.spotify.com', page:'spotify', plName:'Notti Italiane 🌙', plDesc:'Per sognare sotto le stelle', tracks:[
+      {n:1,name:'Luna Rossa',artist:'Claudio Villa',dur:'3:25'},
+      {n:2,name:'Malafemmena',artist:'Totò',dur:'3:12'},
+      {n:3,name:'Core \'ngrato',artist:'Roberto Murolo',dur:'4:03'},
+      {n:4,name:'Torna a Surriento',artist:'Sergio Bruni',dur:'3:48'},
+      {n:5,name:'È vucchella',artist:'Beniamino Gigli',dur:'3:33'},
+    ]},
+    { t:'19:10', ico:'✈️', title:'Booking.com — Vols Maldives tout compris', url:'booking.com', page:'booking', dest:'Maldives', hotels:[
+      {ico:'🌊',name:'Conrad Maldives Rangali Island ★★★★★',desc:'Bungalow sur pilotis • Restaurant sous-marin • Incroyable',price:'1 240 €/nuit'},
+      {ico:'🐠',name:'Soneva Jani ★★★★★',desc:'Île privée • Toboggan dans la mer • Butler personnel',price:'980 €/nuit'},
+      {ico:'🌺',name:'Gili Lankanfushi ★★★★★',desc:'Villas sur pilotis • Plongée • Tout compris',price:'750 €/nuit'},
+    ]},
+    { t:'17:45', ico:'📸', title:'Instagram — Scroll feed', url:'instagram.com', page:'instagram' },
+    { t:'16:30', ico:'🔍', title:'"pourquoi les chats ont peur des concombres" — Google', url:'google.com', page:'googleSearch', q:'pourquoi les chats ont peur des concombres', results:[
+      {title:'Pourquoi les chats ont-ils peur des concombres ? La science répond',url:'sciencevetement.fr',desc:'Les chats confondent les concombres avec des serpents à cause de leur forme. Réaction instinctive de survie. N\'essayez pas chez vous, c\'est du stress inutile.'},
+      {title:'Vidéo : chats vs concombres — compilation hilarante',url:'youtube.com/watch?v=x3kTz',desc:'32M vues • Les réactions des chats face aux concombres en vidéo 😂'},
+      {title:'Mon chat a failli avoir une crise cardiaque à cause d\'un concombre',url:'reddit.com/r/france',desc:'Alors voilà, j\'ai vu la vidéo sur YouTube et j\'ai voulu tester avec Mr. Biscuit... spoiler : il a pas apprécié.'},
+    ]},
+    { t:'15:00', ico:'🛒', title:'Amazon.fr — Machine à pâtes Marcato Atlas', url:'amazon.fr', page:'fun', emoji:'🍝', titre:'Amazon.fr — Résultats pour "machine à pâtes Marcato"', blague:'<div class="g-result"><div class="g-result-title">Marcato Atlas 150 Machine à Pâtes — INOX Italie</div><div class="g-result-url">amazon.fr/marcato-atlas-150</div><div class="g-result-desc">⭐⭐⭐⭐⭐ 4 847 avis • Prix : 79,90 € • <b>Livraison gratuite dès 25€</b><br>Fabriqué en Italie depuis 1930. Rouleau en acier chromé, 10 épaisseurs réglables. Fait comme la nonna.</div></div><div class="g-result"><div class="g-result-title">Avis client : "Ma vie a changé"</div><div class="g-result-url">amazon.fr/reviews</div><div class="g-result-desc">⭐⭐⭐⭐⭐ — "J\'ai fait des tagliatelles à 2h du matin et je n\'ai aucun regret. Ma femme était moins enthousiaste." — Carlo M., vérifié</div></div>' },
+  ]},
+  { day:'Dimanche 12/05/2026', items:[
+    { t:'22:00', ico:'▶️', title:'YouTube — Mafia italienne documentaire complet', url:'youtube.com', page:'youtube', vid:'🎬', vidTitle:'Cosa Nostra — L\'Histoire Secrète de la Mafia Italienne (Documentaire)', channel:'DocHistoire • 9.2M vues', related:[
+      {ico:'🎬',title:'Camorra : la mafia napolitaine expliquée',sub:'4.1M vues'},
+      {ico:'🎬',title:'Ndrangheta : l\'organisation la plus puissante',sub:'6.7M vues'},
+      {ico:'🍝',title:'Recette pâtes de la mamma sicilienne',sub:'1.2M vues'},
+    ]},
+    { t:'19:00', ico:'🔍', title:'"recette tiramisu original" — Google', url:'google.com', page:'recette', plat:'Tiramisù Originale 🍮', ingr:'6 œufs, 500g mascarpone, 100g sucre, 250g biscuits Savoiardi, café espresso froid, cacao en poudre, Marsala (optionnel)', etapes:[
+      'Séparer les blancs des jaunes. Fouetter les jaunes avec le sucre jusqu\'à blanchiment.',
+      'Incorporer le mascarpone aux jaunes sucrés. Mélanger jusqu\'à obtenir une crème lisse.',
+      'Monter les blancs en neige ferme et les incorporer délicatement à la crème.',
+      'Tremper rapidement les Savoiardi dans le café froid. Les disposer en couche.',
+      'Alterner couches de crème et biscuits. Terminer par la crème. Réfrigérer 4h minimum.',
+      'Saupoudrer de cacao amer au moment de servir. Non negoziabile.',
+    ]},
+    { t:'15:30', ico:'🔍', title:'"déodorant homme longue durée 72h" — Google', url:'google.com', page:'googleSearch', q:'meilleur déodorant homme longue durée 72h efficace odeur forte', results:[
+      {title:'Top 10 déodorants homme 72h — Comparatif 2026',url:'beaute-homme.fr',desc:'Nous avons testé pour vous les déodorants les plus efficaces du marché. Premier classement : Dove Men+ Care 72h. Résultats bluffants même dans les situations les plus... intenses.'},
+      {title:'Rexona Men Extreme Protection — Le meilleur avis',url:'notretemps.com',desc:'⭐⭐⭐⭐⭐ "Utilisé par mon mari qui travaille dehors toute la journée. Miraculeux. Je ne sais pas ce qu\'on ferait sans." — Avis vérifié'},
+      {title:'Pourquoi certaines personnes transpirent plus ? La dermato répond',url:'doctissimo.fr',desc:'La transpiration excessive peut être liée à l\'alimentation (ail, oignon, fromage...) ou à un déséquilibre hormonal. Des solutions existent. Consulter un dermatologue.'},
+    ]},
+    { t:'11:00', ico:'📚', title:'Famille Loredan — Wikipédia', url:'wikipedia.org', page:'fun', emoji:'📜', titre:'Famille Loredan — Wikipédia', blague:'<div class="g-result"><div class="g-result-title" style="color:#0645ad;font-size:18px;">Famille Loredan</div><div class="g-result-desc">La <b>famille Loredan</b> (ou <i>Loredano</i>) est une famille patriarcienne vénitienne, l\'une des plus anciennes et des plus puissantes de la République de Venise. Elle a donné deux doges à Venise : Leonardo Loredan (1501-1521) et Pietro Loredan (1567-1570).<br><br><b>Armoiries :</b> D\'or à la bande d\'azur.<br><b>Origine :</b> Venise, XIe siècle.<br><b>Devise :</b> <i>"Fortis et fidelis"</i> — Fort et fidèle.<br><br>La famille est connue pour son influence dans le commerce maritime méditerranéen et ses relations diplomatiques avec les principales puissances européennes de l\'époque.</div></div>' },
+  ]},
+];
+
+let curHistItem = null;
+
+function openBrowser(){
+  showWin('win-br');
+  if(document.getElementById('br-hist').children.length <= 1){
+    renderHistory();
+  }
+}
+
+function renderHistory(){
+  const hist = document.getElementById('br-hist');
+  hist.innerHTML='<div class="br-hist-header">🕐 Historique</div>';
+  HISTORY.forEach(group=>{
+    const dayDiv = document.createElement('div');
+    dayDiv.className='br-day'; dayDiv.textContent=group.day;
+    hist.appendChild(dayDiv);
+    group.items.forEach(item=>{
+      const div=document.createElement('div');
+      div.className='br-hist-item';
+      div.innerHTML=`<span class="br-hist-ico">${item.ico}</span>
+        <div class="br-hist-info">
+          <div class="br-hist-title">${item.title}</div>
+          <div class="br-hist-url">${item.url}</div>
+        </div>
+        <span class="br-hist-time">${item.t}</span>`;
+      div.onclick=()=>{
+        document.querySelectorAll('.br-hist-item').forEach(i=>i.classList.remove('active'));
+        div.classList.add('active');
+        renderPage(item);
+      };
+      hist.appendChild(div);
+    });
+  });
+}
+
+function renderPage(item){
+  document.getElementById('br-url').textContent = 'https://www.'+item.url;
+  document.getElementById('br-ttl').textContent = item.title;
+  const page = document.getElementById('br-page');
+
+  if(item.page==='googleSearch'){
+    const resList = (item.results||[]).map(r=>`
+      <div class="g-result">
+        <div class="g-result-title">${r.title}</div>
+        <div class="g-result-url">${r.url}</div>
+        <div class="g-result-desc">${r.desc}</div>
+      </div>`).join('');
+    page.innerHTML=`<div class="bp bp-google">
+      <div class="g-logo"><span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span></div>
+      <input class="g-searchbar" value="${item.q}" readonly>
+      <div style="text-align:left;max-width:480px;margin:0 auto;font-size:12px;color:#70757a;margin-bottom:10px;">Environ ${Math.floor(Math.random()*500+50)} 000 résultats (${(Math.random()*0.4+0.3).toFixed(2)} secondes)</div>
+      ${resList}
+    </div>`;
+  } else if(item.page==='youtube'){
+    const related = (item.related||[]).map(r=>`<div class="yt-card"><div class="yt-thumb">${r.ico}</div><div class="yt-info"><div class="yt-title">${r.title}</div><div class="yt-meta">${r.sub}</div></div></div>`).join('');
+    page.innerHTML=`<div class="bp bp-youtube">
+      <div class="yt-header"><div class="yt-logo">▶ YouTube</div><input class="yt-search" value="${item.vidTitle}" readonly></div>
+      <div class="yt-card" style="margin-bottom:20px;">
+        <div class="yt-thumb" style="width:280px;height:160px;font-size:60px;">${item.vid}</div>
+        <div class="yt-info" style="padding:16px;">
+          <div class="yt-title" style="font-size:16px;margin-bottom:8px;">${item.vidTitle}</div>
+          <div class="yt-meta">${item.channel}</div>
+        </div>
+      </div>
+      <div style="color:#aaa;font-size:12px;margin-bottom:10px;padding:0 4px;">Recommandés</div>
+      ${related}
+    </div>`;
+  } else if(item.page==='instagram'){
+    page.innerHTML=`<div class="bp bp-insta">
+      <div class="insta-card">
+        <div class="insta-logo">📸</div>
+        <div style="font-size:22px;font-weight:900;margin-bottom:6px;">Instagram</div>
+        <div class="insta-lock">🔒 Connectée en tant que<br><strong>sofia_loredan</strong></div>
+        <div style="margin-top:16px;padding-top:14px;border-top:1px solid #eee;">
+          <div style="font-size:12px;color:#888;text-align:center;">📍 Dernière activité : il y a 3 min</div>
+          <div style="font-size:12px;color:#888;text-align:center;margin-top:4px;">💬 3 nouveaux messages • ❤️ 47 j'aime</div>
+        </div>
+      </div>
+    </div>`;
+  } else if(item.page==='spotify'){
+    const tracks=(item.tracks||[]).map(t=>`<div class="sp-track"><span class="sp-tnum">${t.n}</span><div class="sp-tinfo"><div class="sp-tname">${t.name}</div><div class="sp-tartist">${t.artist}</div></div><span class="sp-tdur">${t.dur}</span></div>`).join('');
+    page.innerHTML=`<div class="bp bp-spotify">
+      <div class="sp-header"><div class="sp-logo">● Spotify</div></div>
+      <div class="sp-playlist">
+        <div class="sp-pl-header">
+          <div class="sp-pl-cover">🎵</div>
+          <div class="sp-pl-info"><h3>${item.plName}</h3><p>${item.plDesc}</p><p style="color:#1db954;margin-top:4px;">▶ En cours de lecture</p></div>
+        </div>
+        ${tracks}
+      </div>
+    </div>`;
+  } else if(item.page==='booking'){
+    const hotels=(item.hotels||[]).map(h=>`<div class="bk-card"><div class="bk-img">${h.ico}</div><div class="bk-info"><h4>${h.name}</h4><p>${h.desc}</p><div class="bk-price">${h.price}</div></div></div>`).join('');
+    page.innerHTML=`<div class="bp bp-booking">
+      <div class="bk-header"><div class="bk-logo">🏨 Booking.com</div><div style="font-size:13px;margin-top:4px;">Résultats pour : <strong>${item.dest}</strong></div></div>
+      ${hotels}
+    </div>`;
+  } else if(item.page==='recette'){
+    const etapes=(item.etapes||[]).map((e,i)=>`<div style="margin-bottom:10px;"><strong>${i+1}.</strong> ${e}</div>`).join('');
+    page.innerHTML=`<div class="bp" style="background:#fff;padding:24px;">
+      <div style="font-size:22px;font-weight:700;margin-bottom:6px;">${item.plat}</div>
+      <div style="color:#888;font-size:12px;margin-bottom:18px;">cucina-italiana.net — Recette authentique</div>
+      <div style="background:#fff8f0;border-left:4px solid #e67e22;padding:12px;margin-bottom:18px;font-size:13px;"><strong>Ingrédients :</strong><br>${item.ingr}</div>
+      <div style="font-size:13px;line-height:1.7;color:#333;">${etapes}</div>
+      <div style="margin-top:20px;font-size:12px;color:#888;font-style:italic;">🍝 Buon appetito ! Questa è la vera ricetta della nonna.</div>
+    </div>`;
+  } else if(item.page==='fun'){
+    page.innerHTML=`<div class="bp bp-google" style="text-align:left;">
+      <div style="text-align:center;margin-bottom:20px;font-size:30px;">${item.emoji}</div>
+      <div class="fun-title">${item.titre}</div>
+      ${item.blague}
+    </div>`;
+  }
+}
+
 /* ═══════════════════════ DOCUMENT CONTENT ═══════════════════════ */
+function bonCommande(num, fournisseur, ville, produit, qte, date, refTransport, prixUnit){
+  const total = qte * prixUnit;
+  const remise = Math.round(total * 0.05);
+  const ht = total - remise;
+  const tva = Math.round(ht * 0.2);
+  const ttc = ht + tva;
+  const numStr = String(num).padStart(3,'0');
+  return `<div class="docview" style="font-size:13px;">
+    <div class="dv-header">
+      <div class="dv-title" style="font-size:18px;">BON DE COMMANDE</div>
+      <div class="dv-ref">N° FL-2026-${numStr} &nbsp;|&nbsp; Date : ${date}</div>
+      <div class="dv-ref" style="margin-top:4px;font-style:italic;">LOREDAN IMPORT-EXPORT S.r.l. — Via della Repubblica, 24 — Napoli (NA)</div>
+    </div>
+    <div style="display:flex;gap:20px;margin-bottom:18px;font-size:12px;">
+      <div style="flex:1;background:#fff;border:1px solid #ccc;padding:12px;">
+        <div style="font-weight:700;margin-bottom:6px;color:#8b0000;">FOURNISSEUR</div>
+        <div>${fournisseur}</div>
+        <div>${ville}, Italie</div>
+      </div>
+      <div style="flex:1;background:#fff;border:1px solid #ccc;padding:12px;">
+        <div style="font-weight:700;margin-bottom:6px;color:#8b0000;">LIVRAISON</div>
+        <div>Port de Los Santos, Quai 7</div>
+        <div>Réf. transport : ${refTransport}</div>
+        <div>Mode : Palette camion réfrigéré</div>
+      </div>
+    </div>
+    <table style="width:100%;border-collapse:collapse;font-size:12px;margin-bottom:18px;">
+      <tr style="background:#8b0000;color:#fff;">
+        <th style="padding:7px 10px;text-align:left;">ARTICLE</th>
+        <th style="padding:7px;text-align:center;">QTÉ</th>
+        <th style="padding:7px;text-align:right;">PRIX UNIT.</th>
+        <th style="padding:7px;text-align:right;">REMISE</th>
+        <th style="padding:7px;text-align:right;">TOTAL HT</th>
+      </tr>
+      <tr style="background:#fff;border-bottom:1px solid #ccc;">
+        <td style="padding:8px 10px;">Farine italienne ${produit}</td>
+        <td style="padding:8px;text-align:center;">${qte} sacs × 25 kg</td>
+        <td style="padding:8px;text-align:right;">${prixUnit},00 €</td>
+        <td style="padding:8px;text-align:right;">-5%</td>
+        <td style="padding:8px;text-align:right;">${ht.toLocaleString('fr-FR')} €</td>
+      </tr>
+    </table>
+    <div style="text-align:right;font-size:12px;margin-bottom:20px;">
+      <div style="margin-bottom:4px;">Total HT : <strong>${ht.toLocaleString('fr-FR')} €</strong></div>
+      <div style="margin-bottom:4px;">TVA 20% : ${tva.toLocaleString('fr-FR')} €</div>
+      <div style="font-size:15px;font-weight:700;color:#8b0000;">TOTAL TTC : ${ttc.toLocaleString('fr-FR')} €</div>
+    </div>
+    <div class="dv-note" style="font-size:11px;">
+      <strong>CONDITIONS :</strong> Paiement 30 jours net. Facture à envoyer à : comptabilité@loredan-ie.it<br>
+      <strong>Note :</strong> Marchandise à réceptionner uniquement par personnel autorisé. Présentation du code de livraison obligatoire.
+    </div>
+    <div style="margin-top:20px;display:flex;justify-content:space-between;font-size:11px;color:#888;">
+      <div>Signature autorisée : ____________________</div>
+      <div>Tampon société : □</div>
+    </div>
+    <div class="dv-foot" style="margin-top:14px;">LOREDAN IMPORT-EXPORT S.r.l. — DOCUMENT INTERNE — À DÉTRUIRE APRÈS RÉCEPTION</div>
+  </div>`;
+}
+
 function docElimination(){ return `
 <div class="docview">
   <div class="dv-header">
