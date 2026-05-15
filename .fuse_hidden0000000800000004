@@ -2464,14 +2464,9 @@ function docRick(){ return `
 
   <div class="dv-subject" style="display:block;">
     <div class="subj-name" style="font-size:18px;margin-bottom:14px;">SUJET #68 — RICK CASH</div>
-    <div style="margin-bottom:16px;">
-      <img src="https://i.goopics.net/p88ww4.png"
-           style="width:110px;height:140px;object-fit:cover;border-radius:4px;border:2px solid #8b0000;box-shadow:0 4px 14px rgba(0,0,0,0.5);display:block;">
-      <div style="font-size:9px;color:#999;letter-spacing:1px;margin-top:4px;text-align:center;">PHOTO SUJET</div>
-    </div>
     <div style="display:flex;gap:30px;flex-wrap:wrap;">
       <div style="flex:1;min-width:180px;">
-        <div class="irow"><span class="ilbl">PSEUDO GTA :</span><span style="font-weight:700;">Birdie</span></div>
+        <div class="irow"><span class="ilbl">PSEUDO GTA :</span><span style="font-weight:700;">@rick</span></div>
         <div class="irow"><span class="ilbl">N° SUJET :</span><span>#68</span></div>
         <div class="irow"><span class="ilbl">STATUT :</span><span class="sbadge">À TRAITER</span></div>
         <div class="irow"><span class="ilbl">PRIORITÉ :</span><span style="color:#c00;font-weight:700;">⚠ HAUTE</span></div>
@@ -2509,14 +2504,9 @@ function docJerry(){ return `
 
   <div class="dv-subject" style="display:block;">
     <div class="subj-name" style="font-size:18px;margin-bottom:14px;">SUJET #45 — JERRY SIGNAL</div>
-    <div style="margin-bottom:16px;">
-      <img src="https://i.goopics.net/gswgp5.png"
-           style="width:110px;height:140px;object-fit:cover;border-radius:4px;border:2px solid #8b0000;box-shadow:0 4px 14px rgba(0,0,0,0.5);display:block;">
-      <div style="font-size:9px;color:#999;letter-spacing:1px;margin-top:4px;text-align:center;">PHOTO SUJET</div>
-    </div>
     <div style="display:flex;gap:30px;flex-wrap:wrap;">
       <div style="flex:1;min-width:180px;">
-        <div class="irow"><span class="ilbl">PSEUDO GTA :</span><span style="font-weight:700;">Birdie</span></div>
+        <div class="irow"><span class="ilbl">PSEUDO GTA :</span><span style="font-weight:700;">@jerrysignal</span></div>
         <div class="irow"><span class="ilbl">N° SUJET :</span><span>#45</span></div>
         <div class="irow"><span class="ilbl">STATUT :</span><span class="sbadge">À TRAITER</span></div>
         <div class="irow"><span class="ilbl">PRIORITÉ :</span><span style="color:#c00;font-weight:700;">⚠ HAUTE</span></div>
@@ -2531,7 +2521,7 @@ function docJerry(){ return `
 
   <div class="dv-note">
     <strong>OBSERVATIONS DE TERRAIN :</strong><br><br>
-    Le sujet Birdie conduit un Bifta fortement customisé — véhicule reconnaissable à distance.
+    Le sujet @jerrysignal conduit un Bifta fortement customisé — véhicule reconnaissable à distance.
     Conduite agressive, tendance à prendre des risques inutiles en ville.
     Se retrouve fréquemment dans des zones peu fréquentées en dehors des heures de pointe.<br><br>
     <strong>Zone de présence :</strong> Périphérie, zones industrielles, routes secondaires.<br>
@@ -2546,3 +2536,13 @@ function docJerry(){ return `
 </script>
 </body>
 </html>
+    social:  { color:'#90caf9', bg:'#e3f2fd', ico:'🥂' },
+    famille: { color:'#ef9a9a', bg:'#ffebee', ico:'👨‍👩‍👧' },
+    spa:     { color:'#b0bec5', bg:'#eceff1', ico:'🧖‍♀️' },
+    annule:  { color:'#bdbdbd', bg:'#f5f5f5', ico:'❌' },
+  };
+
+  const months = [
+    { name:'AVRIL 2026', days:[
+      { d:'Mer 02', rdvs:[{h:'10h00',t:'Onglerie Prestige — Pose gel rose nude ✨',c:'beauty'},{h:'13h30',t:'Déj. rapide — Sushi Mikado (solo)',c:'resto'}]},
+      { d:'Sam 05', rdvs:[{h:'14h00',t:'Déjeuner La Pergola avec Chiara & Mia 🥂',c:'re

@@ -2464,11 +2464,280 @@ function docRick(){ return `
 
   <div class="dv-subject" style="display:block;">
     <div class="subj-name" style="font-size:18px;margin-bottom:14px;">SUJET #68 — RICK CASH</div>
-    <div style="margin-bottom:16px;">
-      <img src="https://i.goopics.net/p88ww4.png"
-           style="width:110px;height:140px;object-fit:cover;border-radius:4px;border:2px solid #8b0000;box-shadow:0 4px 14px rgba(0,0,0,0.5);display:block;">
-      <div style="font-size:9px;color:#999;letter-spacing:1px;margin-top:4px;text-align:center;">PHOTO SUJET</div>
+    <div style="display:flex;gap:30px;flex-wrap:wrap;">
+      <div style="flex:1;min-width:180px;">
+        <div class="irow"><span class="ilbl">PSEUDO GTA :</span><span style="font-weight:700;">@rick</span></div>
+        <div class="irow"><span class="ilbl">N° SUJET :</span><span>#68</span></div>
+        <div class="irow"><span class="ilbl">STATUT :</span><span class="sbadge">À TRAITER</span></div>
+        <div class="irow"><span class="ilbl">PRIORITÉ :</span><span style="color:#c00;font-weight:700;">⚠ HAUTE</span></div>
+      </div>
+      <div style="flex:1;min-width:180px;">
+        <div class="irow"><span class="ilbl">VÉHICULE 1 :</span><span>Rapid GT Sport</span></div>
+        <div class="irow"><span class="ilbl">VÉHICULE 2 :</span><span>Oracle XS-LE</span></div>
+        <div class="irow"><span class="ilbl">PROTECTION :</span><span style="color:green;font-weight:700;">AUCUNE</span></div>
+        <div class="irow"><span class="ilbl">ORIENTATION :</span><span style="color:#a00;font-weight:700;">GAY</span></div>
+      </div>
     </div>
+  </div>
+
+  <div class="dv-note">
+    <strong>OBSERVATIONS DE TERRAIN :</strong><br><br>
+    Le sujet @rick se déplace régulièrement en ville sans escorte ni protection armée.
+    Comportement imprévisible — agit souvent seul, surtout en soirée.
+    Son Rapid GT Sport est facilement reconnaissable ; difficile à semer en cas de poursuite.<br><br>
+    <strong>Zone de présence :</strong> Centre-ville, quartier nord, port.<br>
+    <strong>Horaires :</strong> Actif principalement en soirée et nuit.<br><br>
+    <strong>Recommandation :</strong> Neutralisation possible à tout moment. Profiter des déplacements nocturnes. Approche discrète suffisante — aucune résistance organisée à prévoir.
+  </div>
+
+  <div class="dv-foot">— DOCUMENT RÉSERVÉ — USAGE INTERNE FAMIGLIA LOREDAN — SUBJ_68 —</div>
+</div>`; }
+
+function docJerry(){ return `
+<div class="docview">
+  <div class="dv-header">
+    <div class="dv-title">FICHE DE RENSEIGNEMENT</div>
+    <div class="dv-ref">RÉFÉRENCE : SUBJ_45 / RENS-PD — FAMIGLIA LOREDAN</div>
+    <div class="dv-ref" style="font-style:italic;color:#999;margin-top:3px;">Usage interne uniquement — Accès restreint</div>
+    <div class="dv-stamp">CONFIDENTIEL</div>
+  </div>
+
+  <div class="dv-subject" style="display:block;">
+    <div class="subj-name" style="font-size:18px;margin-bottom:14px;">SUJET #45 — JERRY SIGNAL</div>
+    <div style="display:flex;gap:30px;flex-wrap:wrap;">
+      <div style="flex:1;min-width:180px;">
+        <div class="irow"><span class="ilbl">PSEUDO GTA :</span><span style="font-weight:700;">@jerrysignal</span></div>
+        <div class="irow"><span class="ilbl">N° SUJET :</span><span>#45</span></div>
+        <div class="irow"><span class="ilbl">STATUT :</span><span class="sbadge">À TRAITER</span></div>
+        <div class="irow"><span class="ilbl">PRIORITÉ :</span><span style="color:#c00;font-weight:700;">⚠ HAUTE</span></div>
+      </div>
+      <div style="flex:1;min-width:180px;">
+        <div class="irow"><span class="ilbl">VÉHICULE :</span><span>Bifta (Custom)</span></div>
+        <div class="irow"><span class="ilbl">PROTECTION :</span><span style="color:green;font-weight:700;">AUCUNE</span></div>
+        <div class="irow"><span class="ilbl">ORIENTATION :</span><span>HÉTÉRO</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dv-note">
+    <strong>OBSERVATIONS DE TERRAIN :</strong><br><br>
+    Le sujet @jerrysignal conduit un Bifta fortement customisé — véhicule reconnaissable à distance.
+    Conduite agressive, tendance à prendre des risques inutiles en ville.
+    Se retrouve fréquemment dans des zones peu fréquentées en dehors des heures de pointe.<br><br>
+    <strong>Zone de présence :</strong> Périphérie, zones industrielles, routes secondaires.<br>
+    <strong>Horaires :</span> Actif en journée et début de soirée.<br><br>
+    <strong>Recommandation :</strong> Approche discrète recommandée — le sujet est impulsif et réagit fort.
+    Éviter toute confrontation directe en zone urbaine dense.
+    Profiter des déplacements en zone isolée.
+  </div>
+
+  <div class="dv-foot">— DOCUMENT RÉSERVÉ — USAGE INTERNE FAMIGLIA LOREDAN — SUBJ_45 —</div>
+</div>`; }
+</script>
+</body>
+</html>
+    social:  { color:'#90caf9', bg:'#e3f2fd', ico:'🥂' },
+    famille: { color:'#ef9a9a', bg:'#ffebee', ico:'👨‍👩‍👧' },
+    spa:     { color:'#b0bec5', bg:'#eceff1', ico:'🧖‍♀️' },
+    annule:  { color:'#bdbdbd', bg:'#f5f5f5', ico:'❌' },
+  };
+
+  const months = [
+    { name:'AVRIL 2026', days:[
+      { d:'Mer 02', rdvs:[{h:'10h00',t:'Onglerie Prestige — Pose gel rose nude ✨',c:'beauty'},{h:'13h30',t:'Déj. rapide — Sushi Mikado (solo)',c:'resto'}]},
+      { d:'Sam 05', rdvs:[{h:'14h00',t:'Déjeuner La Pergola avec Chiara & Mia 🥂',c:'resto'}]},
+      { d:'Mar 08', rdvs:[{h:'09h00',t:'Séance coach perso — Salle Atlas Gym',c:'sport'}]},
+      { d:'Ven 11', rdvs:[{h:'18h30',t:'Soirée rooftop — Cielo Bar 🥂',c:'social'}]},
+      { d:'Sam 12', rdvs:[{h:'11h00',t:'Coiffeur Di Luca — Balayage + soin kératine 💇‍♀️',c:'hair'},{h:'20h00',t:'Dîner Famiglia 🍽️',c:'famille'}]},
+      { d:'Mer 16', rdvs:[{h:'15h00',t:'Shopping — Vinewood Plaza 🛍️ (budget illimité 😅)',c:'shopping'}]},
+      { d:'Sam 19', rdvs:[{h:'11h00',t:'Onglerie Prestige — Remplissage gel + nail art 💅',c:'beauty'},{h:'19h30',t:'Résa La Terrasse — Anniversaire Chiara 🎂',c:'social'}]},
+      { d:'Mar 22', rdvs:[{h:'14h00',t:'Institut Bella — Épilation complète + sourcils',c:'spa'}]},
+      { d:'Jeu 24', rdvs:[{h:'09h30',t:'Séance coach perso — Atlas Gym',c:'sport'}]},
+      { d:'Sam 26', rdvs:[{h:'10h30',t:'Hammam & massage — Spa Nuvola ☁️',c:'spa'},{h:'20h00',t:'Dîner Famiglia (Papa + cousins)',c:'famille'}]},
+      { d:'Mar 29', rdvs:[{h:'16h00',t:'Yoga — Studio Zen (premier cours)',c:'sport'}]},
+    ]},
+    { name:'MAI 2026', days:[
+      { d:'Ven 01', rdvs:[{h:'18h00',t:'Vernissage galerie Vinewood Art Center 🎨',c:'social'}]},
+      { d:'Dim 03', rdvs:[{h:'11h00',t:'Onglerie Prestige — French manucure + pédicure 💅',c:'beauty'}]},
+      { d:'Mar 05', rdvs:[{h:'13h00',t:'Déjeuner Nobu avec Mia 🍣',c:'resto'},{h:'16h30',t:'Shopping Boutique Dolce — robe pour soirée',c:'shopping'}]},
+      { d:'Jeu 07', rdvs:[{h:'09h00',t:'Séance coach perso — Atlas Gym 💪',c:'sport'}]},
+      { d:'Sam 09', rdvs:[{h:'10h00',t:'Institut Bella — Soin visage Signature + Mésothérapie ✨',c:'spa'},{h:'20h00',t:'Soirée privée — Club Eclipse 🥂',c:'social'}]},
+      { d:'Lun 11', rdvs:[{h:'14h30',t:'Retouches robe — Atelier Morini',c:'shopping'}]},
+      { d:'Mar 12', rdvs:[{h:'11h00',t:'Teinture + brushing — Salon Di Luca 💇‍♀️',c:'hair'},{h:'20h00',t:'Résa Cipriani (avec Chiara, Elena, Mia)',c:'resto'}]},
+      { d:'Mer 13', rdvs:[{h:'14h00',t:'Épilation & soin lèvres — Institut Bella',c:'spa'},{h:'21h00',t:'Cocktails rooftop Cielo Bar 🥂',c:'social'}]},
+      { d:'Jeu 14', rdvs:[{h:'09h30',t:'Séance coach perso 💪',c:'sport',x:true},{h:'19h30',t:'⚠️ Dîner Famiglia (OBLIGATOIRE)',c:'famille',x:true}]},
+      { d:'Ven 15', rdvs:[{h:'10h00',t:'Onglerie Prestige — Pose + nail art 🌸',c:'beauty',x:true},{h:'13h00',t:'Déjeuner Brasserie Flora avec Chiara',c:'resto',x:true}]},
+      { d:'Lun 19', rdvs:[{h:'16h00',t:'Shopping — Nouvelle collection Gucci 🛍️',c:'shopping',x:true}]},
+      { d:'Mer 21', rdvs:[{h:'11h00',t:'Massage aux pierres chaudes — Spa Nuvola 🧖‍♀️',c:'spa',x:true}]},
+      { d:'Ven 23', rdvs:[{h:'14h00',t:'Brunch La Pergola avec les filles',c:'resto',x:true},{h:'21h00',t:'Soirée anniversaire — Villa Mare 🥂',c:'social',x:true}]},
+      { d:'Sam 24', rdvs:[{h:'10h30',t:'Yoga — Studio Zen 🧘‍♀️',c:'sport',x:true}]},
+      { d:'Mar 26', rdvs:[{h:'09h00',t:'Séance coach perso',c:'sport',x:true},{h:'15h00',t:'Onglerie — Remplissage',c:'beauty',x:true}]},
+      { d:'Ven 30', rdvs:[{h:'19h00',t:'Réservation Il Borghese — dîner fin de mois 🍷',c:'resto',x:true}]},
+    ]},
+  ];
+
+  const renderMonth = (month) => `
+    <div style="margin-bottom:32px;">
+      <div style="font-size:13px;font-weight:700;letter-spacing:3px;color:#888;text-transform:uppercase;
+                  margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid #eee;">${month.name}</div>
+      ${month.days.map(day=>`
+        <div style="display:flex;gap:12px;margin-bottom:14px;align-items:flex-start;">
+          <div style="width:52px;flex-shrink:0;text-align:right;">
+            <div style="font-size:12px;font-weight:700;color:#333;">${day.d.split(' ')[1]}</div>
+            <div style="font-size:10px;color:#aaa;text-transform:uppercase;">${day.d.split(' ')[0]}</div>
+          </div>
+          <div style="width:3px;background:#f0f0f0;border-radius:3px;margin-top:2px;align-self:stretch;flex-shrink:0;"></div>
+          <div style="flex:1;display:flex;flex-direction:column;gap:6px;">
+            ${day.rdvs.map(r=>{
+              const cat = r.x ? cats.annule : (cats[r.c]||cats.beauty);
+              const xStyle = r.x ? 'opacity:.5;' : '';
+              const xText  = r.x ? 'text-decoration:line-through;color:#aaa;' : 'color:#333;';
+              const xBadge = r.x ? `<span style="font-size:9px;font-weight:700;color:#fff;background:#e53935;border-radius:3px;padding:1px 5px;margin-left:6px;vertical-align:middle;letter-spacing:.5px;">ANNULÉ</span>` : '';
+              return `<div style="background:${cat.bg};border-left:3px solid ${cat.color};
+                          border-radius:0 6px 6px 0;padding:7px 10px;display:flex;align-items:center;gap:8px;${xStyle}">
+                <span style="font-size:14px;flex-shrink:0;">${r.x?'❌':cat.ico}</span>
+                <div style="flex:1;">
+                  <div style="font-size:11px;font-weight:700;color:#999;margin-bottom:1px;">${r.h}</div>
+                  <div style="font-size:12px;line-height:1.4;${xText}">${r.t}${xBadge}</div>
+                  ${r.note&&!r.x?`<div style="font-size:10px;color:#e67e22;margin-top:2px;">${r.note}</div>`:''}
+                </div>
+              </div>`;
+            }).join('')}
+          </div>
+        </div>`).join('')}
+    </div>`;
+
+  const legend = Object.entries(cats).filter(([k])=>k!=='annule').map(([k,v])=>
+    `<span style="display:inline-flex;align-items:center;gap:4px;margin:2px 6px 2px 0;font-size:11px;color:#666;">
+      <span style="width:10px;height:10px;border-radius:50%;background:${v.color};display:inline-block;"></span>${v.ico}
+    </span>`).join('');
+
+  return `<div style="background:#fafafa;min-height:100%;padding:28px 32px;font-family:'Segoe UI',sans-serif;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;border-bottom:1px solid #e0e0e0;padding-bottom:16px;">
+      <div>
+        <div style="font-size:20px;font-weight:700;color:#222;">📅 Mon Agenda</div>
+        <div style="font-size:11px;color:#aaa;margin-top:3px;">Rosalia Loredan — Personnel &amp; Confidentiel</div>
+      </div>
+      <div style="text-align:right;font-size:11px;color:#bbb;line-height:1.8;">
+        ${legend}
+      </div>
+    </div>
+    ${months.map(renderMonth).join('')}
+  </div>`;
+}
+
+function bonCommande(num, fournisseur, ville, produit, qte, date, refTransport, prixUnit){
+  const total = qte * prixUnit;
+  const remise = Math.round(total * 0.05);
+  const ht = total - remise;
+  const tva = Math.round(ht * 0.2);
+  const ttc = ht + tva;
+  const numStr = String(num).padStart(3,'0');
+  return `<div class="docview" style="font-size:13px;">
+    <div class="dv-header">
+      <div class="dv-title" style="font-size:18px;">BON DE COMMANDE</div>
+      <div class="dv-ref">N° FL-2026-${numStr} &nbsp;|&nbsp; Date : ${date}</div>
+      <div class="dv-ref" style="margin-top:4px;font-style:italic;">LOREDAN IMPORT-EXPORT S.r.l. — Via della Repubblica, 24 — Napoli (NA)</div>
+    </div>
+    <div style="display:flex;gap:20px;margin-bottom:18px;font-size:12px;">
+      <div style="flex:1;background:#fff;border:1px solid #ccc;padding:12px;">
+        <div style="font-weight:700;margin-bottom:6px;color:#8b0000;">FOURNISSEUR</div>
+        <div>${fournisseur}</div>
+        <div>${ville}, Italie</div>
+      </div>
+      <div style="flex:1;background:#fff;border:1px solid #ccc;padding:12px;">
+        <div style="font-weight:700;margin-bottom:6px;color:#8b0000;">LIVRAISON</div>
+        <div>Port de Los Santos, Quai 7</div>
+        <div>Réf. transport : ${refTransport}</div>
+        <div>Mode : Palette camion réfrigéré</div>
+      </div>
+    </div>
+    <table style="width:100%;border-collapse:collapse;font-size:12px;margin-bottom:18px;">
+      <tr style="background:#8b0000;color:#fff;">
+        <th style="padding:7px 10px;text-align:left;">ARTICLE</th>
+        <th style="padding:7px;text-align:center;">QTÉ</th>
+        <th style="padding:7px;text-align:right;">PRIX UNIT.</th>
+        <th style="padding:7px;text-align:right;">REMISE</th>
+        <th style="padding:7px;text-align:right;">TOTAL HT</th>
+      </tr>
+      <tr style="background:#fff;border-bottom:1px solid #ccc;">
+        <td style="padding:8px 10px;">Farine italienne ${produit}</td>
+        <td style="padding:8px;text-align:center;">${qte} sacs × 25 kg</td>
+        <td style="padding:8px;text-align:right;">${prixUnit},00 €</td>
+        <td style="padding:8px;text-align:right;">-5%</td>
+        <td style="padding:8px;text-align:right;">${ht.toLocaleString('fr-FR')} €</td>
+      </tr>
+    </table>
+    <div style="text-align:right;font-size:12px;margin-bottom:20px;">
+      <div style="margin-bottom:4px;">Total HT : <strong>${ht.toLocaleString('fr-FR')} €</strong></div>
+      <div style="margin-bottom:4px;">TVA 20% : ${tva.toLocaleString('fr-FR')} €</div>
+      <div style="font-size:15px;font-weight:700;color:#8b0000;">TOTAL TTC : ${ttc.toLocaleString('fr-FR')} €</div>
+    </div>
+    <div class="dv-note" style="font-size:11px;">
+      <strong>CONDITIONS :</strong> Paiement 30 jours net. Facture à envoyer à : comptabilité@loredan-ie.it<br>
+      <strong>Note :</strong> Marchandise à réceptionner uniquement par personnel autorisé. Présentation du code de livraison obligatoire.
+    </div>
+    <div style="margin-top:20px;display:flex;justify-content:space-between;font-size:11px;color:#888;">
+      <div>Signature autorisée : ____________________</div>
+      <div>Tampon société : □</div>
+    </div>
+    <div class="dv-foot" style="margin-top:14px;">LOREDAN IMPORT-EXPORT S.r.l. — DOCUMENT INTERNE — À DÉTRUIRE APRÈS RÉCEPTION</div>
+  </div>`;
+}
+
+function docElimination(){ return `
+<div class="docview">
+  <div class="dv-header">
+    <div class="dv-title">ORDRE D'ÉLIMINATION</div>
+    <div class="dv-ref">RÉFÉRENCE : FAMIGLIA LOREDAN / OPS-INTERNAL</div>
+    <div class="dv-ref" style="font-style:italic;color:#999;margin-top:3px;">Document physique – Ne pas sortir du bureau.</div>
+    <div class="dv-stamp">PRIORITAIRE</div>
+  </div>
+
+  <div class="dv-subject">
+    <div class="subj-photo">ID_SUBJ_68</div>
+    <div class="subj-info">
+      <div class="subj-name">SUJET #68 &nbsp;:&nbsp; RICK CASH</div>
+      <div class="irow"><span class="ilbl">PSEUDO :</span><span>@rick</span></div>
+      <div class="irow"><span class="ilbl">STATUT :</span><span class="sbadge">À TRAITER</span></div>
+      <div class="irow"><span class="ilbl">VÉHICULE 1 :</span><span>Rapid GT Sport</span></div>
+      <div class="irow"><span class="ilbl">VÉHICULE 2 :</span><span>Oracle XS-LE</span></div>
+      <div class="irow" style="margin-top:8px;"><span class="ilbl" style="color:#a00;">ORIENTATION :</span><span style="color:#a00;font-weight:700;">GAY</span></div>
+    </div>
+  </div>
+
+  <div class="dv-subject">
+    <div class="subj-photo">ID_SUBJ_45</div>
+    <div class="subj-info">
+      <div class="subj-name">SUJET #45 &nbsp;:&nbsp; JERRY SIGNAL</div>
+      <div class="irow"><span class="ilbl">PSEUDO :</span><span>@jerrysignal</span></div>
+      <div class="irow"><span class="ilbl">STATUT :</span><span class="sbadge">À TRAITER</span></div>
+      <div class="irow"><span class="ilbl">VÉHICULE :</span><span>Bifta (Custom)</span></div>
+      <div class="irow" style="margin-top:8px;"><span class="ilbl">ORIENTATION :</span><span>HÉTÉRO</span></div>
+    </div>
+  </div>
+
+  <div class="dv-note">
+    <strong>NOTE ADDITIONNELLE DE L'EXÉCUTEUR :</strong><br><br>
+    <em>"Observation : Ces deux-là sont <u>faciles à avoir</u> car ils sont complètement cons.
+    Ils n'ont aucune protection et font n'importe quoi en ville. On peut les cueillir quand on veut."</em>
+  </div>
+
+  <div class="dv-foot">— FAMIGLIA LOREDAN — DOCUMENT CONFIDENTIEL — NE PAS DIVULGUER —</div>
+</div>`; }
+
+function docRick(){ return `
+<div class="docview">
+  <div class="dv-header">
+    <div class="dv-title">FICHE DE RENSEIGNEMENT</div>
+    <div class="dv-ref">RÉFÉRENCE : SUBJ_68 / RENS-PD — FAMIGLIA LOREDAN</div>
+    <div class="dv-ref" style="font-style:italic;color:#999;margin-top:3px;">Usage interne uniquement — Accès restreint</div>
+    <div class="dv-stamp">CONFIDENTIEL</div>
+  </div>
+
+  <div class="dv-subject" style="display:block;">
+    <div class="subj-name" style="font-size:18px;margin-bottom:14px;">SUJET #68 — RICK CASH</div>
+      <div style="margin-bottom:14px;"><img src="https://i.goopics.net/p88ww4.png" style="width:110px;height:130px;object-fit:cover;border-radius:4px;border:2px solid #8b0000;box-shadow:0 4px 12px rgba(0,0,0,0.4);display:block;" onerror="this.style.display='none'"><div style="font-size:9px;color:#999;letter-spacing:1px;margin-top:4px;text-align:center;">PHOTO SUJET</div></div>
     <div style="display:flex;gap:30px;flex-wrap:wrap;">
       <div style="flex:1;min-width:180px;">
         <div class="irow"><span class="ilbl">PSEUDO GTA :</span><span style="font-weight:700;">Birdie</span></div>
@@ -2509,11 +2778,7 @@ function docJerry(){ return `
 
   <div class="dv-subject" style="display:block;">
     <div class="subj-name" style="font-size:18px;margin-bottom:14px;">SUJET #45 — JERRY SIGNAL</div>
-    <div style="margin-bottom:16px;">
-      <img src="https://i.goopics.net/gswgp5.png"
-           style="width:110px;height:140px;object-fit:cover;border-radius:4px;border:2px solid #8b0000;box-shadow:0 4px 14px rgba(0,0,0,0.5);display:block;">
-      <div style="font-size:9px;color:#999;letter-spacing:1px;margin-top:4px;text-align:center;">PHOTO SUJET</div>
-    </div>
+      <div style="margin-bottom:14px;"><img src="https://i.goopics.net/gswgp5.png" style="width:110px;height:130px;object-fit:cover;border-radius:4px;border:2px solid #8b0000;box-shadow:0 4px 12px rgba(0,0,0,0.4);display:block;" onerror="this.style.display='none'"><div style="font-size:9px;color:#999;letter-spacing:1px;margin-top:4px;text-align:center;">PHOTO SUJET</div></div>
     <div style="display:flex;gap:30px;flex-wrap:wrap;">
       <div style="flex:1;min-width:180px;">
         <div class="irow"><span class="ilbl">PSEUDO GTA :</span><span style="font-weight:700;">Birdie</span></div>
