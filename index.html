@@ -387,6 +387,27 @@ body { font-family:'Segoe UI',Tahoma,sans-serif; width:100vw; height:100vh; over
 .fitem .fi { font-size:38px; }
 .fitem .fn { color:#ccc; font-size:11px; text-align:center; word-break:break-word; line-height:1.3; }
 .empty-folder { color:#555; padding:30px 20px; font-size:13px; font-style:italic; }
+/* Miniatures photos dans l'explorateur */
+.fitem-photo { width:110px !important; }
+.fitem-photo .fi { font-size:0 !important; }
+.fitem-photo .fthumb {
+  width:90px; height:70px; object-fit:cover; border-radius:4px;
+  display:block; background:#222; border:1px solid rgba(255,255,255,0.1);
+}
+/* Visionneuse photo */
+.photo-viewer {
+  background:#0d0d0d; min-height:100%; display:flex;
+  flex-direction:column; align-items:center; justify-content:center; padding:16px; gap:10px;
+}
+.photo-viewer img {
+  max-width:100%; max-height:calc(100vh - 160px);
+  object-fit:contain; border-radius:4px;
+  box-shadow:0 8px 40px rgba(0,0,0,0.9);
+}
+.photo-viewer-caption {
+  color:rgba(255,255,255,0.3); font-size:11px; font-family:'Courier New',monospace;
+  letter-spacing:1px; text-align:center;
+}
 
 /* ── STATUS BAR ── */
 .win-status {
@@ -925,6 +946,10 @@ body { font-family:'Segoe UI',Tahoma,sans-serif; width:100vw; height:100vh; over
       <div class="di">📧</div>
       <div class="dl">Messagerie</div>
     </div>
+    <div class="d-icon" ondblclick="openFolder('✨ MOI — L\'Icône Absolue de Sa Génération ✨')" onclick="selIcon(this)">
+      <div class="di">📸</div>
+      <div class="dl">✨ MOI — L'Icône Absolue</div>
+    </div>
     <div class="d-icon" ondblclick="openFolder('Corbeille')" onclick="selIcon(this)">
       <div class="di">🗑️</div>
       <div class="dl">Corbeille</div>
@@ -1205,6 +1230,20 @@ function readMail(m, el){
 
 /* ═══════════════════════ FILE SYSTEM ═══════════════════════ */
 const FS = {
+  '✨ MOI — L\'Icône Absolue de Sa Génération ✨': { type:'folder', children:[
+    'Le_Regard_Qui_Arrête_le_Temps.jpg',
+    'Splendeur_Inégalée_Portrait_Officiel.jpg',
+    'Celle_Que_les_Peintres_Rêvent_de_Capturer.jpg',
+    'Chef-d_Oeuvre_Humain_Édition_Limitée.jpg',
+    'La_Plus_Belle_des_Loredan_et_des_Autres.jpg',
+    'Divinité_Contemporaine_Auto-Portrait.jpg',
+  ]},
+  'Le_Regard_Qui_Arrête_le_Temps.jpg':            { type:'file', icon:'🖼️', _photo:'https://i.goopics.net/5is802.png', content: photoViewer('https://i.goopics.net/5is802.png','Le Regard Qui Arrête le Temps') },
+  'Splendeur_Inégalée_Portrait_Officiel.jpg':     { type:'file', icon:'🖼️', _photo:'https://i.goopics.net/lvsnxj.png', content: photoViewer('https://i.goopics.net/lvsnxj.png','Splendeur Inégalée — Portrait Officiel') },
+  'Celle_Que_les_Peintres_Rêvent_de_Capturer.jpg':{ type:'file', icon:'🖼️', _photo:'https://i.goopics.net/vkem4r.png', content: photoViewer('https://i.goopics.net/vkem4r.png','Celle Que les Peintres Rêvent de Capturer') },
+  'Chef-d_Oeuvre_Humain_Édition_Limitée.jpg':     { type:'file', icon:'🖼️', _photo:'https://i.goopics.net/32m1y3.png', content: photoViewer('https://i.goopics.net/32m1y3.png','Chef-d\'Œuvre Humain — Édition Limitée') },
+  'La_Plus_Belle_des_Loredan_et_des_Autres.jpg':  { type:'file', icon:'🖼️', _photo:'https://i.goopics.net/yw7rcn.png', content: photoViewer('https://i.goopics.net/yw7rcn.png','La Plus Belle des Loredan et des Autres') },
+  'Divinité_Contemporaine_Auto-Portrait.jpg':     { type:'file', icon:'🖼️', _photo:'https://i.goopics.net/tsdmkz.png', content: photoViewer('https://i.goopics.net/tsdmkz.png','Divinité Contemporaine — Auto-Portrait') },
   'OPS-INTERNAL':              { type:'folder', children:['ORDRE_ELIMINATION.doc','RENSEIGNEMENTS_POLICIERS'] },
   'RENSEIGNEMENTS_POLICIERS':  { type:'folder', children:['SUBJ_68_RICK_CASH.doc','SUBJ_45_JERRY_SIGNAL.doc'] },
   'Mes Documents':             { type:'folder', children:['notes_perso.txt','agenda.doc'] },
@@ -1237,6 +1276,13 @@ const FS = {
 </div>` },
   'agenda.doc': { type:'file', icon:'📅', content: agendaHTML() }
 };
+
+function photoViewer(url, caption){
+  return `<div class="photo-viewer">
+    <img src="${url}" alt="${caption}" onerror="this.style.display='none'">
+    <div class="photo-viewer-caption">📸 ${caption}</div>
+  </div>`;
+}
 
 function iconFor(name){
   if(FS[name]?.type==='folder') return '📁';
@@ -1519,12 +1565,20 @@ function renderFolder(name){
   }
 
   children.forEach(child=>{
-    const icon = iconFor(child);
-    const div = document.createElement('div');
-    div.className='fitem';
-    div.innerHTML=`<div class="fi">${icon}</div><div class="fn">${child}</div>`;
-
     const item = FS[child];
+    const icon = iconFor(child);
+    const isPhoto = item?._photo;
+    const div = document.createElement('div');
+    div.className = isPhoto ? 'fitem fitem-photo' : 'fitem';
+
+    if(isPhoto){
+      // Miniature cliquable pour les photos
+      const displayName = child.replace(/_/g,' ').replace('.jpg','');
+      div.innerHTML=`<div class="fi"><img class="fthumb" src="${item._photo}" alt="${displayName}" onerror="this.style.background='#333'"></div><div class="fn">${displayName}</div>`;
+    } else {
+      div.innerHTML=`<div class="fi">${icon}</div><div class="fn">${child}</div>`;
+    }
+
     if(item?.type==='folder'){
       div.ondblclick = ()=>openFolder(child);
     } else {
