@@ -322,8 +322,18 @@ body { font-family:'Segoe UI',Tahoma,sans-serif; width:100vw; height:100vh; over
   background:#1c2028; border:1px solid rgba(255,255,255,0.1);
   border-radius:6px 6px 4px 4px;
   box-shadow:0 12px 50px rgba(0,0,0,0.8), 0 0 0 1px rgba(0,0,0,0.5);
-  overflow:hidden; min-width:380px; min-height:260px;
+  overflow:hidden; min-width:340px; min-height:220px;
 }
+/* Poignées de redimensionnement */
+.win-rhandle { position:absolute; z-index:20; }
+.win-rhandle-r  { right:0; top:32px; bottom:6px; width:5px; cursor:ew-resize; }
+.win-rhandle-b  { bottom:0; left:0; right:6px; height:5px; cursor:ns-resize; }
+.win-rhandle-br {
+  right:0; bottom:0; width:14px; height:14px; cursor:nwse-resize;
+  background:linear-gradient(135deg, transparent 50%, rgba(255,255,255,0.12) 50%);
+  border-radius:0 0 4px 0;
+}
+.win-rhandle:hover { background:rgba(255,255,255,0.07); }
 .win.front { z-index:300; }
 .win { z-index:200; }
 
@@ -1604,16 +1614,19 @@ function removeTB(id){
   if(b) b.remove();
 }
 
-/* ═══════════════════════ DRAG ═══════════════════════ */
+/* ═══════════════════════ DRAG + RESIZE + MAXIMIZE ═══════════════════════ */
+const WIN_MIN_W = 340, WIN_MIN_H = 220;
+const winPrevState = {}; // stocke l'état avant maximisation
+
 ['win-exp','win-doc','win-mail','win-br'].forEach(id=>{
-  const win=document.getElementById(id);
-  const bar=document.getElementById('bar-'+id.replace('win-','bar-').replace('-',''));
-
-  // find the actual bar element
+  const win = document.getElementById(id);
   const handle = win.querySelector('.win-bar');
-  let drag=false, ox,oy,startL,startT;
+  const maxBtn = handle.querySelector('.btn-max');
 
+  /* ── Drag ── */
+  let drag=false, ox,oy,startL,startT;
   handle.addEventListener('mousedown',e=>{
+    if(e.target.closest('.wc')) return; // ne pas drag si on clique un bouton
     drag=true; ox=e.clientX; oy=e.clientY;
     startL=win.offsetLeft; startT=win.offsetTop;
     bringFront(id); e.preventDefault();
@@ -1627,6 +1640,49 @@ function removeTB(id){
     win.style.left=nx+'px'; win.style.top=ny+'px';
   });
   document.addEventListener('mouseup',()=>drag=false);
+
+  /* ── Maximiser / Restaurer ── */
+  if(maxBtn){
+    maxBtn.title='Agrandir';
+    maxBtn.onclick=()=>{
+      if(winPrevState[id]){
+        // Restaurer
+        const s=winPrevState[id];
+        win.style.left=s.left; win.style.top=s.top;
+        win.style.width=s.width; win.style.height=s.height;
+        win.style.borderRadius='';
+        maxBtn.title='Agrandir'; maxBtn.textContent='+';
+        delete winPrevState[id];
+      } else {
+        // Maximiser
+        winPrevState[id]={left:win.style.left||win.offsetLeft+'px', top:win.style.top||win.offsetTop+'px', width:win.style.width||win.offsetWidth+'px', height:win.style.height||win.offsetHeight+'px'};
+        win.style.left='0'; win.style.top='0';
+        win.style.width='100vw'; win.style.height=(window.innerHeight-38)+'px';
+        win.style.borderRadius='0';
+        maxBtn.title='Restaurer'; maxBtn.textContent='❐';
+      }
+    };
+  }
+
+  /* ── Poignées de redimensionnement ── */
+  ['r','b','br'].forEach(dir=>{
+    const h=document.createElement('div');
+    h.className='win-rhandle win-rhandle-'+dir;
+    win.appendChild(h);
+    h.addEventListener('mousedown',e=>{
+      e.preventDefault(); e.stopPropagation();
+      bringFront(id);
+      const sx=e.clientX, sy=e.clientY;
+      const sw=win.offsetWidth, sh=win.offsetHeight;
+      function onMove(e){
+        if(dir==='r'||dir==='br') win.style.width =Math.max(WIN_MIN_W, sw+e.clientX-sx)+'px';
+        if(dir==='b'||dir==='br') win.style.height=Math.max(WIN_MIN_H, sh+e.clientY-sy)+'px';
+      }
+      function onUp(){ document.removeEventListener('mousemove',onMove); document.removeEventListener('mouseup',onUp); }
+      document.addEventListener('mousemove',onMove);
+      document.addEventListener('mouseup',onUp);
+    });
+  });
 });
 
 /* ═══════════════════════ BROWSER ═══════════════════════ */
@@ -1661,6 +1717,9 @@ let brCurrent   = null;
 function openBrowser(){
   showWin('win-br');
   if(!brCurrent) brNavigate('google.com');
+  if(document.getElementById('br-hist') && document.getElementById('br-hist').children.length <= 1){
+    renderHistory();
+  }
 }
 
 function brNavigate(url, fromVisit){
@@ -2034,12 +2093,7 @@ const HISTORY = [
 
 let curHistItem = null;
 
-function openBrowser(){
-  showWin('win-br');
-  if(document.getElementById('br-hist').children.length <= 1){
-    renderHistory();
-  }
-}
+/* openBrowser fusionné ci-dessus */
 
 function renderHistory(){
   const hist = document.getElementById('br-hist');
