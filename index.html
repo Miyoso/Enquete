@@ -3,10 +3,37 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LOREDAN-PC</title>
+<title>ROSALIA-PC</title>
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
 body { font-family:'Segoe UI',Tahoma,sans-serif; width:100vw; height:100vh; overflow:hidden; background:#000; user-select:none; }
+
+/* ── BOOT SCREEN ── */
+#boot-screen {
+  position:fixed; inset:0; z-index:99999;
+  background:#000; display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+}
+.boot-logo { color:#fff; font-size:48px; margin-bottom:32px; opacity:0; animation:fadeInUp .6s .3s forwards; }
+.boot-spinner {
+  width:36px; height:36px; position:relative; opacity:0;
+  animation:fadeInUp .4s .7s forwards;
+}
+.boot-dot {
+  width:6px; height:6px; border-radius:50%; background:#fff;
+  position:absolute; top:50%; left:50%;
+  transform-origin:0 16px;
+  animation:spinDot 1.2s linear infinite;
+}
+.boot-dot:nth-child(1){transform:rotate(0deg)   translateY(-16px);animation-delay:0s;opacity:.15}
+.boot-dot:nth-child(2){transform:rotate(45deg)  translateY(-16px);animation-delay:.15s;opacity:.3}
+.boot-dot:nth-child(3){transform:rotate(90deg)  translateY(-16px);animation-delay:.3s;opacity:.5}
+.boot-dot:nth-child(4){transform:rotate(135deg) translateY(-16px);animation-delay:.45s;opacity:.7}
+.boot-dot:nth-child(5){transform:rotate(180deg) translateY(-16px);animation-delay:.6s;opacity:.9}
+.boot-dot:nth-child(6){transform:rotate(225deg) translateY(-16px);animation-delay:.75s;opacity:1}
+@keyframes spinDot { to { transform:rotate(360deg) translateY(-16px); } }
+@keyframes fadeInUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:none} }
+.boot-oem { position:absolute; bottom:40px; color:rgba(255,255,255,0.3); font-size:11px; letter-spacing:1px; }
 
 /* ── LOGIN ── */
 #login-screen {
@@ -44,10 +71,18 @@ body { font-family:'Segoe UI',Tahoma,sans-serif; width:100vw; height:100vh; over
 }
 .login-go:hover { background:rgba(220,0,0,0.8); }
 .login-err { color:#ff7070; font-size:12px; margin-top:10px; height:16px; position:relative; text-align:center; }
+.login-last { color:rgba(255,255,255,0.3); font-size:11px; margin-top:12px; position:relative; }
 .login-footer {
   position:absolute; bottom:30px; color:rgba(255,255,255,0.25);
   font-size:12px; letter-spacing:1px; text-transform:uppercase;
 }
+/* power/accessibility icons on login */
+.login-sys-icons {
+  position:absolute; bottom:30px; right:30px;
+  display:flex; gap:14px; color:rgba(255,255,255,0.4); font-size:18px;
+}
+.login-sys-icons span { cursor:pointer; transition:color .15s; }
+.login-sys-icons span:hover { color:rgba(255,255,255,0.8); }
 
 /* ── DESKTOP ── */
 #desktop {
@@ -96,7 +131,50 @@ body { font-family:'Segoe UI',Tahoma,sans-serif; width:100vw; height:100vh; over
 }
 .tb-btn:hover { background:rgba(255,255,255,0.14); }
 .tb-btn.active { background:rgba(255,255,255,0.2); border-color:rgba(255,255,255,0.3); }
-.tb-clock { color:rgba(255,255,255,0.65); font-size:12px; min-width:45px; text-align:right; }
+/* system tray */
+.tb-tray { display:flex; align-items:center; gap:10px; margin-right:8px; }
+.tb-tray-icon { color:rgba(255,255,255,0.55); font-size:13px; cursor:default; }
+.tb-tray-icon:hover { color:rgba(255,255,255,0.9); }
+.tb-clock { color:rgba(255,255,255,0.75); font-size:11px; text-align:right; line-height:1.4; cursor:default; min-width:52px; }
+/* right-click menu */
+#ctx-menu {
+  position:fixed; z-index:9000; background:#1e2330;
+  border:1px solid rgba(255,255,255,0.12); border-radius:6px;
+  box-shadow:0 8px 28px rgba(0,0,0,0.7); min-width:180px;
+  display:none; padding:4px 0; user-select:none;
+}
+#ctx-menu.show { display:block; }
+.ctx-item {
+  padding:8px 16px; font-size:12px; color:#ccc; cursor:pointer;
+  display:flex; align-items:center; gap:10px; transition:background .1s;
+}
+.ctx-item:hover { background:rgba(255,255,255,0.08); color:#fff; }
+.ctx-sep { height:1px; background:rgba(255,255,255,0.08); margin:3px 0; }
+/* sticky note widget */
+#sticky-note {
+  position:fixed; right:20px; top:20px;
+  background:#ffd966; color:#333; width:160px;
+  box-shadow:3px 3px 10px rgba(0,0,0,0.4); z-index:50;
+  border-radius:2px; display:none; cursor:move;
+}
+.sticky-header {
+  background:#f0c030; padding:5px 8px; font-size:10px;
+  font-weight:700; display:flex; justify-content:space-between;
+  align-items:center; border-radius:2px 2px 0 0;
+}
+.sticky-body { padding:10px; font-size:11px; line-height:1.7; font-family:'Courier New',monospace; }
+/* notification toast */
+#notif-toast {
+  position:fixed; bottom:50px; right:14px; z-index:8000;
+  background:#252b36; border:1px solid rgba(255,255,255,0.12);
+  border-radius:8px; padding:12px 14px; width:260px;
+  box-shadow:0 6px 20px rgba(0,0,0,0.6); display:none;
+  animation:slideInRight .3s ease;
+}
+@keyframes slideInRight { from{transform:translateX(280px);opacity:0} to{transform:none;opacity:1} }
+.notif-header { font-size:10px; color:#888; margin-bottom:4px; display:flex; justify-content:space-between; }
+.notif-title { font-size:12px; color:#eee; font-weight:600; margin-bottom:3px; }
+.notif-body { font-size:11px; color:#aaa; line-height:1.4; }
 
 /* ── WINDOWS ── */
 .win {
@@ -430,16 +508,35 @@ body { font-family:'Segoe UI',Tahoma,sans-serif; width:100vw; height:100vh; over
 </head>
 <body>
 
+<!-- ═══════════════════════════════ BOOT SCREEN ══════════════════════════ -->
+<div id="boot-screen">
+  <div class="boot-logo">⊞</div>
+  <div class="boot-spinner">
+    <div class="boot-dot"></div><div class="boot-dot"></div>
+    <div class="boot-dot"></div><div class="boot-dot"></div>
+    <div class="boot-dot"></div><div class="boot-dot"></div>
+  </div>
+  <div class="boot-oem">ROSALIA-PC &nbsp;·&nbsp; Windows 10 Pro &nbsp;·&nbsp; © Microsoft Corporation</div>
+</div>
+
 <!-- ═══════════════════════════════ LOGIN ═══════════════════════════════ -->
-<div id="login-screen">
-  <div class="login-avatar">👤</div>
-  <div class="login-name">Sofia Loredan</div>
+<div id="login-screen" style="display:none;">
+  <div style="position:relative;margin-bottom:16px;">
+    <div class="login-avatar" style="font-size:52px;background:linear-gradient(135deg,#3a1a2a,#1a1a2e);">🌹</div>
+  </div>
+  <div class="login-name">Rosalia Loredan</div>
   <div class="login-box">
     <input type="password" id="pwd-input" placeholder="Mot de passe" />
     <button class="login-go" onclick="tryLogin()">→</button>
   </div>
   <div class="login-err" id="login-err"></div>
-  <div class="login-footer">LOREDAN-PC &nbsp;·&nbsp; Windows 10 Pro</div>
+  <div class="login-last">Dernière connexion : 14/05/2026 à 23:58</div>
+  <div class="login-footer">ROSALIA-PC &nbsp;·&nbsp; Windows 10 Pro</div>
+  <div class="login-sys-icons">
+    <span title="Accessibilité">♿</span>
+    <span title="Réseau">📶</span>
+    <span title="Arrêter">⏻</span>
+  </div>
 </div>
 
 <!-- ═══════════════════════════════ DESKTOP ══════════════════════════════ -->
@@ -469,10 +566,47 @@ body { font-family:'Segoe UI',Tahoma,sans-serif; width:100vw; height:100vh; over
 
   <!-- TASKBAR -->
   <div id="taskbar">
-    <button class="tb-start">⊞ Loredan</button>
+    <button class="tb-start" onclick="toggleStart()">⊞</button>
     <div class="tb-apps" id="tb-apps"></div>
-    <div class="tb-clock" id="clock">--:--</div>
+    <div class="tb-tray">
+      <span class="tb-tray-icon" title="Réseau">📶</span>
+      <span class="tb-tray-icon" title="Son">🔊</span>
+      <span class="tb-tray-icon" title="Batterie">🔋</span>
+      <span class="tb-tray-icon" id="tb-notif" title="Notifications" onclick="showNotif()">🔔</span>
+    </div>
+    <div class="tb-clock" id="clock">--:--<br><span id="clock-date" style="font-size:10px;color:rgba(255,255,255,0.5);">--/--/----</span></div>
   </div>
+</div>
+
+<!-- STICKY NOTE -->
+<div id="sticky-note">
+  <div class="sticky-header" id="sticky-header">📝 Note <span onclick="document.getElementById('sticky-note').style.display='none'" style="cursor:pointer;font-size:12px;">✕</span></div>
+  <div class="sticky-body">
+    — mdp coffre : <b>2906</b><br>
+    — Adriano = 06.XX.XX.XX<br>
+    — ❗ suppr fichiers OPS<br>
+    — RDV vendredi 22h<br>
+    — Acheter mozza 🧀
+  </div>
+</div>
+
+<!-- RIGHT-CLICK MENU -->
+<div id="ctx-menu">
+  <div class="ctx-item" onclick="closeCtx()">🖼️ Changer le fond d'écran</div>
+  <div class="ctx-item" onclick="closeCtx()">📐 Résolution d'affichage</div>
+  <div class="ctx-sep"></div>
+  <div class="ctx-item" onclick="document.getElementById('sticky-note').style.display='block';closeCtx()">📝 Nouvelle note</div>
+  <div class="ctx-item" onclick="closeCtx()">🔄 Actualiser</div>
+  <div class="ctx-sep"></div>
+  <div class="ctx-item" onclick="closeCtx()">⚙️ Paramètres d'affichage</div>
+  <div class="ctx-item" onclick="closeCtx()">🖥️ Propriétés système</div>
+</div>
+
+<!-- NOTIFICATION TOAST -->
+<div id="notif-toast">
+  <div class="notif-header"><span>📧 Messagerie</span><span id="notif-time"></span></div>
+  <div class="notif-title">Adriano Loredan</div>
+  <div class="notif-body">Bien reçu, Rosalia. Je m'en occupe dès ce soir…</div>
 </div>
 
 <!-- ═══════════════════════════ EXPLORER WINDOW ══════════════════════════ -->
@@ -550,7 +684,7 @@ body { font-family:'Segoe UI',Tahoma,sans-serif; width:100vw; height:100vh; over
 <div class="win" id="win-mail" style="width:780px;height:480px;top:70px;left:120px;">
   <div class="win-bar" id="bar-mail">
     <span class="win-ico">📧</span>
-    <span class="win-ttl">Messagerie — sofia.loredan@famiglia-loredan.it</span>
+    <span class="win-ttl">Messagerie — rosalia.loredan@famiglia-loredan.it</span>
     <div class="wc">
       <button class="btn-min" title="Réduire" onclick="minWin('win-mail')">—</button>
       <button class="btn-max" title="Agrandir">+</button>
@@ -578,13 +712,25 @@ body { font-family:'Segoe UI',Tahoma,sans-serif; width:100vw; height:100vh; over
 </div>
 
 <script>
+/* ═══════════════════════ BOOT ═══════════════════════ */
+window.addEventListener('DOMContentLoaded', ()=>{
+  setTimeout(()=>{
+    document.getElementById('boot-screen').style.transition='opacity .5s';
+    document.getElementById('boot-screen').style.opacity='0';
+    setTimeout(()=>{
+      document.getElementById('boot-screen').style.display='none';
+      document.getElementById('login-screen').style.display='flex';
+    }, 500);
+  }, 2800);
+});
+
 /* ═══════════════════════ MAIL DATA ═══════════════════════ */
 const MAILS = {
   boite: [
     {
       id:'m1', unread:true,
-      from:'Marco Loredan <marco.loredan@famiglia-loredan.it>',
-      fromShort:'Marco Loredan',
+      from:'Adriano Loredan <adriano.loredan@famiglia-loredan.it>',
+      fromShort:'Adriano Loredan',
       date:'14/05/2026 — 23:41',
       subject:'Re: Les sujets 68 et 96',
       preview:'Bien reçu. Je m\'en occupe dès ce soir pour le 96...',
@@ -592,15 +738,15 @@ const MAILS = {
 <p>Pour le <strong>96</strong> — t'inquiète, je vais faire ça proprement et vite. Il a rendu service, je lui dois bien ça. Une balle rapide et on n'en parle plus. L'odeur, on s'en fout, c'est son dernier problème.</p>
 <p>Pour le <strong>68</strong> — je vais surveiller ses mouvements cette semaine. Il prend toujours son Rapid GT Sport le soir, c'est une cible facile. Je réglerai ça dans la foulée.</p>
 <p>Papa est au courant ?</p>`,
-      sig:'— Marco\nFamiglia Loredan',
+      sig:'— Adriano\nFamiglia Loredan',
       attachments:[]
     }
   ],
   envoyes: [
     {
       id:'m2', unread:false,
-      from:'Sofia Loredan <sofia.loredan@famiglia-loredan.it>',
-      fromShort:'Moi → Marco',
+      from:'Rosalia Loredan <rosalia.loredan@famiglia-loredan.it>',
+      fromShort:'Moi → Adriano',
       date:'14/05/2026 — 22:17',
       subject:'Les sujets 68 et 96',
       preview:'Marco, faut que tu t\'occupes de deux sujets qui commencent vraiment à nous agacer...',
@@ -682,7 +828,7 @@ function readMail(m, el){
     <div class="mv-subject">${m.subject}</div>
     <div class="mv-meta">
       <span>De :</span> ${m.from}<br>
-      <span>À :</span> ${curMailFolder==='envoyes'?'Marco Loredan &lt;marco.loredan@famiglia-loredan.it&gt;':'Sofia Loredan &lt;sofia.loredan@famiglia-loredan.it&gt;'}<br>
+      <span>À :</span> ${curMailFolder==='envoyes'?'Adriano Loredan &lt;adriano.loredan@famiglia-loredan.it&gt;':'Rosalia Loredan &lt;rosalia.loredan@famiglia-loredan.it&gt;'}<br>
       <span>Date :</span> ${m.date}
     </div>
     <div class="mv-body">${m.body}<div class="mv-sig">${sigLines}</div></div>
@@ -746,6 +892,7 @@ function tryLogin(){
     document.getElementById('login-screen').style.display='none';
     document.getElementById('desktop').style.display='block';
     startClock();
+    scheduleNotif();
   } else {
     const err = document.getElementById('login-err');
     err.textContent = 'Mot de passe incorrect.';
@@ -756,13 +903,51 @@ function tryLogin(){
 
 /* ═══════════════════════ CLOCK ═══════════════════════ */
 function startClock(){
-  const el = document.getElementById('clock');
-  const tick = ()=>{
+  const tick=()=>{
     const n=new Date();
-    el.textContent = String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');
+    const h=String(n.getHours()).padStart(2,'0'), m=String(n.getMinutes()).padStart(2,'0');
+    const days=['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
+    const months=['jan','fév','mar','avr','mai','juin','jul','aoû','sep','oct','nov','déc'];
+    document.getElementById('clock').childNodes[0].textContent=`${h}:${m}`;
+    document.getElementById('clock-date').textContent=`${days[n.getDay()]} ${n.getDate()} ${months[n.getMonth()]}`;
   };
-  tick(); setInterval(tick,5000);
+  tick(); setInterval(tick,10000);
 }
+
+/* ═══════════════════════ RIGHT-CLICK MENU ═══════════════════════ */
+document.getElementById('desktop').addEventListener('contextmenu', e=>{
+  if(e.target.closest('.win')||e.target.closest('#taskbar')) return;
+  e.preventDefault();
+  const menu=document.getElementById('ctx-menu');
+  menu.style.left=Math.min(e.clientX, window.innerWidth-190)+'px';
+  menu.style.top=Math.min(e.clientY, window.innerHeight-220)+'px';
+  menu.classList.add('show');
+});
+document.addEventListener('click', ()=>closeCtx());
+function closeCtx(){ document.getElementById('ctx-menu').classList.remove('show'); }
+
+/* ═══════════════════════ STICKY NOTE DRAG ═══════════════════════ */
+(()=>{
+  const note=document.getElementById('sticky-note');
+  const hdr=document.getElementById('sticky-header');
+  let drag=false,ox,oy,sl,st;
+  hdr.addEventListener('mousedown',e=>{drag=true;ox=e.clientX;oy=e.clientY;sl=note.offsetLeft;st=note.offsetTop;e.preventDefault();});
+  document.addEventListener('mousemove',e=>{ if(!drag)return; note.style.left=(sl+e.clientX-ox)+'px'; note.style.top=(st+e.clientY-oy)+'px'; note.style.right='auto'; });
+  document.addEventListener('mouseup',()=>drag=false);
+})();
+
+/* ═══════════════════════ NOTIFICATION ═══════════════════════ */
+function showNotif(){
+  const t=document.getElementById('notif-toast');
+  const now=new Date();
+  document.getElementById('notif-time').textContent=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
+  t.style.display='block';
+  setTimeout(()=>t.style.display='none',5000);
+}
+// Show notification 4s after login
+function scheduleNotif(){ setTimeout(()=>{ showNotif(); document.getElementById('tb-notif').style.color='#ff7043'; }, 4000); }
+
+function toggleStart(){} // placeholder
 
 /* ═══════════════════════ DESKTOP ICON SELECT ═══════════════════════ */
 function selIcon(el){
@@ -1191,7 +1376,7 @@ function youtubePage(visit){
   </div>`;
 }
 
-function instagramPage(){ return `<div class="bp bp-insta"><div class="insta-card"><div class="insta-logo">📸</div><div style="font-size:22px;font-weight:900;margin-bottom:6px;">Instagram</div><div class="insta-lock">🔒 Connectée · <strong>sofia_loredan</strong></div><div style="margin-top:16px;padding-top:14px;border-top:1px solid #eee;font-size:12px;color:#888;text-align:center;">📍 Dernière activité : il y a quelques minutes<br><span style="margin-top:4px;display:block;">💬 3 nouveaux messages &nbsp;·&nbsp; ❤️ 47 j'aime</span></div></div></div>`; }
+function instagramPage(){ return `<div class="bp bp-insta"><div class="insta-card"><div class="insta-logo">📸</div><div style="font-size:22px;font-weight:900;margin-bottom:6px;">Instagram</div><div class="insta-lock">🔒 Connectée · <strong>rosalia_loredan</strong></div><div style="margin-top:16px;padding-top:14px;border-top:1px solid #eee;font-size:12px;color:#888;text-align:center;">📍 Dernière activité : il y a quelques minutes<br><span style="margin-top:4px;display:block;">💬 3 nouveaux messages &nbsp;·&nbsp; ❤️ 47 j'aime</span></div></div></div>`; }
 
 function spotifyPage(visit){
   const pls={
@@ -1233,7 +1418,7 @@ const HISTORY = [
       {title:'Météo Rome Juin 2026 — Prévisions 30 jours',url:'meteo.it/rome',desc:'Températures attendues 28-34°C, ensoleillement maximal. Parfait pour les vacances. Humidité modérée en soirée.'},
       {title:'Rome en juin : que faire, météo, conseils',url:'routard.com/italie/rome',desc:'Le mois de juin à Rome est idéal. Les journées sont longues, les monuments ouverts tard. Prévoir crème solaire indice 50.'},
     ]},
-    { t:'08:15', ico:'📸', title:'Instagram — sofia_loredan • Stories', url:'instagram.com', page:'instagram' },
+    { t:'08:15', ico:'📸', title:'Instagram — rosalia_loredan • Stories', url:'instagram.com', page:'instagram' },
   ]},
   { day:'Hier — 14/05/2026', items:[
     { t:'23:12', ico:'▶️', title:'YouTube — Volare - Domenico Modugno (Official)', url:'youtube.com', page:'youtube', vid:'🎵', vidTitle:'Nel Blu Dipinto Di Blu (Volare)', channel:'DomenicoModugnoOfficial • 48M vues', related:[
@@ -1397,7 +1582,7 @@ function renderPage(item){
       <div class="insta-card">
         <div class="insta-logo">📸</div>
         <div style="font-size:22px;font-weight:900;margin-bottom:6px;">Instagram</div>
-        <div class="insta-lock">🔒 Connectée en tant que<br><strong>sofia_loredan</strong></div>
+        <div class="insta-lock">🔒 Connectée en tant que<br><strong>rosalia_loredan</strong></div>
         <div style="margin-top:16px;padding-top:14px;border-top:1px solid #eee;">
           <div style="font-size:12px;color:#888;text-align:center;">📍 Dernière activité : il y a 3 min</div>
           <div style="font-size:12px;color:#888;text-align:center;margin-top:4px;">💬 3 nouveaux messages • ❤️ 47 j'aime</div>
