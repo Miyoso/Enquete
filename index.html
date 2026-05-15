@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LOREDAN-PC</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Segoe UI',Tahoma,sans-serif; width:100vw; height:100vh; overflow:hidden; background:#000; user-select:none; }
+
+/* ── LOGIN ── */
+#login-screen {
+  position:fixed; inset:0; z-index:9999;
+  background:linear-gradient(160deg,#080810 0%,#12050a 60%,#080810 100%);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+}
+#login-screen::before {
+  content:''; position:absolute; inset:0;
+  background:radial-gradient(ellipse at 50% 40%, rgba(120,0,0,0.18) 0%, transparent 70%);
+}
+.login-avatar {
+  width:96px; height:96px; border-radius:50%;
+  background:linear-gradient(135deg,#2a2a3a,#1a1a28);
+  border:2px solid rgba(255,255,255,0.15);
+  display:flex; align-items:center; justify-content:center;
+  font-size:48px; margin-bottom:16px; position:relative;
+  box-shadow:0 0 30px rgba(180,0,0,0.3);
+}
+.login-name { color:#e0e0e0; font-size:20px; font-weight:300; letter-spacing:1px; margin-bottom:24px; position:relative; }
+.login-box {
+  display:flex; border-radius:3px; overflow:hidden;
+  border:1px solid rgba(255,255,255,0.2); position:relative;
+  box-shadow:0 4px 20px rgba(0,0,0,0.5);
+}
+#pwd-input {
+  background:rgba(255,255,255,0.07); border:none; color:#fff;
+  padding:9px 14px; font-size:15px; width:230px; outline:none;
+  letter-spacing:2px;
+}
+#pwd-input::placeholder { letter-spacing:0; color:rgba(255,255,255,0.3); font-size:13px; }
+.login-go {
+  background:rgba(200,0,0,0.6); border:none; color:#fff;
+  padding:9px 14px; font-size:16px; cursor:pointer; transition:background .2s;
+}
+.login-go:hover { background:rgba(220,0,0,0.8); }
+.login-err { color:#ff7070; font-size:12px; margin-top:10px; height:16px; position:relative; text-align:center; }
+.login-footer {
+  position:absolute; bottom:30px; color:rgba(255,255,255,0.25);
+  font-size:12px; letter-spacing:1px; text-transform:uppercase;
+}
+
+/* ── DESKTOP ── */
+#desktop {
+  position:fixed; inset:0; display:none;
+  background:linear-gradient(160deg,#0d0d12 0%,#160a0a 50%,#0a0d16 100%);
+}
+#desktop::before {
+  content:''; position:absolute; inset:0; pointer-events:none;
+  background:
+    radial-gradient(ellipse at 20% 80%, rgba(100,0,0,0.12) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(0,20,80,0.12) 0%, transparent 50%);
+}
+
+/* Desktop icons */
+.desktop-icons { position:relative; padding:20px; display:flex; flex-direction:column; gap:8px; }
+.d-icon {
+  display:flex; flex-direction:column; align-items:center; gap:4px;
+  padding:8px 6px; border-radius:5px; cursor:pointer; width:82px;
+  transition:background .15s;
+}
+.d-icon:hover { background:rgba(255,255,255,0.08); }
+.d-icon.sel { background:rgba(80,130,255,0.25); outline:1px solid rgba(80,130,255,0.4); }
+.d-icon .di { font-size:38px; line-height:1; }
+.d-icon .dl { color:#e0e0e0; font-size:11px; text-align:center; text-shadow:0 1px 4px #000; word-break:break-word; }
+
+/* ── TASKBAR ── */
+#taskbar {
+  position:fixed; bottom:0; left:0; right:0; height:38px;
+  background:rgba(5,5,10,0.92); backdrop-filter:blur(12px);
+  border-top:1px solid rgba(255,255,255,0.07);
+  display:flex; align-items:center; padding:0 8px; z-index:500;
+}
+.tb-start {
+  background:linear-gradient(135deg,#8b0000,#c0392b);
+  color:#fff; border:none; padding:4px 12px; border-radius:3px;
+  font-size:11px; font-weight:700; cursor:pointer; margin-right:10px;
+  letter-spacing:1px; text-transform:uppercase;
+}
+.tb-apps { display:flex; gap:4px; flex:1; overflow:hidden; }
+.tb-btn {
+  background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.1);
+  color:#ccc; padding:3px 10px; border-radius:3px; font-size:11px;
+  cursor:pointer; display:flex; align-items:center; gap:5px;
+  max-width:160px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;
+  transition:background .15s;
+}
+.tb-btn:hover { background:rgba(255,255,255,0.14); }
+.tb-btn.active { background:rgba(255,255,255,0.2); border-color:rgba(255,255,255,0.3); }
+.tb-clock { color:rgba(255,255,255,0.65); font-size:12px; min-width:45px; text-align:right; }
+
+/* ── WINDOWS ── */
+.win {
+  position:fixed; display:none; flex-direction:column;
+  background:#1c2028; border:1px solid rgba(255,255,255,0.1);
+  border-radius:6px 6px 4px 4px;
+  box-shadow:0 12px 50px rgba(0,0,0,0.8), 0 0 0 1px rgba(0,0,0,0.5);
+  overflow:hidden; min-width:380px; min-height:260px;
+}
+.win.front { z-index:300; }
+.win { z-index:200; }
+
+.win-bar {
+  display:flex; align-items:center; padding:0 10px; height:30px;
+  background:linear-gradient(180deg,#2c3040 0%,#252930 100%);
+  border-bottom:1px solid rgba(0,0,0,0.4); cursor:move; flex-shrink:0;
+}
+.win-ico { font-size:13px; margin-right:7px; }
+.win-ttl { color:#bbb; font-size:12px; flex:1; }
+.wc { display:flex; gap:6px; }
+.wc button {
+  width:13px; height:13px; border-radius:50%; border:none; cursor:pointer;
+  font-size:8px; display:flex; align-items:center; justify-content:center; color:transparent;
+  transition:filter .15s;
+}
+.wc button:hover { filter:brightness(1.3); color:rgba(0,0,0,0.6); }
+.btn-close { background:#ff5f57; }
+.btn-min   { background:#febc2e; }
+.btn-max   { background:#28c840; }
+
+.win-toolbar {
+  display:flex; align-items:center; gap:6px; padding:5px 8px;
+  background:#20252e; border-bottom:1px solid rgba(0,0,0,0.3); flex-shrink:0;
+}
+.t-btn {
+  background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.08);
+  color:#aaa; padding:3px 9px; border-radius:3px; font-size:11px; cursor:pointer;
+}
+.t-btn:hover { background:rgba(255,255,255,0.12); }
+.t-btn:disabled { opacity:.35; cursor:default; }
+.addr {
+  flex:1; background:rgba(0,0,0,0.35); border:1px solid rgba(255,255,255,0.08);
+  border-radius:3px; padding:3px 8px; color:#aaa; font-size:11px;
+}
+
+.win-body { flex:1; overflow-y:auto; }
+.win-body::-webkit-scrollbar { width:7px; }
+.win-body::-webkit-scrollbar-track { background:#1c2028; }
+.win-body::-webkit-scrollbar-thumb { background:#3a4050; border-radius:4px; }
+
+/* ── FILE GRID ── */
+.fgrid { display:flex; flex-wrap:wrap; gap:6px; padding:12px; align-content:flex-start; }
+.fitem {
+  display:flex; flex-direction:column; align-items:center; gap:4px;
+  padding:10px 8px; border-radius:4px; cursor:pointer; width:90px;
+  transition:background .12s;
+}
+.fitem:hover { background:rgba(255,255,255,0.07); }
+.fitem.sel { background:rgba(80,130,255,0.2); outline:1px solid rgba(80,130,255,0.35); }
+.fitem .fi { font-size:38px; }
+.fitem .fn { color:#ccc; font-size:11px; text-align:center; word-break:break-word; line-height:1.3; }
+.empty-folder { color:#555; padding:30px 20px; font-size:13px; font-style:italic; }
+
+/* ── STATUS BAR ── */
+.win-status {
+  background:#191e26; border-top:1px solid rgba(0,0,0,0.3);
+  padding:3px 10px; font-size:11px; color:#666; flex-shrink:0;
+}
+
+/* ── DOCUMENT VIEWER ── */
+.docview {
+  background:#f2ede4; color:#1a1a1a; padding:40px 50px;
+  font-family:'Courier New',monospace; min-height:100%;
+}
+.dv-header { text-align:center; margin-bottom:28px; padding-bottom:20px; border-bottom:2px solid #8b0000; }
+.dv-title { font-size:22px; font-weight:900; letter-spacing:5px; margin-bottom:8px; }
+.dv-ref { font-size:11px; color:#666; margin-bottom:4px; }
+.dv-stamp {
+  display:inline-block; border:3px solid #cc0000; color:#cc0000;
+  padding:4px 16px; font-weight:900; font-size:17px; letter-spacing:4px;
+  transform:rotate(-4deg); margin:10px 0;
+}
+.dv-subject {
+  border:1px solid #bbb; margin:18px 0; padding:18px;
+  background:#fff; display:flex; gap:18px;
+}
+.subj-photo {
+  width:90px; height:110px; background:#999; border:2px solid #666;
+  display:flex; align-items:center; justify-content:center;
+  color:#ddd; font-size:10px; text-align:center; flex-shrink:0;
+  font-family:'Courier New',monospace; padding:5px;
+}
+.subj-info { flex:1; }
+.subj-name {
+  font-size:15px; font-weight:900; letter-spacing:2px;
+  border-bottom:1px solid #ccc; padding-bottom:8px; margin-bottom:10px;
+}
+.irow { display:flex; gap:8px; margin-bottom:5px; font-size:12px; align-items:center; }
+.ilbl { font-weight:700; letter-spacing:1px; min-width:110px; color:#444; }
+.sbadge { background:#cc0000; color:#fff; padding:1px 8px; font-size:10px; font-weight:700; }
+.dv-note {
+  background:#fffde7; border-left:4px solid #e6b800;
+  padding:14px 16px; margin:18px 0; font-size:12px; line-height:1.7;
+}
+.dv-foot {
+  text-align:center; color:#8b0000; font-size:10px; font-weight:700;
+  letter-spacing:2px; margin-top:20px; padding-top:14px; border-top:1px solid #ccc;
+}
+
+/* simple doc */
+.simpledoc { padding:30px 40px; background:#f9f6f0; min-height:100%; font-family:'Courier New',monospace; color:#333; font-size:13px; line-height:1.9; }
+.simpledoc h3 { color:#8b0000; margin-bottom:14px; letter-spacing:2px; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════ LOGIN ═══════════════════════════════ -->
+<div id="login-screen">
+  <div class="login-avatar">👤</div>
+  <div class="login-name">Sofia Loredan</div>
+  <div class="login-box">
+    <input type="password" id="pwd-input" placeholder="Mot de passe" />
+    <button class="login-go" onclick="tryLogin()">→</button>
+  </div>
+  <div class="login-err" id="login-err"></div>
+  <div class="login-footer">LOREDAN-PC &nbsp;·&nbsp; Windows 10 Pro</div>
+</div>
+
+<!-- ═══════════════════════════════ DESKTOP ══════════════════════════════ -->
+<div id="desktop">
+  <div class="desktop-icons">
+    <div class="d-icon" ondblclick="openFolder('OPS-INTERNAL')" onclick="selIcon(this)">
+      <div class="di">📁</div>
+      <div class="dl">OPS-INTERNAL</div>
+    </div>
+    <div class="d-icon" ondblclick="openFolder('Mes Documents')" onclick="selIcon(this)">
+      <div class="di">📂</div>
+      <div class="dl">Mes Documents</div>
+    </div>
+    <div class="d-icon" ondblclick="openFolder('Corbeille')" onclick="selIcon(this)">
+      <div class="di">🗑️</div>
+      <div class="dl">Corbeille</div>
+    </div>
+  </div>
+
+  <!-- TASKBAR -->
+  <div id="taskbar">
+    <button class="tb-start">⊞ Loredan</button>
+    <div class="tb-apps" id="tb-apps"></div>
+    <div class="tb-clock" id="clock">--:--</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ EXPLORER WINDOW ══════════════════════════ -->
+<div class="win" id="win-exp" style="width:580px;height:400px;top:80px;left:140px;">
+  <div class="win-bar" id="bar-exp">
+    <span class="win-ico">📁</span>
+    <span class="win-ttl" id="ttl-exp">Explorateur</span>
+    <div class="wc">
+      <button class="btn-min" title="Réduire" onclick="minWin('win-exp')">—</button>
+      <button class="btn-max" title="Agrandir">+</button>
+      <button class="btn-close" title="Fermer" onclick="closeWin('win-exp')">✕</button>
+    </div>
+  </div>
+  <div class="win-toolbar">
+    <button class="t-btn" id="back-btn" onclick="navBack()" disabled>◀ Retour</button>
+    <div class="addr" id="addr-bar">Bureau</div>
+  </div>
+  <div class="win-body">
+    <div class="fgrid" id="fgrid"></div>
+  </div>
+  <div class="win-status" id="status-bar">0 élément(s)</div>
+</div>
+
+<!-- ══════════════════════════ DOCUMENT WINDOW ═══════════════════════════ -->
+<div class="win" id="win-doc" style="width:640px;height:520px;top:60px;left:200px;">
+  <div class="win-bar" id="bar-doc">
+    <span class="win-ico">📄</span>
+    <span class="win-ttl" id="ttl-doc">Document</span>
+    <div class="wc">
+      <button class="btn-min" title="Réduire" onclick="minWin('win-doc')">—</button>
+      <button class="btn-max" title="Agrandir">+</button>
+      <button class="btn-close" title="Fermer" onclick="closeWin('win-doc')">✕</button>
+    </div>
+  </div>
+  <div class="win-body" id="doc-body"></div>
+</div>
+
+<script>
+/* ═══════════════════════ FILE SYSTEM ═══════════════════════ */
+const FS = {
+  'OPS-INTERNAL':              { type:'folder', children:['ORDRE_ELIMINATION.doc','RENSEIGNEMENTS_POLICIERS'] },
+  'RENSEIGNEMENTS_POLICIERS':  { type:'folder', children:['SUBJ_68_RICK_CASH.doc','SUBJ_45_JERRY_SIGNAL.doc'] },
+  'Mes Documents':             { type:'folder', children:['notes_perso.txt','agenda.doc'] },
+  'Corbeille':                 { type:'folder', children:[] },
+
+  'ORDRE_ELIMINATION.doc': { type:'file', icon:'📄', content: docElimination() },
+  'SUBJ_68_RICK_CASH.doc': { type:'file', icon:'📄', content: docRick() },
+  'SUBJ_45_JERRY_SIGNAL.doc': { type:'file', icon:'📄', content: docJerry() },
+  'notes_perso.txt': { type:'file', icon:'📝', content:`<div class="simpledoc"><h3>NOTES PERSONNELLES</h3>
+— Réunion famille : vendredi 22h, chez Enzo<br>
+— Changer les codes du coffre (demander à Papa)<br>
+— Appeler Marco pour le transfert du Nord<br>
+— NE PAS oublier : supprimer les fichiers OPS avant jeudi
+</div>` },
+  'agenda.doc': { type:'file', icon:'📅', content:`<div class="simpledoc"><h3>AGENDA — CONFIDENTIEL</h3>
+Lun 12 &nbsp;— Contact fournisseur Nord, 14h<br>
+Mer 14 &nbsp;— Livraison port, 03h00 (baie 7)<br>
+Ven 16 &nbsp;— Réunion Famiglia — Chez Enzo<br>
+Mar 19 &nbsp;— RDV Avocat Castellano, 10h<br>
+Jeu 21 &nbsp;— Transfert fonds (voir Marco)<br>
+</div>` }
+};
+
+function iconFor(name){
+  if(FS[name]?.type==='folder') return '📁';
+  if(name.endsWith('.doc')) return '📄';
+  if(name.endsWith('.txt')) return '📝';
+  if(name.endsWith('.jpg')||name.endsWith('.png')) return '🖼️';
+  return '📄';
+}
+
+/* ═══════════════════════ LOGIN ═══════════════════════ */
+document.getElementById('pwd-input').addEventListener('keydown', e=>{ if(e.key==='Enter') tryLogin(); });
+
+function tryLogin(){
+  if(document.getElementById('pwd-input').value === '1234'){
+    document.getElementById('login-screen').style.display='none';
+    document.getElementById('desktop').style.display='block';
+    startClock();
+  } else {
+    const err = document.getElementById('login-err');
+    err.textContent = 'Mot de passe incorrect.';
+    document.getElementById('pwd-input').value='';
+    setTimeout(()=>err.textContent='', 2200);
+  }
+}
+
+/* ═══════════════════════ CLOCK ═══════════════════════ */
+function startClock(){
+  const el = document.getElementById('clock');
+  const tick = ()=>{
+    const n=new Date();
+    el.textContent = String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');
+  };
+  tick(); setInterval(tick,5000);
+}
+
+/* ═══════════════════════ DESKTOP ICON SELECT ═══════════════════════ */
+function selIcon(el){
+  document.querySelectorAll('.d-icon').forEach(i=>i.classList.remove('sel'));
+  el.classList.add('sel');
+}
+document.getElementById('desktop').addEventListener('click', e=>{
+  if(!e.target.closest('.d-icon') && !e.target.closest('.win'))
+    document.querySelectorAll('.d-icon').forEach(i=>i.classList.remove('sel'));
+});
+
+/* ═══════════════════════ NAVIGATION ═══════════════════════ */
+let navStack = [];
+let curFolder = null;
+
+function openFolder(name){
+  if(!FS[name] || FS[name].type!=='folder') return;
+  if(curFolder) navStack.push(curFolder);
+  curFolder = name;
+  renderFolder(name);
+  showWin('win-exp');
+}
+
+function renderFolder(name){
+  const children = FS[name].children;
+  document.getElementById('ttl-exp').textContent = name;
+  document.getElementById('addr-bar').textContent = buildPath(name);
+  document.getElementById('back-btn').disabled = navStack.length===0;
+  document.getElementById('status-bar').textContent = `${children.length} élément(s)`;
+
+  const grid = document.getElementById('fgrid');
+  grid.innerHTML = '';
+
+  if(!children.length){
+    grid.innerHTML='<div class="empty-folder">Ce dossier est vide.</div>';
+    return;
+  }
+
+  children.forEach(child=>{
+    const icon = iconFor(child);
+    const div = document.createElement('div');
+    div.className='fitem';
+    div.innerHTML=`<div class="fi">${icon}</div><div class="fn">${child}</div>`;
+
+    const item = FS[child];
+    if(item?.type==='folder'){
+      div.ondblclick = ()=>openFolder(child);
+    } else {
+      div.ondblclick = ()=>openFile(child);
+    }
+    div.onclick = e=>{
+      document.querySelectorAll('.fitem').forEach(i=>i.classList.remove('sel'));
+      div.classList.add('sel'); e.stopPropagation();
+    };
+    grid.appendChild(div);
+  });
+}
+
+function buildPath(name){
+  return [...navStack, name].join(' › ');
+}
+
+function navBack(){
+  if(!navStack.length) return;
+  curFolder = navStack.pop();
+  renderFolder(curFolder);
+}
+
+function openFile(name){
+  const f = FS[name];
+  if(!f||f.type!=='file') return;
+  document.getElementById('ttl-doc').textContent = name;
+  document.getElementById('doc-body').innerHTML = f.content;
+  showWin('win-doc');
+}
+
+/* ═══════════════════════ WINDOW MANAGEMENT ═══════════════════════ */
+let zTop = 300;
+
+function showWin(id){
+  const w = document.getElementById(id);
+  w.style.display='flex';
+  bringFront(id);
+  addTB(id);
+}
+
+function closeWin(id){
+  document.getElementById(id).style.display='none';
+  if(id==='win-exp'){ curFolder=null; navStack=[]; }
+  removeTB(id);
+}
+
+function minWin(id){
+  document.getElementById(id).style.display='none';
+  const tb = document.getElementById('tb-'+id);
+  if(tb) tb.classList.remove('active');
+}
+
+function bringFront(id){
+  document.querySelectorAll('.win').forEach(w=>{ w.style.zIndex=200; w.classList.remove('front'); });
+  const w = document.getElementById(id);
+  w.style.zIndex = ++zTop;
+  w.classList.add('front');
+  document.querySelectorAll('.tb-btn').forEach(b=>b.classList.remove('active'));
+  const tb = document.getElementById('tb-'+id);
+  if(tb) tb.classList.add('active');
+}
+
+function addTB(id){
+  if(document.getElementById('tb-'+id)){
+    document.querySelectorAll('.tb-btn').forEach(b=>b.classList.remove('active'));
+    document.getElementById('tb-'+id).classList.add('active');
+    return;
+  }
+  const w = document.getElementById(id);
+  const ttl = w.querySelector('.win-ttl').textContent;
+  const ico = w.querySelector('.win-ico').textContent;
+  const btn = document.createElement('div');
+  btn.className='tb-btn active'; btn.id='tb-'+id;
+  btn.textContent = ico+' '+ttl.slice(0,18);
+  btn.onclick=()=>{
+    const win=document.getElementById(id);
+    if(win.style.display==='none'){ win.style.display='flex'; bringFront(id); }
+    else if(win.classList.contains('front')){ minWin(id); }
+    else { bringFront(id); }
+  };
+  document.getElementById('tb-apps').appendChild(btn);
+}
+
+function removeTB(id){
+  const b=document.getElementById('tb-'+id);
+  if(b) b.remove();
+}
+
+/* ═══════════════════════ DRAG ═══════════════════════ */
+['win-exp','win-doc'].forEach(id=>{
+  const win=document.getElementById(id);
+  const bar=document.getElementById('bar-'+id.replace('win-','bar-').replace('-',''));
+
+  // find the actual bar element
+  const handle = win.querySelector('.win-bar');
+  let drag=false, ox,oy,startL,startT;
+
+  handle.addEventListener('mousedown',e=>{
+    drag=true; ox=e.clientX; oy=e.clientY;
+    startL=win.offsetLeft; startT=win.offsetTop;
+    bringFront(id); e.preventDefault();
+  });
+  win.addEventListener('mousedown',()=>bringFront(id));
+  document.addEventListener('mousemove',e=>{
+    if(!drag) return;
+    let nx=startL+e.clientX-ox, ny=startT+e.clientY-oy;
+    nx=Math.max(0,Math.min(nx,window.innerWidth-win.offsetWidth));
+    ny=Math.max(0,Math.min(ny,window.innerHeight-win.offsetHeight-38));
+    win.style.left=nx+'px'; win.style.top=ny+'px';
+  });
+  document.addEventListener('mouseup',()=>drag=false);
+});
+
+/* ═══════════════════════ DOCUMENT CONTENT ═══════════════════════ */
+function docElimination(){ return `
+<div class="docview">
+  <div class="dv-header">
+    <div class="dv-title">ORDRE D'ÉLIMINATION</div>
+    <div class="dv-ref">RÉFÉRENCE : FAMIGLIA LOREDAN / OPS-INTERNAL</div>
+    <div class="dv-ref" style="font-style:italic;color:#999;margin-top:3px;">Document physique – Ne pas sortir du bureau.</div>
+    <div class="dv-stamp">PRIORITAIRE</div>
+  </div>
+
+  <div class="dv-subject">
+    <div class="subj-photo">ID_SUBJ_68</div>
+    <div class="subj-info">
+      <div class="subj-name">SUJET #68 &nbsp;:&nbsp; RICK CASH</div>
+      <div class="irow"><span class="ilbl">PSEUDO :</span><span>@rick</span></div>
+      <div class="irow"><span class="ilbl">STATUT :</span><span class="sbadge">À TRAITER</span></div>
+      <div class="irow"><span class="ilbl">VÉHICULE 1 :</span><span>Rapid GT Sport</span></div>
+      <div class="irow"><span class="ilbl">VÉHICULE 2 :</span><span>Oracle XS-LE</span></div>
+      <div class="irow" style="margin-top:8px;"><span class="ilbl" style="color:#a00;">ORIENTATION :</span><span style="color:#a00;font-weight:700;">GAY</span></div>
+    </div>
+  </div>
+
+  <div class="dv-subject">
+    <div class="subj-photo">ID_SUBJ_45</div>
+    <div class="subj-info">
+      <div class="subj-name">SUJET #45 &nbsp;:&nbsp; JERRY SIGNAL</div>
+      <div class="irow"><span class="ilbl">PSEUDO :</span><span>@jerrysignal</span></div>
+      <div class="irow"><span class="ilbl">STATUT :</span><span class="sbadge">À TRAITER</span></div>
+      <div class="irow"><span class="ilbl">VÉHICULE :</span><span>Bifta (Custom)</span></div>
+      <div class="irow" style="margin-top:8px;"><span class="ilbl">ORIENTATION :</span><span>HÉTÉRO</span></div>
+    </div>
+  </div>
+
+  <div class="dv-note">
+    <strong>NOTE ADDITIONNELLE DE L'EXÉCUTEUR :</strong><br><br>
+    <em>"Observation : Ces deux-là sont <u>faciles à avoir</u> car ils sont complètement cons.
+    Ils n'ont aucune protection et font n'importe quoi en ville. On peut les cueillir quand on veut."</em>
+  </div>
+
+  <div class="dv-foot">— FAMIGLIA LOREDAN — DOCUMENT CONFIDENTIEL — NE PAS DIVULGUER —</div>
+</div>`; }
+
+function docRick(){ return `
+<div class="docview">
+  <div class="dv-header">
+    <div class="dv-title">FICHE DE RENSEIGNEMENT</div>
+    <div class="dv-ref">RÉFÉRENCE : SUBJ_68 / RENS-PD — FAMIGLIA LOREDAN</div>
+    <div class="dv-ref" style="font-style:italic;color:#999;margin-top:3px;">Usage interne uniquement — Accès restreint</div>
+    <div class="dv-stamp">CONFIDENTIEL</div>
+  </div>
+
+  <div class="dv-subject" style="display:block;">
+    <div class="subj-name" style="font-size:18px;margin-bottom:14px;">SUJET #68 — RICK CASH</div>
+    <div style="display:flex;gap:30px;flex-wrap:wrap;">
+      <div style="flex:1;min-width:180px;">
+        <div class="irow"><span class="ilbl">PSEUDO GTA :</span><span style="font-weight:700;">@rick</span></div>
+        <div class="irow"><span class="ilbl">N° SUJET :</span><span>#68</span></div>
+        <div class="irow"><span class="ilbl">STATUT :</span><span class="sbadge">À TRAITER</span></div>
+        <div class="irow"><span class="ilbl">PRIORITÉ :</span><span style="color:#c00;font-weight:700;">⚠ HAUTE</span></div>
+      </div>
+      <div style="flex:1;min-width:180px;">
+        <div class="irow"><span class="ilbl">VÉHICULE 1 :</span><span>Rapid GT Sport</span></div>
+        <div class="irow"><span class="ilbl">VÉHICULE 2 :</span><span>Oracle XS-LE</span></div>
+        <div class="irow"><span class="ilbl">PROTECTION :</span><span style="color:green;font-weight:700;">AUCUNE</span></div>
+        <div class="irow"><span class="ilbl">ORIENTATION :</span><span style="color:#a00;font-weight:700;">GAY</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dv-note">
+    <strong>OBSERVATIONS DE TERRAIN :</strong><br><br>
+    Le sujet @rick se déplace régulièrement en ville sans escorte ni protection armée.
+    Comportement imprévisible — agit souvent seul, surtout en soirée.
+    Son Rapid GT Sport est facilement reconnaissable ; difficile à semer en cas de poursuite.<br><br>
+    <strong>Zone de présence :</strong> Centre-ville, quartier nord, port.<br>
+    <strong>Horaires :</strong> Actif principalement en soirée et nuit.<br><br>
+    <strong>Recommandation :</strong> Neutralisation possible à tout moment. Profiter des déplacements nocturnes. Approche discrète suffisante — aucune résistance organisée à prévoir.
+  </div>
+
+  <div class="dv-foot">— DOCUMENT RÉSERVÉ — USAGE INTERNE FAMIGLIA LOREDAN — SUBJ_68 —</div>
+</div>`; }
+
+function docJerry(){ return `
+<div class="docview">
+  <div class="dv-header">
+    <div class="dv-title">FICHE DE RENSEIGNEMENT</div>
+    <div class="dv-ref">RÉFÉRENCE : SUBJ_45 / RENS-PD — FAMIGLIA LOREDAN</div>
+    <div class="dv-ref" style="font-style:italic;color:#999;margin-top:3px;">Usage interne uniquement — Accès restreint</div>
+    <div class="dv-stamp">CONFIDENTIEL</div>
+  </div>
+
+  <div class="dv-subject" style="display:block;">
+    <div class="subj-name" style="font-size:18px;margin-bottom:14px;">SUJET #45 — JERRY SIGNAL</div>
+    <div style="display:flex;gap:30px;flex-wrap:wrap;">
+      <div style="flex:1;min-width:180px;">
+        <div class="irow"><span class="ilbl">PSEUDO GTA :</span><span style="font-weight:700;">@jerrysignal</span></div>
+        <div class="irow"><span class="ilbl">N° SUJET :</span><span>#45</span></div>
+        <div class="irow"><span class="ilbl">STATUT :</span><span class="sbadge">À TRAITER</span></div>
+        <div class="irow"><span class="ilbl">PRIORITÉ :</span><span style="color:#c00;font-weight:700;">⚠ HAUTE</span></div>
+      </div>
+      <div style="flex:1;min-width:180px;">
+        <div class="irow"><span class="ilbl">VÉHICULE :</span><span>Bifta (Custom)</span></div>
+        <div class="irow"><span class="ilbl">PROTECTION :</span><span style="color:green;font-weight:700;">AUCUNE</span></div>
+        <div class="irow"><span class="ilbl">ORIENTATION :</span><span>HÉTÉRO</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dv-note">
+    <strong>OBSERVATIONS DE TERRAIN :</strong><br><br>
+    Le sujet @jerrysignal conduit un Bifta fortement customisé — véhicule reconnaissable à distance.
+    Conduite agressive, tendance à prendre des risques inutiles en ville.
+    Se retrouve fréquemment dans des zones peu fréquentées en dehors des heures de pointe.<br><br>
+    <strong>Zone de présence :</strong> Périphérie, zones industrielles, routes secondaires.<br>
+    <strong>Horaires :</span> Actif en journée et début de soirée.<br><br>
+    <strong>Recommandation :</strong> Approche discrète recommandée — le sujet est impulsif et réagit fort.
+    Éviter toute confrontation directe en zone urbaine dense.
+    Profiter des déplacements en zone isolée.
+  </div>
+
+  <div class="dv-foot">— DOCUMENT RÉSERVÉ — USAGE INTERNE FAMIGLIA LOREDAN — SUBJ_45 —</div>
+</div>`; }
+</script>
+</body>
+</html>
