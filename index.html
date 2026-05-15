@@ -142,19 +142,87 @@ body { font-family:'Segoe UI',Tahoma,sans-serif; width:100vw; height:100vh; over
 }
 .dc-hint-btn:hover { color:rgba(0,255,65,0.55); }
 .dc-hint-text { color:rgba(0,255,65,0.5); font-size:9px; letter-spacing:1px; text-align:center; margin-top:5px; min-height:13px; font-family:'Courier New',monospace; }
-/* Success overlay */
-#dc-success {
-  position:fixed; inset:0; z-index:99998; background:#000;
-  display:none; flex-direction:column; align-items:center; justify-content:center;
-  font-family:'Courier New',monospace; gap:10px;
-}
-.dc-s-line { color:#00ff41; letter-spacing:3px; text-transform:uppercase; opacity:0; }
-.dc-s-line.dc-appear { animation:dcFadeIn .5s forwards; }
-.dc-s-bar { width:320px; height:2px; background:rgba(0,255,65,0.15); margin:14px 0; border-radius:2px; overflow:hidden; }
-.dc-s-fill { height:100%; background:#00ff41; width:0; }
-.dc-s-fill.dc-fill { animation:dcFill 2s 1.5s forwards; }
 @keyframes dcFadeIn { to{opacity:1} }
-@keyframes dcFill { to{width:100%} }
+
+/* ── PUZZLE SCREEN ── */
+.pz-badge {
+  display:inline-block; border:2px solid #cc2200; color:#cc2200;
+  padding:3px 20px; font-size:9px; letter-spacing:4px; text-transform:uppercase;
+  margin-bottom:10px; font-family:'Courier New',monospace;
+  text-shadow:0 0 10px rgba(200,30,0,0.5);
+  box-shadow:0 0 12px rgba(200,30,0,0.15);
+}
+.pz-title { color:#b03020; font-size:11px; letter-spacing:2px; font-family:'Courier New',monospace; margin-bottom:4px; }
+.pz-sub { color:rgba(160,60,40,0.5); font-size:9px; letter-spacing:2px; font-family:'Courier New',monospace; }
+.pz-modules {
+  display:grid; grid-template-columns:1fr 1fr; gap:10px;
+  width:min(530px,94vw); margin-bottom:14px;
+}
+.pz-module {
+  background:rgba(12,4,2,0.9);
+  border:1px solid rgba(180,40,0,0.22);
+  border-radius:4px; padding:14px 15px;
+}
+.pz-mod-label {
+  color:rgba(180,50,20,0.75); font-size:8px; letter-spacing:2px;
+  margin-bottom:10px; padding-bottom:6px;
+  border-bottom:1px solid rgba(180,40,0,0.15); text-transform:uppercase;
+}
+.pz-mod-value {
+  color:#e05030; font-size:20px; letter-spacing:5px;
+  text-align:center; padding:10px 0;
+  text-shadow:0 0 14px rgba(220,80,30,0.45);
+  font-family:'Courier New',monospace;
+}
+.pz-mod-hint-btn {
+  background:none; border:1px solid rgba(180,40,0,0.2);
+  color:rgba(180,50,20,0.45); font-family:'Courier New',monospace;
+  font-size:8px; letter-spacing:1px; cursor:pointer; padding:3px 8px;
+  width:100%; margin-top:8px; transition:all .2s; text-transform:uppercase;
+}
+.pz-mod-hint-btn:hover { border-color:rgba(180,40,0,0.5); color:rgba(200,70,30,0.8); }
+.pz-mod-hint-panel {
+  display:none; margin-top:8px; padding:8px;
+  background:rgba(0,0,0,0.55); border:1px solid rgba(180,40,0,0.12);
+  color:rgba(180,90,50,0.7); font-size:9px; line-height:2; letter-spacing:0.5px;
+  font-family:'Courier New',monospace;
+}
+.pz-order {
+  color:rgba(160,50,30,0.4); font-size:9px; letter-spacing:2px;
+  margin-bottom:14px; text-align:center; font-family:'Courier New',monospace;
+}
+.pz-input-label {
+  color:rgba(180,50,20,0.5); font-size:9px; letter-spacing:3px;
+  margin-bottom:10px; font-family:'Courier New',monospace;
+}
+.pz-digit-group { display:flex; gap:8px; }
+.pz-digit {
+  width:52px; height:60px; background:rgba(0,0,0,0.7);
+  border:1px solid rgba(180,40,0,0.3); color:#e05030;
+  font-family:'Courier New',monospace; font-size:26px; letter-spacing:0;
+  text-align:center; outline:none; transition:border-color .2s, box-shadow .2s;
+  caret-color:#e05030;
+}
+.pz-digit:focus { border-color:rgba(220,70,30,0.7); box-shadow:0 0 14px rgba(200,40,0,0.18); }
+.pz-digit.pz-d-error { border-color:#ff2200 !important; animation:dcShake .4s; }
+@keyframes dcShake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-7px)} 40%{transform:translateX(7px)} 60%{transform:translateX(-4px)} 80%{transform:translateX(4px)} }
+.pz-submit {
+  background:rgba(100,15,0,0.6); border:1px solid rgba(180,40,0,0.4);
+  color:#e05030; padding:0 22px; height:60px; cursor:pointer;
+  font-family:'Courier New',monospace; font-size:11px; letter-spacing:2px;
+  text-transform:uppercase; transition:background .2s;
+}
+.pz-submit:hover { background:rgba(140,25,0,0.75); }
+.pz-err { color:#ff4422; font-size:9px; letter-spacing:1px; margin-top:8px; min-height:14px; font-family:'Courier New',monospace; }
+/* Puzzle success overlay */
+.pz-s-line { color:rgba(200,60,30,0.75); letter-spacing:3px; text-transform:uppercase; opacity:0; font-family:'Courier New',monospace; }
+.pz-s-line.pz-appear { animation:dcFadeIn .5s forwards; }
+.pz-s-code {
+  font-size:56px; color:#e05030; letter-spacing:18px;
+  text-shadow:0 0 30px rgba(220,70,30,0.7);
+  opacity:0; font-family:'Courier New',monospace;
+}
+.pz-s-code.pz-appear { animation:dcFadeIn .7s forwards; }
 
 /* ── DESKTOP ── */
 #desktop {
@@ -591,53 +659,114 @@ body { font-family:'Segoe UI',Tahoma,sans-serif; width:100vw; height:100vh; over
   <div class="boot-oem">ROSALIA-PC &nbsp;·&nbsp; Windows 10 Pro &nbsp;·&nbsp; © Microsoft Corporation</div>
 </div>
 
+<!-- ═══════════════════════════════ PUZZLE SCREEN ══════════════════════════════ -->
+<div id="puzzle-screen" style="display:none; position:fixed; inset:0; z-index:9990; background:linear-gradient(160deg,#020206,#07020a,#020206); flex-direction:column; align-items:center; justify-content:center; font-family:'Courier New',monospace; overflow-y:auto; padding:24px 0;">
+
+  <div style="text-align:center;margin-bottom:20px;">
+    <div class="pz-badge">⚠ ACCÈS RESTREINT — NIVEAU 4 ⚠</div>
+    <div class="pz-title">ROSALIA-PC &nbsp;// &nbsp;PROTOCOLE SÉCURITÉ LOREDAN CORP.</div>
+    <div class="pz-sub">Déchiffrez les 4 modules pour extraire le code d'accès système</div>
+  </div>
+
+  <div class="pz-modules">
+    <!-- MODULE I -->
+    <div class="pz-module">
+      <div class="pz-mod-label">MODULE I &mdash; SYSTÈME BINAIRE</div>
+      <div class="pz-mod-value">00000010</div>
+      <button class="pz-mod-hint-btn" onclick="togglePzHint('pz-h1',this)">▾ TABLE DE RÉFÉRENCE</button>
+      <div class="pz-mod-hint-panel" id="pz-h1">
+        0=00000000 &nbsp; 1=00000001<br>
+        2=00000010 &nbsp; 3=00000011<br>
+        4=00000100 &nbsp; 5=00000101<br>
+        6=00000110 &nbsp; 7=00000111<br>
+        8=00001000 &nbsp; 9=00001001
+      </div>
+    </div>
+    <!-- MODULE II -->
+    <div class="pz-module">
+      <div class="pz-mod-label">MODULE II &mdash; NUMÉRATION ROMAINE</div>
+      <div class="pz-mod-value">IX</div>
+      <button class="pz-mod-hint-btn" onclick="togglePzHint('pz-h2',this)">▾ TABLE DE RÉFÉRENCE</button>
+      <div class="pz-mod-hint-panel" id="pz-h2">
+        I=1 &nbsp; II=2 &nbsp; III=3 &nbsp; IV=4 &nbsp; V=5<br>
+        VI=6 &nbsp; VII=7 &nbsp; VIII=8 &nbsp; IX=9 &nbsp; X=10
+      </div>
+    </div>
+    <!-- MODULE III -->
+    <div class="pz-module">
+      <div class="pz-mod-label">MODULE III &mdash; CODE MORSE (chiffres)</div>
+      <div class="pz-mod-value" style="letter-spacing:2px;font-size:20px;">. . . . &minus;</div>
+      <button class="pz-mod-hint-btn" onclick="togglePzHint('pz-h3',this)">▾ TABLE DE RÉFÉRENCE</button>
+      <div class="pz-mod-hint-panel" id="pz-h3">
+        0 : -----<br>
+        1 : .----<br>
+        2 : ..---<br>
+        3 : ...--<br>
+        4 : ....-<br>
+        5 : .....<br>
+        6 : -....<br>
+        7 : --...<br>
+        8 : ---..<br>
+        9 : ----.
+      </div>
+    </div>
+    <!-- MODULE IV -->
+    <div class="pz-module">
+      <div class="pz-mod-label">MODULE IV &mdash; HEXADÉCIMAL</div>
+      <div class="pz-mod-value">0x07</div>
+      <button class="pz-mod-hint-btn" onclick="togglePzHint('pz-h4',this)">▾ TABLE DE RÉFÉRENCE</button>
+      <div class="pz-mod-hint-panel" id="pz-h4">
+        0x00=0 &nbsp; 0x01=1 &nbsp; 0x02=2<br>
+        0x03=3 &nbsp; 0x04=4 &nbsp; 0x05=5<br>
+        0x06=6 &nbsp; 0x07=7 &nbsp; 0x08=8<br>
+        0x09=9
+      </div>
+    </div>
+  </div>
+
+  <div class="pz-order">▸ Saisir les chiffres dans l'ordre des modules &nbsp;I &rarr; II &rarr; III &rarr; IV ◂</div>
+
+  <div style="text-align:center;">
+    <div class="pz-input-label">CODE D'ACCÈS DÉCHIFFRÉ</div>
+    <div style="display:flex;gap:10px;align-items:center;justify-content:center;">
+      <div class="pz-digit-group">
+        <input class="pz-digit" type="text" maxlength="1" id="pz-d1" inputmode="numeric" oninput="pzNext(this,'pz-d2')">
+        <input class="pz-digit" type="text" maxlength="1" id="pz-d2" inputmode="numeric" oninput="pzNext(this,'pz-d3')">
+        <input class="pz-digit" type="text" maxlength="1" id="pz-d3" inputmode="numeric" oninput="pzNext(this,'pz-d4')">
+        <input class="pz-digit" type="text" maxlength="1" id="pz-d4" inputmode="numeric" oninput="pzNext(this,null)">
+      </div>
+      <button class="pz-submit" onclick="tryPuzzle()">VALIDER</button>
+    </div>
+    <div class="pz-err" id="pz-err"></div>
+  </div>
+</div>
+
+<!-- PUZZLE SUCCESS OVERLAY -->
+<div id="pz-success" style="position:fixed;inset:0;z-index:99997;background:#000;display:none;flex-direction:column;align-items:center;justify-content:center;font-family:'Courier New',monospace;gap:8px;">
+  <div class="pz-s-line" style="font-size:9px;letter-spacing:4px;">ROSALIA-PC // LOREDAN SECURITY SYSTEM v4.2</div>
+  <div class="pz-s-line" style="font-size:11px;letter-spacing:2px;margin-bottom:16px;color:rgba(200,50,0,0.6);">DÉCHIFFREMENT RÉUSSI — CODE D'ACCÈS EXTRAIT</div>
+  <div class="pz-s-code" id="pz-s-code">2947</div>
+  <div class="pz-s-line" style="margin-top:18px;font-size:9px;color:rgba(200,50,0,0.55);">Mémorisez ce code · Redirection vers l'écran de connexion...</div>
+</div>
+
 <!-- ═══════════════════════════════ LOGIN ═══════════════════════════════ -->
 <div id="login-screen" style="display:none;">
-  <div style="position:relative;margin-bottom:12px;">
+  <div style="position:relative;margin-bottom:16px;">
     <div class="login-avatar" style="font-size:52px;background:linear-gradient(135deg,#3a1a2a,#1a1a2e);">🌹</div>
   </div>
   <div class="login-name">Rosalia Loredan</div>
-
-  <!-- DECRYPT PANEL -->
-  <div id="decrypt-panel">
-    <div class="dc-label">⚠ Système de Sécurité — Loredan Corp. ⚠</div>
-    <div class="dc-title">▌ TERMINAL PROTÉGÉ — DÉCHIFFREMENT REQUIS ▐</div>
-    <hr class="dc-divider">
-    <div class="dc-enc-label">CODE CHIFFRÉ — TABLEAU DE POLYBE</div>
-    <div class="dc-encrypted">43 — 35 — 44 — 11</div>
-    <table class="polybius">
-      <tr><th></th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr>
-      <tr><td>1</td><td>A</td><td>B</td><td>C</td><td>D</td><td>E</td></tr>
-      <tr><td>2</td><td>F</td><td>G</td><td>H</td><td>I</td><td>J</td></tr>
-      <tr><td>3</td><td>K</td><td>L</td><td>M</td><td>N</td><td>O</td></tr>
-      <tr><td>4</td><td>P</td><td>Q</td><td>R</td><td>S</td><td>T</td></tr>
-      <tr><td>5</td><td>U</td><td>V</td><td>W</td><td>X</td><td>Y/Z</td></tr>
-    </table>
-    <div class="dc-coord-hint">Coordonnées : [LIGNE][COLONNE]</div>
-    <div class="dc-input-row">
-      <input type="text" id="dc-input" placeholder="CODE DÉCHIFFRÉ" maxlength="12" autocomplete="off" />
-      <button class="dc-go" onclick="tryDecrypt()">ENTRER</button>
-    </div>
-    <div class="dc-err" id="dc-err"></div>
-    <button class="dc-hint-btn" onclick="showDcHint()">[ AIDE ]</button>
-    <div class="dc-hint-text" id="dc-hint"></div>
+  <div class="login-box">
+    <input type="password" id="pwd-input" placeholder="Code d'accès" />
+    <button class="login-go" onclick="tryLogin()">→</button>
   </div>
-
-  <div class="login-footer" style="margin-top:16px;">ROSALIA-PC &nbsp;·&nbsp; Windows 10 Pro</div>
+  <div class="login-err" id="login-err"></div>
+  <div class="login-last">Dernière connexion : 14/05/2026 à 23:58</div>
+  <div class="login-footer">ROSALIA-PC &nbsp;·&nbsp; Windows 10 Pro</div>
   <div class="login-sys-icons">
     <span title="Accessibilité">♿</span>
     <span title="Réseau">📶</span>
     <span title="Arrêter">⏻</span>
   </div>
-</div>
-
-<!-- SUCCESS OVERLAY -->
-<div id="dc-success">
-  <div class="dc-s-line" style="font-size:10px;color:rgba(0,255,65,0.45);">ROSALIA-PC // LOREDAN SECURITY SYSTEM v2.1</div>
-  <div class="dc-s-bar"><div class="dc-s-fill" id="dc-s-fill"></div></div>
-  <div class="dc-s-line" style="font-size:20px;letter-spacing:6px;">▌ ACCÈS ACCORDÉ ▐</div>
-  <div class="dc-s-line" style="font-size:12px;margin-top:4px;">IDENTITÉ VÉRIFIÉE — LOREDAN, Rosalia</div>
-  <div class="dc-s-line" style="font-size:10px;color:rgba(0,255,65,0.5);margin-top:10px;">Ouverture de session en cours...</div>
 </div>
 
 <!-- ═══════════════════════════════ DESKTOP ══════════════════════════════ -->
@@ -820,7 +949,7 @@ window.addEventListener('DOMContentLoaded', ()=>{
     document.getElementById('boot-screen').style.opacity='0';
     setTimeout(()=>{
       document.getElementById('boot-screen').style.display='none';
-      document.getElementById('login-screen').style.display='flex';
+      document.getElementById('puzzle-screen').style.display='flex';
     }, 500);
   }, 2800);
 });
@@ -979,44 +1108,70 @@ function iconFor(name){
   return '📄';
 }
 
-/* ═══════════════════════ DECRYPT MINI-GAME ═══════════════════════ */
-document.getElementById('dc-input').addEventListener('keydown', e=>{ if(e.key==='Enter') tryDecrypt(); });
-
-let dcHintCount = 0;
-function showDcHint(){
-  dcHintCount++;
-  const h = document.getElementById('dc-hint');
-  if(dcHintCount===1) h.textContent = '▸ Chaque paire = coordonnées dans la grille [ligne][colonne]';
-  else if(dcHintCount===2) h.textContent = '▸ Exemple : 43 → ligne 4, colonne 3 → R';
-  else h.textContent = '▸ Le code correspond au prénom de la propriétaire';
+/* ═══════════════════════ PUZZLE SCREEN ═══════════════════════ */
+function togglePzHint(id, btn){
+  const panel = document.getElementById(id);
+  const vis = panel.style.display === 'block';
+  panel.style.display = vis ? 'none' : 'block';
+  btn.textContent = vis ? '▾ TABLE DE RÉFÉRENCE' : '▴ MASQUER';
 }
 
-function tryDecrypt(){
-  const val = document.getElementById('dc-input').value.trim().toUpperCase();
-  const inp = document.getElementById('dc-input');
-  if(val === 'ROSA'){
-    // Succès — afficher overlay terminal
-    const ov = document.getElementById('dc-success');
+function pzNext(el, nextId){
+  el.value = el.value.replace(/\D/g,'');
+  if(el.value && nextId) document.getElementById(nextId).focus();
+}
+
+function tryPuzzle(){
+  const digits = ['pz-d1','pz-d2','pz-d3','pz-d4'].map(id=>document.getElementById(id).value.trim());
+  const code = digits.join('');
+  if(code === '2947'){
+    const ov = document.getElementById('pz-success');
     ov.style.display = 'flex';
-    const lines = ov.querySelectorAll('.dc-s-line');
-    lines.forEach((l,i) => setTimeout(()=>l.classList.add('dc-appear'), i*550));
-    document.getElementById('dc-s-fill').classList.add('dc-fill');
+    const lines = ov.querySelectorAll('.pz-s-line');
+    const codeEl = document.getElementById('pz-s-code');
+    setTimeout(()=>lines[0].classList.add('pz-appear'), 300);
+    setTimeout(()=>lines[1].classList.add('pz-appear'), 900);
+    setTimeout(()=>codeEl.classList.add('pz-appear'), 1600);
+    setTimeout(()=>{ if(lines[2]) lines[2].classList.add('pz-appear'); }, 2500);
     setTimeout(()=>{
-      ov.style.opacity='0'; ov.style.transition='opacity .6s';
+      ov.style.transition='opacity .7s'; ov.style.opacity='0';
       setTimeout(()=>{
-        ov.style.display='none';
-        document.getElementById('login-screen').style.display='none';
-        document.getElementById('desktop').style.display='block';
-        startClock();
-        scheduleNotif();
-      }, 650);
-    }, 3800);
+        ov.style.display='none'; ov.style.opacity='';
+        document.getElementById('puzzle-screen').style.display='none';
+        document.getElementById('login-screen').style.display='flex';
+        document.getElementById('pwd-input').focus();
+      }, 750);
+    }, 4200);
   } else {
-    const err = document.getElementById('dc-err');
+    const err = document.getElementById('pz-err');
     err.textContent = '⚠ CODE INVALIDE — ACCÈS REFUSÉ — TENTATIVE ENREGISTRÉE';
-    inp.classList.add('dc-error');
-    inp.value = '';
-    setTimeout(()=>{ err.textContent=''; inp.classList.remove('dc-error'); }, 2800);
+    ['pz-d1','pz-d2','pz-d3','pz-d4'].forEach(id=>{
+      const el = document.getElementById(id);
+      el.classList.add('pz-d-error'); el.value='';
+      setTimeout(()=>el.classList.remove('pz-d-error'), 600);
+    });
+    document.getElementById('pz-d1').focus();
+    setTimeout(()=>err.textContent='', 2800);
+  }
+}
+
+/* ═══════════════════════ LOGIN ═══════════════════════ */
+document.addEventListener('DOMContentLoaded', ()=>{
+  const pi = document.getElementById('pwd-input');
+  if(pi) pi.addEventListener('keydown', e=>{ if(e.key==='Enter') tryLogin(); });
+});
+
+function tryLogin(){
+  if(document.getElementById('pwd-input').value === '2947'){
+    document.getElementById('login-screen').style.display='none';
+    document.getElementById('desktop').style.display='block';
+    startClock();
+    scheduleNotif();
+  } else {
+    const err = document.getElementById('login-err');
+    err.textContent = 'Code d\'accès incorrect.';
+    document.getElementById('pwd-input').value='';
+    setTimeout(()=>err.textContent='', 2200);
   }
 }
 
