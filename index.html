@@ -209,6 +209,64 @@ body { font-family:'Segoe UI',Tahoma,sans-serif; width:100vw; height:100vh; over
 /* simple doc */
 .simpledoc { padding:30px 40px; background:#f9f6f0; min-height:100%; font-family:'Courier New',monospace; color:#333; font-size:13px; line-height:1.9; }
 .simpledoc h3 { color:#8b0000; margin-bottom:14px; letter-spacing:2px; }
+
+/* ── MAIL CLIENT ── */
+.mail-layout { display:flex; height:100%; }
+.mail-sidebar {
+  width:220px; flex-shrink:0; background:#161a22;
+  border-right:1px solid rgba(255,255,255,0.07);
+  display:flex; flex-direction:column;
+}
+.mail-sidebar-header {
+  padding:10px 12px; font-size:11px; font-weight:700;
+  color:#aaa; letter-spacing:1px; text-transform:uppercase;
+  border-bottom:1px solid rgba(255,255,255,0.07);
+}
+.mail-folder {
+  display:flex; align-items:center; gap:8px;
+  padding:7px 14px; font-size:12px; color:#bbb; cursor:pointer;
+  transition:background .12s;
+}
+.mail-folder:hover { background:rgba(255,255,255,0.06); }
+.mail-folder.active { background:rgba(140,0,0,0.25); color:#fff; border-left:3px solid #cc2200; }
+.mail-folder .mf-count {
+  margin-left:auto; background:#cc2200; color:#fff;
+  font-size:10px; padding:1px 6px; border-radius:10px; font-weight:700;
+}
+.mail-list { flex:1; overflow-y:auto; border-right:1px solid rgba(255,255,255,0.07); width:260px; flex-shrink:0; background:#1a1f28; }
+.mail-list::-webkit-scrollbar { width:5px; }
+.mail-list::-webkit-scrollbar-thumb { background:#333; border-radius:3px; }
+.mail-item {
+  padding:10px 14px; border-bottom:1px solid rgba(255,255,255,0.05);
+  cursor:pointer; transition:background .12s;
+}
+.mail-item:hover { background:rgba(255,255,255,0.05); }
+.mail-item.active { background:rgba(140,0,0,0.2); border-left:3px solid #cc2200; }
+.mail-item.unread .mi-subject { font-weight:700; color:#fff; }
+.mi-from { font-size:11px; color:#888; margin-bottom:3px; display:flex; justify-content:space-between; }
+.mi-subject { font-size:12px; color:#ccc; margin-bottom:3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.mi-preview { font-size:11px; color:#666; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.mail-view { flex:1; overflow-y:auto; padding:24px 28px; background:#1c2028; }
+.mail-view::-webkit-scrollbar { width:7px; }
+.mail-view::-webkit-scrollbar-thumb { background:#333; border-radius:3px; }
+.mv-subject { font-size:16px; font-weight:700; color:#e0e0e0; margin-bottom:14px; line-height:1.3; }
+.mv-meta { font-size:11px; color:#666; margin-bottom:16px; line-height:1.8; border-bottom:1px solid rgba(255,255,255,0.07); padding-bottom:14px; }
+.mv-meta span { color:#999; }
+.mv-body { font-size:13px; color:#ccc; line-height:1.85; }
+.mv-body p { margin-bottom:12px; }
+.mv-attachments { margin-top:20px; border-top:1px solid rgba(255,255,255,0.07); padding-top:14px; }
+.mv-att-title { font-size:11px; color:#777; letter-spacing:1px; text-transform:uppercase; margin-bottom:10px; }
+.att-cards { display:flex; gap:10px; flex-wrap:wrap; }
+.att-card {
+  background:#252b35; border:1px solid rgba(255,255,255,0.1);
+  border-radius:4px; overflow:hidden; width:130px; cursor:pointer;
+  transition:border-color .15s;
+}
+.att-card:hover { border-color:rgba(200,50,50,0.5); }
+.att-card img { width:100%; height:90px; object-fit:cover; display:block; background:#333; }
+.att-card-label { font-size:10px; color:#aaa; padding:5px 8px; text-align:center; }
+.mail-empty { color:#555; font-size:13px; padding:40px; text-align:center; font-style:italic; }
+.mv-sig { margin-top:24px; padding-top:14px; border-top:1px solid rgba(255,255,255,0.06); font-size:12px; color:#666; font-style:italic; }
 </style>
 </head>
 <body>
@@ -235,6 +293,10 @@ body { font-family:'Segoe UI',Tahoma,sans-serif; width:100vw; height:100vh; over
     <div class="d-icon" ondblclick="openFolder('Mes Documents')" onclick="selIcon(this)">
       <div class="di">📂</div>
       <div class="dl">Mes Documents</div>
+    </div>
+    <div class="d-icon" ondblclick="openMail()" onclick="selIcon(this)">
+      <div class="di">📧</div>
+      <div class="dl">Messagerie</div>
     </div>
     <div class="d-icon" ondblclick="openFolder('Corbeille')" onclick="selIcon(this)">
       <div class="di">🗑️</div>
@@ -285,7 +347,149 @@ body { font-family:'Segoe UI',Tahoma,sans-serif; width:100vw; height:100vh; over
   <div class="win-body" id="doc-body"></div>
 </div>
 
+<!-- ══════════════════════════ MAIL WINDOW ═══════════════════════════ -->
+<div class="win" id="win-mail" style="width:780px;height:480px;top:70px;left:120px;">
+  <div class="win-bar" id="bar-mail">
+    <span class="win-ico">📧</span>
+    <span class="win-ttl">Messagerie — sofia.loredan@famiglia-loredan.it</span>
+    <div class="wc">
+      <button class="btn-min" title="Réduire" onclick="minWin('win-mail')">—</button>
+      <button class="btn-max" title="Agrandir">+</button>
+      <button class="btn-close" title="Fermer" onclick="closeWin('win-mail')">✕</button>
+    </div>
+  </div>
+  <div class="win-body" style="overflow:hidden;">
+    <div class="mail-layout">
+      <!-- Sidebar -->
+      <div class="mail-sidebar">
+        <div class="mail-sidebar-header">📬 Dossiers</div>
+        <div class="mail-folder active" onclick="switchMailFolder('boite')">📥 Boîte de réception <span class="mf-count">1</span></div>
+        <div class="mail-folder" onclick="switchMailFolder('envoyes')">📤 Messages envoyés</div>
+        <div class="mail-folder" onclick="switchMailFolder('brouillons')">📝 Brouillons</div>
+        <div class="mail-folder" onclick="switchMailFolder('supprimes')">🗑️ Éléments supprimés</div>
+      </div>
+      <!-- Mail list -->
+      <div class="mail-list" id="mail-list"></div>
+      <!-- Mail view -->
+      <div class="mail-view" id="mail-view">
+        <div class="mail-empty">Sélectionnez un message pour le lire.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
+/* ═══════════════════════ MAIL DATA ═══════════════════════ */
+const MAILS = {
+  boite: [
+    {
+      id:'m1', unread:true,
+      from:'Marco Loredan <marco.loredan@famiglia-loredan.it>',
+      fromShort:'Marco Loredan',
+      date:'14/05/2026 — 23:41',
+      subject:'Re: Les sujets 68 et 96',
+      preview:'Bien reçu. Je m\'en occupe dès ce soir pour le 96...',
+      body:`<p>Bien reçu, Sofi.</p>
+<p>Pour le <strong>96</strong> — t'inquiète, je vais faire ça proprement et vite. Il a rendu service, je lui dois bien ça. Une balle rapide et on n'en parle plus. L'odeur, on s'en fout, c'est son dernier problème.</p>
+<p>Pour le <strong>68</strong> — je vais surveiller ses mouvements cette semaine. Il prend toujours son Rapid GT Sport le soir, c'est une cible facile. Je réglerai ça dans la foulée.</p>
+<p>Papa est au courant ?</p>`,
+      sig:'— Marco\nFamiglia Loredan',
+      attachments:[]
+    }
+  ],
+  envoyes: [
+    {
+      id:'m2', unread:false,
+      from:'Sofia Loredan <sofia.loredan@famiglia-loredan.it>',
+      fromShort:'Moi → Marco',
+      date:'14/05/2026 — 22:17',
+      subject:'Les sujets 68 et 96',
+      preview:'Marco, faut que tu t\'occupes de deux sujets qui commencent vraiment à nous agacer...',
+      body:`<p>Marco,</p>
+<p>Faut que tu t'occupes de deux sujets qui commencent vraiment à nous agacer. J'en peux plus de ces deux-là, ils font n'importe quoi et ça commence à devenir un problème pour la famille.</p>
+<p>Le premier c'est le <strong>#68</strong> — @rick. Lui t'as les infos dans le dossier OPS-INTERNAL. Pas de protection, pas de cerveau, facile à avoir. Fais ce que tu veux avec lui, mais que ça soit discret.</p>
+<p>Le deuxième c'est le <strong>#96</strong>. Lui je vais pas te mentir, son odeur est vraiment insupportable, je comprends pas comment il peut se promener comme ça en public. Cela dit il mérite une mort rapide — t'oublie pas qu'il nous a évité une perquisition la semaine dernière. On lui doit au moins ça. Règle-le vite et sans douleur.</p>
+<p>T'as leurs têtes en pièces jointes pour les reconnaître. Fais ça bien, pas de traces.</p>
+<p>Bises,</p>`,
+      sig:'— Sofia\nFamiglia Loredan / OPS-INTERNAL',
+      attachments:[
+        { label:'SUBJ_68_RICK.jpg', url:'https://i.goopics.net/p88ww4.png' },
+        { label:'SUBJ_96.jpg',      url:'https://i.goopics.net/gswgp5.png' }
+      ]
+    }
+  ],
+  brouillons: [],
+  supprimes: []
+};
+
+let curMailFolder = 'boite';
+let curMailId = null;
+
+function openMail(){
+  showWin('win-mail');
+  renderMailList('boite');
+}
+
+function switchMailFolder(folder){
+  curMailFolder = folder;
+  curMailId = null;
+  document.querySelectorAll('.mail-folder').forEach(f=>f.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  document.getElementById('mail-view').innerHTML='<div class="mail-empty">Sélectionnez un message pour le lire.</div>';
+  renderMailList(folder);
+}
+
+function renderMailList(folder){
+  const list = document.getElementById('mail-list');
+  const mails = MAILS[folder] || [];
+  list.innerHTML='';
+  if(!mails.length){
+    list.innerHTML='<div class="mail-empty">Aucun message.</div>';
+    return;
+  }
+  mails.forEach(m=>{
+    const div=document.createElement('div');
+    div.className='mail-item'+(m.unread?' unread':'')+(curMailId===m.id?' active':'');
+    div.innerHTML=`
+      <div class="mi-from"><span>${m.fromShort}</span><span>${m.date}</span></div>
+      <div class="mi-subject">${m.subject}</div>
+      <div class="mi-preview">${m.preview}</div>`;
+    div.onclick=()=>readMail(m, div);
+    list.appendChild(div);
+  });
+}
+
+function readMail(m, el){
+  curMailId=m.id; m.unread=false;
+  document.querySelectorAll('.mail-item').forEach(i=>i.classList.remove('active'));
+  el.classList.add('active'); el.classList.remove('unread');
+  // update badge
+  const unreadCount = (MAILS[curMailFolder]||[]).filter(x=>x.unread).length;
+  const badge = document.querySelector('.mail-folder.active .mf-count');
+  if(badge){ if(unreadCount>0) badge.textContent=unreadCount; else badge.remove(); }
+
+  let attHTML='';
+  if(m.attachments && m.attachments.length){
+    const cards = m.attachments.map(a=>`
+      <div class="att-card" onclick="window.open('${a.url}','_blank')">
+        <img src="${a.url}" alt="${a.label}" onerror="this.style.background='#444';this.alt='Photo'">
+        <div class="att-card-label">${a.label}</div>
+      </div>`).join('');
+    attHTML=`<div class="mv-attachments"><div class="mv-att-title">📎 Pièces jointes (${m.attachments.length})</div><div class="att-cards">${cards}</div></div>`;
+  }
+
+  const sigLines = m.sig.split('\n').join('<br>');
+  document.getElementById('mail-view').innerHTML=`
+    <div class="mv-subject">${m.subject}</div>
+    <div class="mv-meta">
+      <span>De :</span> ${m.from}<br>
+      <span>À :</span> ${curMailFolder==='envoyes'?'Marco Loredan &lt;marco.loredan@famiglia-loredan.it&gt;':'Sofia Loredan &lt;sofia.loredan@famiglia-loredan.it&gt;'}<br>
+      <span>Date :</span> ${m.date}
+    </div>
+    <div class="mv-body">${m.body}<div class="mv-sig">${sigLines}</div></div>
+    ${attHTML}`;
+}
+
 /* ═══════════════════════ FILE SYSTEM ═══════════════════════ */
 const FS = {
   'OPS-INTERNAL':              { type:'folder', children:['ORDRE_ELIMINATION.doc','RENSEIGNEMENTS_POLICIERS'] },
@@ -479,7 +683,7 @@ function removeTB(id){
 }
 
 /* ═══════════════════════ DRAG ═══════════════════════ */
-['win-exp','win-doc'].forEach(id=>{
+['win-exp','win-doc','win-mail'].forEach(id=>{
   const win=document.getElementById(id);
   const bar=document.getElementById('bar-'+id.replace('win-','bar-').replace('-',''));
 
