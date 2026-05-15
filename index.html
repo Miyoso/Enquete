@@ -163,6 +163,7 @@ body { font-family:'Segoe UI',Tahoma,sans-serif; width:100vw; height:100vh; over
   border:1px solid rgba(180,40,0,0.22);
   border-radius:4px; padding:14px 15px;
 }
+.pz-mod-desc { color:rgba(180,80,40,0.55); font-size:8px; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:10px; font-family:'Courier New',monospace; }
 .pz-mod-label {
   color:rgba(180,50,20,0.75); font-size:8px; letter-spacing:2px;
   margin-bottom:10px; padding-bottom:6px;
@@ -809,17 +810,18 @@ body { font-family:'Segoe UI',Tahoma,sans-serif; width:100vw; height:100vh; over
   <!-- Grille des modules -->
   <div class="pz-modules" style="position:relative;z-index:1;">
 
-    <!-- MODULE I — actif dès le départ -->
+    <!-- MODULE I — CÉSAR +7 — actif dès le départ -->
     <div class="pz-module pz-mod-active" id="pz-mod-1">
-      <div class="pz-mod-label">MODULE I &mdash; SYSTÈME BINAIRE</div>
-      <div class="pz-mod-value" id="pz-mod-val-1">00000010</div>
-      <button class="pz-mod-hint-btn" onclick="togglePzHint('pz-h1',this)">▾ TABLE DE RÉFÉRENCE</button>
-      <div class="pz-mod-hint-panel" id="pz-h1">
-        0=00000000 &nbsp; 1=00000001<br>
-        2=00000010 &nbsp; 3=00000011<br>
-        4=00000100 &nbsp; 5=00000101<br>
-        6=00000110 &nbsp; 7=00000111<br>
-        8=00001000 &nbsp; 9=00001001
+      <div class="pz-mod-label">MODULE I &mdash; CHIFFRE DE CÉSAR</div>
+      <div class="pz-mod-desc">Décalage +7 · Décoder le mot · Entrer le chiffre</div>
+      <div class="pz-mod-value" id="pz-mod-val-1">K &middot; L &middot; B &middot; E</div>
+      <button class="pz-mod-hint-btn" onclick="togglePzHint('pz-h1',this)">▾ ALPHABET DÉCALÉ +7</button>
+      <div class="pz-mod-hint-panel" id="pz-h1" style="font-size:8px;letter-spacing:1px;line-height:1.9;">
+        CLAIR &nbsp;: A B C D E F G H I J K L M<br>
+        CODÉ&nbsp;&nbsp; : H I J K L M N O P Q R S T<br>
+        &nbsp;<br>
+        CLAIR &nbsp;: N O P Q R S T U V W X Y Z<br>
+        CODÉ&nbsp;&nbsp; : U V W X Y Z A B C D E F G
       </div>
       <div class="pz-mod-input-row" id="pz-mod-input-1" style="display:flex;">
         <input class="pz-mod-single-input" id="pz-mi-1" maxlength="1" type="text" inputmode="numeric" placeholder="?" autocomplete="off" onkeydown="if(event.key==='Enter')validateModule(1)">
@@ -829,14 +831,15 @@ body { font-family:'Segoe UI',Tahoma,sans-serif; width:100vw; height:100vh; over
       <div class="pz-mod-solved-badge" id="pz-mod-done-1">✓ DÉCRYPTÉ</div>
     </div>
 
-    <!-- MODULE II — verrouillé -->
+    <!-- MODULE II — ACROSTICHE — verrouillé -->
     <div class="pz-module pz-mod-locked" id="pz-mod-2">
-      <div class="pz-mod-label">MODULE II &mdash; NUMÉRATION ROMAINE</div>
-      <div class="pz-mod-value" id="pz-mod-val-2">?? ??</div>
-      <button class="pz-mod-hint-btn" onclick="togglePzHint('pz-h2',this)" style="display:none;">▾ TABLE DE RÉFÉRENCE</button>
+      <div class="pz-mod-label">MODULE II &mdash; MESSAGE ACROSTICHE</div>
+      <div class="pz-mod-desc">Premières lettres · Former un nombre · Entrer le chiffre</div>
+      <div class="pz-mod-value" id="pz-mod-val-2">?? ?? ?? ??</div>
+      <button class="pz-mod-hint-btn" onclick="togglePzHint('pz-h2',this)" style="display:none;">▾ MÉTHODE DE DÉCHIFFRAGE</button>
       <div class="pz-mod-hint-panel" id="pz-h2">
-        I=1 &nbsp; II=2 &nbsp; III=3 &nbsp; IV=4 &nbsp; V=5<br>
-        VI=6 &nbsp; VII=7 &nbsp; VIII=8 &nbsp; IX=9 &nbsp; X=10
+        Relevez la première lettre de chaque mot.<br>
+        Ces initiales forment un mot — ce mot est un nombre.
       </div>
       <div class="pz-mod-lock-overlay" id="pz-lock-2">
         <span style="font-size:26px;">🔒</span>
@@ -850,16 +853,17 @@ body { font-family:'Segoe UI',Tahoma,sans-serif; width:100vw; height:100vh; over
       <div class="pz-mod-solved-badge" id="pz-mod-done-2">✓ DÉCRYPTÉ</div>
     </div>
 
-    <!-- MODULE III — verrouillé -->
+    <!-- MODULE III — ATBASH — verrouillé -->
     <div class="pz-module pz-mod-locked" id="pz-mod-3">
-      <div class="pz-mod-label">MODULE III &mdash; CODE MORSE (chiffres)</div>
-      <div class="pz-mod-value" id="pz-mod-val-3" style="letter-spacing:2px;font-size:20px;">?? ?? ??</div>
-      <button class="pz-mod-hint-btn" onclick="togglePzHint('pz-h3',this)" style="display:none;">▾ TABLE DE RÉFÉRENCE</button>
-      <div class="pz-mod-hint-panel" id="pz-h3">
-        0 : ----- &nbsp; 1 : .---- &nbsp; 2 : ..---<br>
-        3 : ...-- &nbsp; 4 : ....- &nbsp; 5 : .....<br>
-        6 : -.... &nbsp; 7 : --... &nbsp; 8 : ---..<br>
-        9 : ----.
+      <div class="pz-mod-label">MODULE III &mdash; CHIFFREMENT ATBASH</div>
+      <div class="pz-mod-desc">Miroir alphabétique · A↔Z · Décoder le mot</div>
+      <div class="pz-mod-value" id="pz-mod-val-3">?? ?? ??</div>
+      <button class="pz-mod-hint-btn" onclick="togglePzHint('pz-h3',this)" style="display:none;">▾ TABLE ATBASH</button>
+      <div class="pz-mod-hint-panel" id="pz-h3" style="font-size:8px;letter-spacing:1px;line-height:1.9;">
+        A=Z &nbsp; B=Y &nbsp; C=X &nbsp; D=W &nbsp; E=V &nbsp; F=U &nbsp; G=T<br>
+        H=S &nbsp; I=R &nbsp; J=Q &nbsp; K=P &nbsp; L=O &nbsp; M=N &nbsp; N=M<br>
+        O=L &nbsp; P=K &nbsp; Q=J &nbsp; R=I &nbsp; S=H &nbsp; T=G &nbsp; U=F<br>
+        V=E &nbsp; W=D &nbsp; X=C &nbsp; Y=B &nbsp; Z=A
       </div>
       <div class="pz-mod-lock-overlay" id="pz-lock-3">
         <span style="font-size:26px;">🔒</span>
@@ -873,16 +877,19 @@ body { font-family:'Segoe UI',Tahoma,sans-serif; width:100vw; height:100vh; over
       <div class="pz-mod-solved-badge" id="pz-mod-done-3">✓ DÉCRYPTÉ</div>
     </div>
 
-    <!-- MODULE IV — verrouillé -->
+    <!-- MODULE IV — POLYBE — verrouillé -->
     <div class="pz-module pz-mod-locked" id="pz-mod-4">
-      <div class="pz-mod-label">MODULE IV &mdash; HEXADÉCIMAL</div>
-      <div class="pz-mod-value" id="pz-mod-val-4">?? ??</div>
-      <button class="pz-mod-hint-btn" onclick="togglePzHint('pz-h4',this)" style="display:none;">▾ TABLE DE RÉFÉRENCE</button>
-      <div class="pz-mod-hint-panel" id="pz-h4">
-        0x00=0 &nbsp; 0x01=1 &nbsp; 0x02=2<br>
-        0x03=3 &nbsp; 0x04=4 &nbsp; 0x05=5<br>
-        0x06=6 &nbsp; 0x07=7 &nbsp; 0x08=8<br>
-        0x09=9
+      <div class="pz-mod-label">MODULE IV &mdash; CARRÉ DE POLYBE</div>
+      <div class="pz-mod-desc">Coordonnées [ligne·col] → lettres → nombre</div>
+      <div class="pz-mod-value" id="pz-mod-val-4" style="letter-spacing:3px;font-size:18px;">?? ?? ?? ??</div>
+      <button class="pz-mod-hint-btn" onclick="togglePzHint('pz-h4',this)" style="display:none;">▾ GRILLE DE POLYBE</button>
+      <div class="pz-mod-hint-panel" id="pz-h4" style="font-size:8.5px;letter-spacing:1.5px;line-height:2;">
+        &nbsp;&nbsp;&nbsp;&nbsp;1 &nbsp; 2 &nbsp; 3 &nbsp; 4 &nbsp; 5<br>
+        1 &nbsp; A &nbsp; B &nbsp; C &nbsp; D &nbsp; E<br>
+        2 &nbsp; F &nbsp; G &nbsp; H &nbsp; I &nbsp; J<br>
+        3 &nbsp; K &nbsp; L &nbsp; M &nbsp; N &nbsp; O<br>
+        4 &nbsp; P &nbsp; Q &nbsp; R &nbsp; S &nbsp; T<br>
+        5 &nbsp; U &nbsp; V &nbsp; W &nbsp; X &nbsp;Y/Z
       </div>
       <div class="pz-mod-lock-overlay" id="pz-lock-4">
         <span style="font-size:26px;">🔒</span>
@@ -1295,7 +1302,12 @@ function iconFor(name){
 /* ═══════════════════════ PUZZLE SCREEN (interactif) ═══════════════════════ */
 
 const PZ_ANSWERS = ['2','9','4','7'];
-const PZ_REAL_HTML = ['00000010', 'IX', '. . . . &minus;', '0x07'];
+const PZ_REAL_HTML = [
+  'K &middot; L &middot; B &middot; E',
+  '<span style="font-size:13px;line-height:2;letter-spacing:1px;"><span style="color:#ff6030;font-weight:900;font-size:17px;">N</span>UIRE &nbsp;<span style="color:#ff6030;font-weight:900;font-size:17px;">E</span>ST &nbsp;<span style="color:#ff6030;font-weight:900;font-size:17px;">U</span>N &nbsp;<span style="color:#ff6030;font-weight:900;font-size:17px;">F</span>LÉAU</span>',
+  'J &middot; F &middot; Z &middot; G &middot; I &middot; V',
+  '43 &middot; 15 &middot; 41 &middot; 45'
+];
 const PZ_SCRAMBLE = '01#!@%XY?&*ABF0E19';
 const PZ_PROGRESS_BARS = ['█░░░░','██░░░','███░░','████░','█████'];
 let pzSolvedCount = 0;
@@ -1365,7 +1377,7 @@ function unlockModule(n){
 
   /* Scramble → révèle la vraie valeur */
   const realHTML = PZ_REAL_HTML[n-1];
-  const plainLen = realHTML.replace(/&[^;]+;/g,'X').length;
+  const plainLen = realHTML.replace(/<[^>]+>/g,'').replace(/&[^;]+;/g,'X').length || 8;
   let iters = 0; const maxIters = 22;
   const t = setInterval(()=>{
     iters++;
@@ -1742,24 +1754,54 @@ const winPrevState = {}; // stocke l'état avant maximisation
 /* ═══════════════════════ BROWSER ═══════════════════════ */
 // Flat list of all visited pages (for history page + suggestions)
 const BR_VISITS = [
-  {date:'Aujourd\'hui — 15/05',time:'08:42',url:'google.com',displayUrl:'www.google.com',title:'météo Rome juin 2026 - Google',ico:'🔍',page:'search',q:'météo Rome juin 2026'},
+  {date:'Aujourd\'hui — 15/05',time:'08:42',url:'google.com',displayUrl:'www.google.com',title:'météo Rome juin 2026 - Google',ico:'🔍',page:'search',q:'météo Rome juin 2026',results:[
+    {title:'Météo Rome Juin 2026 — Prévisions 30 jours · meteo.it',url:'meteo.it/rome',desc:'🌡 Températures : 28–34°C · Ensoleillement : 10–13h/jour · Pluie : rare (3 jours sur 30). Idéal pour les visites, prévoir crème solaire indice 50+.'},
+    {title:'Rome en juin : temps, températures, que faire',url:'routard.com/italie/rome-juin',desc:'Juin à Rome = chaleur sèche et longues journées. Musées climatisés conseillés en milieu de journée. Fontaine de Trevi déserte avant 7h. Rooftop bars le soir.'},
+    {title:'Prévisions météo Rome — 15 jours — météo-france.com',url:'meteofrance.com/rome',desc:'Semaine du 15/06 : min 22°C / max 33°C. Pas de précipitations prévues. Vent faible. UV indice 8 (très élevé). Brume matinale possible sur le Tibre.'},
+  ]},
   {date:'Aujourd\'hui — 15/05',time:'08:15',url:'instagram.com',displayUrl:'www.instagram.com',title:'Instagram',ico:'📸',page:'instagram'},
   {date:'Hier — 14/05',time:'23:12',url:'youtube.com',displayUrl:'www.youtube.com',title:'Nel Blu Dipinto Di Blu (Volare) - YouTube',ico:'▶️',page:'youtube',vidKey:'volare'},
-  {date:'Hier — 14/05',time:'22:55',url:'google.com',displayUrl:'www.google.com',title:'SAS Javier Los Santos - Google',ico:'🔍',page:'search',q:'SAS Javier Los Santos rendez-vous comment contacter'},
+  {date:'Hier — 14/05',time:'22:55',url:'google.com',displayUrl:'www.google.com',title:'SAS Javier Los Santos - Google',ico:'🔍',page:'search',q:'SAS Javier Los Santos rendez-vous comment contacter',results:[
+    {title:'JM Logistique & Sécurité — Los Santos',url:'jm-logistique-ls.com',desc:'SAS JM Logistique & Sécurité · Gérant : J. Morales · Sécurité privée, transport sécurisé, logistique. Prise de rendez-vous : ☎ 555-0174'},
+    {title:'Javier Morales — Profil LinkedIn',url:'linkedin.com/in/javier-morales-ls',desc:'Gérant chez SAS JM Logistique & Sécurité · Los Santos · 248 relations. Disponible missions ponctuelles ou contrats long terme.'},
+    {title:'Registre du Commerce — JM Logistique SAS',url:'registre-commerce-ls.gov/842619047',desc:'SIRET: 842 619 047 00012 · Créée 14/03/2019 · APE: 8010Z · Capital: 5 000 € · 1842 Innocence Blvd, Strawberry, Los Santos'},
+  {date:'Hier — 14/05',time:'22:52',url:'jm-logistique-ls.com',displayUrl:'www.jm-logistique-ls.com',title:'JM Logistique & Sécurité — Los Santos',ico:'🔒',page:'fun',emoji:'🔒',titre:'JM Logistique & Sécurité',blague:`<div style="font-family:sans-serif;background:#fff;"><div style="background:#0a2240;color:#fff;padding:14px 20px;display:flex;align-items:center;gap:12px;"><div style="font-size:22px;">🔒</div><div><div style="font-size:15px;font-weight:700;letter-spacing:0.5px;">JM LOGISTIQUE & SÉCURITÉ</div><div style="font-size:10px;color:#8899bb;letter-spacing:2px;">SAS · Los Santos · Fondée 2019</div></div><div style="margin-left:auto;font-size:11px;color:#8899bb;">☎ 555-0174</div></div><div style="padding:18px;"><div style="font-size:13px;color:#333;line-height:1.7;margin-bottom:14px;"><b>JM Logistique & Sécurité</b> est votre partenaire de confiance pour la <b>sécurité privée</b>, le <b>transport sécurisé</b> et la <b>gestion logistique</b> dans la région de Los Santos.</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;"><div style="background:#f0f4f8;padding:11px;border-radius:6px;border-left:3px solid #0a2240;"><div style="font-size:10px;font-weight:700;color:#0a2240;margin-bottom:3px;">📍 ADRESSE</div><div style="font-size:11px;color:#444;">1842 Innocence Blvd<br>Strawberry, Los Santos</div></div><div style="background:#f0f4f8;padding:11px;border-radius:6px;border-left:3px solid #0a2240;"><div style="font-size:10px;font-weight:700;color:#0a2240;margin-bottom:3px;">☎ CONTACT</div><div style="font-size:11px;color:#444;">555-0174<br>j.morales@jm-logistique-ls.com</div></div><div style="background:#f0f4f8;padding:11px;border-radius:6px;border-left:3px solid #0a2240;"><div style="font-size:10px;font-weight:700;color:#0a2240;margin-bottom:3px;">🕐 HORAIRES</div><div style="font-size:11px;color:#444;">Lun–Ven : 08h–19h<br>Sam : Sur rendez-vous</div></div><div style="background:#f0f4f8;padding:11px;border-radius:6px;border-left:3px solid #e53935;"><div style="font-size:10px;font-weight:700;color:#e53935;margin-bottom:3px;">🚨 URGENCES</div><div style="font-size:11px;color:#444;">7j/7 · 24h/24<br>☎ 555-0174</div></div></div><div style="border-top:1px solid #eee;padding-top:10px;font-size:10px;color:#aaa;text-align:center;">SIRET: 842 619 047 00012 · APE: 8010Z · Capital: 5 000 €</div></div></div>`},
+  {date:'Hier — 14/05',time:'22:53',url:'linkedin.com/in/javier-morales-ls',displayUrl:'www.linkedin.com',title:'Javier Morales — LinkedIn',ico:'💼',page:'fun',emoji:'💼',titre:'Javier Morales | LinkedIn',blague:`<div style="font-family:sans-serif;background:#f3f2ef;min-height:300px;"><div style="background:#0a66c2;padding:10px 20px;color:#fff;font-size:15px;font-weight:700;letter-spacing:1px;">in LinkedIn</div><div style="background:#fff;margin:10px;border-radius:8px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.1);"><div style="background:linear-gradient(135deg,#0a2240,#1a4a7a);height:70px;position:relative;"><div style="position:absolute;bottom:-26px;left:14px;width:52px;height:52px;border-radius:50%;background:#c8d6e5;border:3px solid #fff;display:flex;align-items:center;justify-content:center;font-size:22px;">👤</div></div><div style="padding:36px 14px 14px;"><div style="font-size:17px;font-weight:700;color:#000000e6;">Javier Morales</div><div style="font-size:12px;color:#555;margin-top:2px;">Gérant · SAS JM Logistique & Sécurité</div><div style="font-size:11px;color:#0a66c2;margin-top:2px;">Los Santos, Californie · 248 relations</div><hr style="margin:12px 0;border:none;border-top:1px solid #eee;"><div style="font-size:11px;font-weight:700;color:#333;margin-bottom:6px;">À propos</div><div style="font-size:11px;color:#666;line-height:1.6;">Gérant de JM Logistique & Sécurité depuis 2019. Spécialisé dans la sécurité privée, transport de valeurs et gestion logistique sur la région de Los Santos.<br><br>Disponible pour missions ponctuelles ou contrats long terme. <b>Discrétion garantie.</b></div><hr style="margin:12px 0;border:none;border-top:1px solid #eee;"><div style="font-size:11px;font-weight:700;color:#333;margin-bottom:6px;">Expérience</div><div style="font-size:11px;color:#555;margin-bottom:8px;"><b>Gérant</b> — SAS JM Logistique & Sécurité<br><span style="color:#888;">mars 2019 – aujourd'hui · 7 ans 2 mois · Los Santos</span></div><div style="font-size:11px;color:#555;"><b>Agent de sécurité senior</b> — SecurePro Los Santos<br><span style="color:#888;">2015 – 2019 · 4 ans</span></div></div></div></div>`},
+  ]},
   {date:'Hier — 14/05',time:'22:31',url:'open.spotify.com',displayUrl:'open.spotify.com',title:'Pizza & Vino 🍕 - Spotify',ico:'🎵',page:'spotify',plKey:'pizzavino'},
-  {date:'Hier — 14/05',time:'21:48',url:'google.com',displayUrl:'www.google.com',title:'SAS Javier disponibilité - Google',ico:'🔍',page:'search',q:'SAS Javier disponibilité horaires Los Santos'},
+  {date:'Hier — 14/05',time:'21:48',url:'google.com',displayUrl:'www.google.com',title:'SAS Javier disponibilité - Google',ico:'🔍',page:'search',q:'SAS Javier disponibilité horaires Los Santos',results:[
+    {title:'JM Logistique & Sécurité — Horaires & Contact',url:'jm-logistique-ls.com/contact',desc:'Lun–Ven 08h00–19h00 · Sam sur rendez-vous · Urgences 24h/24. ☎ 555-0174 · Réponse sous 2h en journée.'},
+    {title:'Google Maps — JM Logistique & Sécurité',url:'maps.google.com/jm-ls',desc:'★★★★ 4,2 (18 avis) · Actuellement ouvert · 1842 Innocence Blvd, Strawberry, LS. Sécurité privée.'},
+    {title:'Yelp Los Santos — JM Logistique & Sécurité',url:'yelp.com/jm-logistique-ls',desc:'⭐⭐⭐⭐ Sécurité privée · "Service de qualité, très discret." Réserver : ☎ 555-0174'},
+  ]},
   {date:'Hier — 14/05',time:'21:10',url:'booking.com',displayUrl:'www.booking.com',title:'Hôtels Ibiza vue mer - Booking.com',ico:'🏨',page:'booking',dest:'Ibiza'},
   {date:'Hier — 14/05',time:'19:30',url:'youtube.com',displayUrl:'www.youtube.com',title:'MEME MAFIA Italiana drôle compilation 2026 - YouTube',ico:'▶️',page:'youtube',vidKey:'meme'},
   {date:'Hier — 14/05',time:'18:55',url:'cucina-italiana.net',displayUrl:'cucina-italiana.net',title:'Osso Buco alla Milanese — Cucina Italiana',ico:'🍝',page:'recette',recKey:'ossobuco'},
-  {date:'Hier — 14/05',time:'17:22',url:'google.com',displayUrl:'www.google.com',title:'SAS Javier coordonnées Los Santos - Google',ico:'🔍',page:'search',q:'SAS de Javier Los Santos contact coordonnées urgence'},
+  {date:'Hier — 14/05',time:'17:22',url:'google.com',displayUrl:'www.google.com',title:'SAS Javier coordonnées Los Santos - Google',ico:'🔍',page:'search',q:'SAS de Javier Los Santos contact coordonnées urgence',results:[
+    {title:'JM Logistique & Sécurité — Urgences 24h/24',url:'jm-logistique-ls.com/urgences',desc:'☎ 555-0174 (urgences 7j/7) · Mobile: 555-0831 · j.morales@jm-logistique-ls.com · Intervention rapide tout Los Santos.'},
+    {title:'Javier Morales — Fiche contact professionnelle',url:'annuaire-pro-ls.com/javier-morales',desc:'Gérant, SAS JM Logistique & Sécurité · 1842 Innocence Blvd, Strawberry, Los Santos, CA 90210 · Tel: 555-0174 · Mobile: 555-0831'},
+    {title:'Pages Jaunes LS — JM Logistique & Sécurité',url:'pagesjaunes-ls.com/jm-logistique',desc:'Sécurité privée & logistique · 1842 Innocence Blvd, Strawberry · ☎ 555-0174 · ⭐⭐⭐⭐ (23 avis)'},
+  ]},
   {date:'Lundi — 13/05',time:'22:30',url:'open.spotify.com',displayUrl:'open.spotify.com',title:'Notti Italiane 🌙 - Spotify',ico:'🎵',page:'spotify',plKey:'notti'},
   {date:'Lundi — 13/05',time:'19:10',url:'booking.com',displayUrl:'www.booking.com',title:'Maldives bungalow sur pilotis - Booking.com',ico:'🏨',page:'booking',dest:'Maldives'},
   {date:'Lundi — 13/05',time:'17:45',url:'instagram.com',displayUrl:'www.instagram.com',title:'Instagram — Scroll feed',ico:'📸',page:'instagram'},
-  {date:'Lundi — 13/05',time:'16:30',url:'google.com',displayUrl:'www.google.com',title:'pourquoi les chats ont peur des concombres - Google',ico:'🔍',page:'search',q:'pourquoi les chats ont peur des concombres'},
+  {date:'Lundi — 13/05',time:'16:30',url:'google.com',displayUrl:'www.google.com',title:'pourquoi les chats ont peur des concombres - Google',ico:'🔍',page:'search',q:'pourquoi les chats ont peur des concombres',results:[
+    {title:'Pourquoi les chats ont-ils peur des concombres ? La science répond',url:'sciencevetement.fr/chats-concombres',desc:'Les chats confondent la forme allongée du concombre avec un serpent — réaction instinctive de survie. Évitez de tester chez vous, c\'est du stress inutile pour l\'animal.'},
+    {title:'Compilation chats vs concombres — 32M vues 😂',url:'youtube.com/watch?v=chats-comb',desc:'Les réactions sont toujours spectaculaires. Les éthologistes déconseillent formellement cette pratique. Mais on comprend pourquoi les gens le font quand même.'},
+    {title:'Mon chat a failli avoir une crise cardiaque à cause d\'un concombre',url:'reddit.com/r/france/chats',desc:'Alors j\'ai vu la vidéo sur YouTube et j\'ai voulu tester avec Mr. Biscuit... Spoiler : il n\'a vraiment, vraiment pas apprécié. Ma vie en danger depuis.'},
+  ]},
   {date:'Lundi — 13/05',time:'15:00',url:'amazon.fr',displayUrl:'www.amazon.fr',title:'Machine à pâtes Marcato Atlas - Amazon.fr',ico:'🛒',page:'amazon'},
   {date:'Dimanche — 12/05',time:'22:00',url:'youtube.com',displayUrl:'www.youtube.com',title:'Cosa Nostra — Documentaire Mafia - YouTube',ico:'▶️',page:'youtube',vidKey:'doc'},
-  {date:'Dimanche — 12/05',time:'19:00',url:'google.com',displayUrl:'www.google.com',title:'recette tiramisu original - Google',ico:'🔍',page:'search',q:'recette tiramisu original mascarpone'},
-  {date:'Dimanche — 12/05',time:'15:30',url:'google.com',displayUrl:'www.google.com',title:'déodorant homme longue durée 72h - Google',ico:'🔍',page:'search',q:'meilleur déodorant homme longue durée 72h efficace'},
+  {date:'Dimanche — 12/05',time:'19:00',url:'google.com',displayUrl:'www.google.com',title:'recette tiramisu original - Google',ico:'🔍',page:'search',q:'recette tiramisu original mascarpone',results:[
+    {title:'Tiramisù Originale — La vraie recette italienne · cucina-italiana.net',url:'cucina-italiana.net/tiramisu',desc:'6 œufs, 500g mascarpone, 100g sucre, Savoiardi, café espresso, cacao amer. Pas de crème liquide. Pas d\'alcool bas de gamme. La nonna ne négocie pas.'},
+    {title:'Tiramisu : les 7 erreurs qui le gâchent',url:'marmiton.org/tiramisu-erreurs',desc:'1. Ajouter de la crème fraîche. 2. Utiliser du Nutella. 3. Ne pas réfrigérer assez longtemps. 4. Tremper les biscuits trop longtemps. 5. Oublier le Marsala. 6–7. (lire la suite)'},
+    {title:'r/italy — "Montrez aux étrangers votre vrai tiramisù"',url:'reddit.com/r/italy/tiramisu',desc:'3.2k commentaires · Top réponse : "Si vous utilisez des fraises, ce n\'est plus un tiramisù, c\'est une insulte." ❤️ 41k · La nonna de l\'OP approuve ce fil.'},
+  ]},
+  {date:'Dimanche — 12/05',time:'15:30',url:'google.com',displayUrl:'www.google.com',title:'déodorant homme longue durée 72h - Google',ico:'🔍',page:'search',q:'meilleur déodorant homme longue durée 72h efficace',results:[
+    {title:'Top 10 déodorants homme 72h — Comparatif 2026',url:'beaute-homme.fr/deo-72h',desc:'🥇 Rexona Men Extreme Protection · 🥈 Dove Men+Care · 🥉 Old Spice Swagger. Testés sur profils à transpiration intense. Résultats bluffants même après le sport.'},
+    {title:'Rexona Men 72h — Avis vérifiés (4,6/5)',url:'notretemps.com/rexona-men',desc:'⭐⭐⭐⭐⭐ "Utilisé par mon mari qui travaille dehors toute la journée. Miraculeux. Je ne sais pas ce qu\'on ferait sans." · ⭐⭐⭐⭐ "Efficace mais le parfum est fort."'},
+    {title:'Transpiration excessive : les causes — doctissimo.fr',url:'doctissimo.fr/transpiration',desc:'Alimentation (ail, oignon, fromage fort), stress, déséquilibre hormonal. Solutions : antiperspirant clinique, traitement médical. Consulter un dermatologue si persistant.'},
+  ]},
   {date:'Dimanche — 12/05',time:'11:00',url:'fr.wikipedia.org',displayUrl:'fr.wikipedia.org',title:'Famille Loredan — Wikipédia',ico:'📚',page:'wikipedia'},
 ];
 
@@ -1957,7 +1999,7 @@ function googleHome(){ return `
 function googleResults(q, visit){
   const results = (visit && visit.results) ? visit.results : [];
   const resList = results.map(r=>`
-    <div class="g-result">
+    <div class="g-result" ${r.url ? `onclick="brNavigate('${r.url}')" style="cursor:pointer;"` : ''}>
       <div class="g-result-title">${r.title}</div>
       ${r.url ? `<div class="g-result-url">${r.url}</div>` : ''}
       <div class="g-result-desc">${r.desc}</div>
@@ -2083,9 +2125,9 @@ const HISTORY = [
       {ico:'😂',title:'Compilation FAILS mafia filme caché 😂',sub:'8.2M vues'},
     ]},
     { t:'22:55', ico:'🔍', title:'SAS Javier Los Santos — Google', url:'google.com', page:'googleSearch', q:'SAS Javier Los Santos rendez-vous comment contacter', results:[
-      {title:'Aucun résultat pour "SAS Javier Los Santos"',url:'',desc:'Votre recherche — <b>SAS Javier Los Santos</b> — ne correspond à aucun document. Vérifiez l\'orthographe ou essayez d\'autres termes.'},
-      {title:'Javier\'s Mexican Restaurant — Los Santos',url:'yelp.com/javier-mexican-ls',desc:'⭐⭐⭐⭐ Restaurant mexicain traditionnel. Tacos, burritos, enchiladas. Ouvert 7j/7. 2340 S Rockford Dr, Los Santos. ☎ 555-0198'},
-      {title:'Javier Morales — Profil LinkedIn',url:'linkedin.com/in/javier-morales-ls',desc:'Technicien en bâtiment chez LS Construction Group. 312 relations. Formation : LSCC — Los Santos City College, 2014.'},
+      {title:'JM Logistique & Sécurité — Los Santos',url:'jm-logistique-ls.com',desc:'<b>SAS JM Logistique & Sécurité</b> · Gérant : J. Morales · Sécurité privée, transport sécurisé. Prise de rendez-vous : ☎ 555-0174 · j.morales@jm-logistique-ls.com'},
+      {title:'Javier Morales — Profil LinkedIn',url:'linkedin.com/in/javier-morales-ls',desc:'Gérant chez <b>SAS JM Logistique & Sécurité</b> · Los Santos · 248 relations. Disponible pour missions ponctuelles. Discrétion garantie.'},
+      {title:'Registre du Commerce LS — JM Logistique SAS',url:'registre-commerce-ls.gov/842619047',desc:'SIRET: 842 619 047 00012 · Créée le 14/03/2019 · APE: 8010Z (Sécurité privée) · Capital: 5 000 € · Siège: 1842 Innocence Blvd, Strawberry, Los Santos, CA'},
     ]},
     { t:'22:31', ico:'🎵', title:'Spotify — Playlist "Pizza & Vino 🍕"', url:'open.spotify.com', page:'spotify', plName:'Pizza & Vino 🍕', plDesc:'Per una serata perfetta', tracks:[
       {n:1,name:'Volare',artist:'Domenico Modugno',dur:'3:03'},
@@ -2096,9 +2138,9 @@ const HISTORY = [
       {n:6,name:'Caruso',artist:'Lucio Dalla',dur:'4:07'},
     ]},
     { t:'21:48', ico:'🔍', title:'SAS Javier disponibilité — Google', url:'google.com', page:'googleSearch', q:'SAS Javier disponibilité horaires Los Santos', results:[
-      {title:'Aucun résultat pour "SAS Javier disponibilité"',url:'',desc:'Votre recherche — <b>SAS Javier disponibilité horaires Los Santos</b> — ne correspond à aucun document.'},
-      {title:'Cabinets SAS à Los Santos — Annuaire Officiel',url:'annuaire-ls.gov/sas',desc:'Retrouvez la liste complète des Sociétés par Actions Simplifiées enregistrées à Los Santos. Filtres disponibles : secteur, nom, date de création...'},
-      {title:'Javier\'s Garage — Réparation auto Los Santos',url:'javier-garage-ls.com',desc:'Réparation rapide, prix honnêtes. Devis gratuit. Zone Strawberry. 08h-19h du lundi au samedi. ☎ 555-4421'},
+      {title:'JM Logistique & Sécurité — Horaires & Contact',url:'jm-logistique-ls.com/contact',desc:'Disponibilités : <b>Lun–Ven 08h00–19h00</b> · Sam sur rendez-vous · Interventions urgentes 24h/24. ☎ 555-0174 · Réponse sous 2h en journée.'},
+      {title:'Google Maps — JM Logistique & Sécurité, Strawberry',url:'maps.google.com/jm-ls',desc:'★★★★ 4,2 (18 avis) · <b>Actuellement ouvert</b> · Ferme à 19h00 · 1842 Innocence Blvd, Strawberry, LS. Sécurité privée.'},
+      {title:'Yelp Los Santos — JM Logistique & Sécurité',url:'yelp.com/jm-logistique-ls',desc:'⭐⭐⭐⭐ Sécurité privée · Zone Strawberry · "Discret, professionnel, réactif." Réserver une consultation : ☎ 555-0174'},
     ]},
     { t:'21:10', ico:'🏨', title:'Booking.com — Hôtels Ibiza vue mer', url:'booking.com', page:'booking', dest:'Ibiza', hotels:[
       {ico:'🏖️',name:'Ushuaïa Beach Hotel ★★★★★',desc:'Vue mer panoramique • Piscine infinity • Plage privée',price:'480 €/nuit'},
@@ -2118,8 +2160,9 @@ const HISTORY = [
       'Servir chaud avec un risotto alla milanese. Parsemer de gremolata.',
     ]},
     { t:'17:22', ico:'🔍', title:'SAS Javier coordonnées — Google', url:'google.com', page:'googleSearch', q:'SAS de Javier Los Santos contact coordonnées urgence', results:[
-      {title:'Aucun résultat pour "SAS de Javier Los Santos"',url:'',desc:'Votre recherche ne correspond à aucun document connu. Essayez de reformuler votre recherche ou consultez les Pages Jaunes de Los Santos.'},
-      {title:'Pages Jaunes LS — Aucun professionnel trouvé pour "Javier SAS"',url:'pagesjaunes-ls.com/javier',desc:'0 résultat professionnel pour cette recherche dans la région de Los Santos. Suggestions : vérifiez le nom exact, consultez le registre du commerce local.'},
+      {title:'JM Logistique & Sécurité — Ligne Urgences 24h/24',url:'jm-logistique-ls.com/urgences',desc:'Intervention rapide sur tout Los Santos · <b>☎ 555-0174</b> (urgences 7j/7) · Mobile : 555-0831 · j.morales@jm-logistique-ls.com · Réponse garantie sous 30 min.'},
+      {title:'Javier Morales — Fiche contact professionnelle',url:'annuaire-pro-ls.com/javier-morales',desc:'<b>Javier Morales</b> · Gérant, SAS JM Logistique & Sécurité · 1842 Innocence Blvd, Strawberry, Los Santos, CA 90210 · Tél: 555-0174 · Mobile: 555-0831'},
+      {title:'Pages Jaunes LS — JM Logistique & Sécurité',url:'pagesjaunes-ls.com/jm-logistique',desc:'Sécurité privée & logistique · 1842 Innocence Blvd, Strawberry · ☎ 555-0174 · Lun–Ven 08h–19h · ⭐⭐⭐⭐ (23 avis clients)'},
     ]},
   ]},
   { day:'Lundi 13/05/2026', items:[
