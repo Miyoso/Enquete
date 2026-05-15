@@ -1776,39 +1776,45 @@ function openBrowser(){
   }
 }
 
+/* Les stacks stockent {url, visit} pour ne jamais perdre les données de page */
+let brCurrentVisit = null;
+
 function brNavigate(url, fromVisit){
   closeBrMenu();
   document.getElementById('br-suggestions').classList.remove('show');
-  if(brCurrent) brHistStack.push(brCurrent);
+  if(brCurrent) brHistStack.push({url:brCurrent, visit:brCurrentVisit});
   brFwdStack = [];
   brCurrent = url;
-  updateBrBar(url, fromVisit);
-  renderBrPage(url, fromVisit);
+  brCurrentVisit = fromVisit || BR_VISITS.find(v=>v.url===url) || null;
+  updateBrBar(url, brCurrentVisit);
+  renderBrPage(url, brCurrentVisit);
   updateBrBtns();
 }
 
 function brBack(){
   if(!brHistStack.length) return;
-  brFwdStack.push(brCurrent);
-  brCurrent = brHistStack.pop();
-  const visit = BR_VISITS.find(v=>v.url===brCurrent||('google.com/search?q='+encodeURIComponent(v.q||''))===brCurrent);
-  updateBrBar(brCurrent, visit);
-  renderBrPage(brCurrent, visit);
+  brFwdStack.push({url:brCurrent, visit:brCurrentVisit});
+  const prev = brHistStack.pop();
+  brCurrent = prev.url;
+  brCurrentVisit = prev.visit || BR_VISITS.find(v=>v.url===brCurrent) || null;
+  updateBrBar(brCurrent, brCurrentVisit);
+  renderBrPage(brCurrent, brCurrentVisit);
   updateBrBtns();
 }
 
 function brFwd(){
   if(!brFwdStack.length) return;
-  brHistStack.push(brCurrent);
-  brCurrent = brFwdStack.pop();
-  const visit = BR_VISITS.find(v=>v.url===brCurrent);
-  updateBrBar(brCurrent, visit);
-  renderBrPage(brCurrent, visit);
+  brHistStack.push({url:brCurrent, visit:brCurrentVisit});
+  const next = brFwdStack.pop();
+  brCurrent = next.url;
+  brCurrentVisit = next.visit || BR_VISITS.find(v=>v.url===brCurrent) || null;
+  updateBrBar(brCurrent, brCurrentVisit);
+  renderBrPage(brCurrent, brCurrentVisit);
   updateBrBtns();
 }
 
 function brReload(){
-  if(brCurrent) renderBrPage(brCurrent);
+  if(brCurrent) renderBrPage(brCurrent, brCurrentVisit);
 }
 
 function updateBrBtns(){
@@ -1896,16 +1902,28 @@ function renderBrPage(url, visit){
   if(!visit){ visit=BR_VISITS.find(v=>v.url===url); }
   if(!visit){ page.innerHTML=pageNotFound(url); return; }
   switch(visit.page){
-    case 'search':   page.innerHTML=googleResults(visit.q, visit); break;
-    case 'youtube':  page.innerHTML=youtubePage(visit); break;
-    case 'instagram':page.innerHTML=instagramPage(); break;
-    case 'spotify':  page.innerHTML=spotifyPage(visit); break;
-    case 'booking':  page.innerHTML=bookingPage(visit); break;
-    case 'recette':  page.innerHTML=recettePage(visit); break;
-    case 'amazon':   page.innerHTML=amazonPage(); break;
-    case 'wikipedia':page.innerHTML=wikipediaPage(); break;
+    /* Types de BR_VISITS */
+    case 'search':      page.innerHTML=googleResults(visit.q, visit); break;
+    case 'youtube':     page.innerHTML=youtubePage(visit); break;
+    case 'instagram':   page.innerHTML=instagramPage(); break;
+    case 'spotify':     page.innerHTML=spotifyPage(visit); break;
+    case 'booking':     page.innerHTML=bookingPage(visit); break;
+    case 'recette':     page.innerHTML=recettePage(visit); break;
+    case 'amazon':      page.innerHTML=amazonPage(); break;
+    case 'wikipedia':   page.innerHTML=wikipediaPage(); break;
+    /* Types de HISTORY (même rendu, nom différent) */
+    case 'googleSearch':page.innerHTML=googleResults(visit.q, visit); break;
+    case 'fun':         page.innerHTML=funPage(visit); break;
     default: page.innerHTML=pageNotFound(url);
   }
+}
+
+function funPage(item){
+  return `<div class="bp bp-google" style="text-align:left;">
+    <div style="text-align:center;margin-bottom:20px;font-size:30px;">${item.emoji||'🌐'}</div>
+    <div class="fun-title">${item.titre||item.title||''}</div>
+    ${item.blague||''}
+  </div>`;
 }
 
 function renderGoogleResults(q){ document.getElementById('br-page').innerHTML=googleResults(q,null); }
@@ -2168,7 +2186,7 @@ function renderHistory(){
       div.onclick=()=>{
         document.querySelectorAll('.br-hist-item').forEach(i=>i.classList.remove('active'));
         div.classList.add('active');
-        renderPage(item);
+        brNavigate(item.url, item);
       };
       hist.appendChild(div);
     });
@@ -2525,6 +2543,9 @@ function docJerry(){ return `
         <div class="irow"><span class="ilbl">VÉHICULE :</span><span>Bifta (Custom)</span></div>
         <div class="irow"><span class="ilbl">PROTECTION :</span><span style="color:green;font-weight:700;">AUCUNE</span></div>
         <div class="irow"><span class="ilbl">ORIENTATION :</span><span>HÉTÉRO</span></div>
+      </div>
+    </div>
+  </div>
       </div>
     </div>
   </div>
