@@ -1941,50 +1941,20 @@ function googleHome(){ return `
 </div>`; }
 
 function googleResults(q, visit){
-  // Pre-programmed results per query category
-  let results = [];
-  const ql = (q||'').toLowerCase();
-  if(ql.includes('javier')){
-    results=[
-      {title:'Aucun résultat pour "'+q+'"',url:'',desc:'Votre recherche ne correspond à aucun document. Vérifiez l\'orthographe ou essayez d\'autres termes.'},
-      {title:'Javier\'s Mexican Restaurant — Los Santos',url:'yelp.com/javier-mexican-ls',desc:'⭐⭐⭐⭐ Cuisine mexicaine traditionnelle. Tacos, burritos. Ouvert 7j/7. 2340 S Rockford Dr. ☎ 555-0198'},
-      {title:'Javier Morales — LinkedIn',url:'linkedin.com/in/javier-morales',desc:'Technicien en bâtiment • LS Construction Group • 312 relations'},
-    ];
-  } else if(ql.includes('météo')||ql.includes('meteo')){
-    results=[
-      {title:'Météo Rome Juin 2026 — Prévisions 30 jours',url:'meteo.it/rome',desc:'Températures attendues 28-34°C. Ensoleillement maximal. Parfait pour les vacances. Faible risque de pluie.'},
-      {title:'Rome en juin : météo, que faire, conseils voyage',url:'routard.com/rome/juin',desc:'Le mois de juin à Rome est idéal pour visiter. Journées longues, monuments ouverts tard le soir. Prévoir crème solaire.'},
-      {title:'Température de l\'eau à Rome en juin 2026',url:'surf-forecast.com/rome',desc:'Mer Tyrrhénienne : 22-24°C en juin. Idéal pour la baignade sur les plages aux alentours de Rome.'},
-    ];
-  } else if(ql.includes('tiramisu')){
-    results=[
-      {title:'Tiramisù Originale — La vraie recette italienne',url:'cucina-italiana.net/tiramisu',desc:'La recette authentique du tiramisù selon la tradition vénitienne. Mascarpone, œufs frais, Savoiardi, café espresso.'},
-      {title:'Tiramisù — Wikipédia',url:'fr.wikipedia.org/tiramisu',desc:'Le tiramisù est un dessert d\'origine italienne, apparu dans les années 1960 en Vénétie. Son nom signifie littéralement "tire-moi vers le haut".'},
-    ];
-  } else if(ql.includes('déodorant')||ql.includes('deodorant')){
-    results=[
-      {title:'Top 10 déodorants homme 72h — Comparatif 2026',url:'beaute-homme.fr',desc:'Nous avons testé les meilleurs déodorants pour vous. N°1 : Dove Men+ Care 72h. Résultats bluffants même dans les situations les plus intenses.'},
-      {title:'Rexona Men Extreme Protection 96h — Avis',url:'notretemps.com',desc:'⭐⭐⭐⭐⭐ "Mon mari travaille dehors toute la journée sous la chaleur. Miraculeux. Je ne sais pas ce qu\'on ferait sans." — Avis vérifié'},
-      {title:'Pourquoi certaines personnes transpirent plus ?',url:'doctissimo.fr/transpiration',desc:'La transpiration excessive peut être liée à l\'alimentation (ail, fromage, charcuterie...) ou à un déséquilibre hormonal. Solutions existent.'},
-    ];
-  } else if(ql.includes('chat')&&ql.includes('concombre')){
-    results=[
-      {title:'Pourquoi les chats ont-ils peur des concombres ?',url:'sciencevetement.fr',desc:'Les chats confondent les concombres avec des serpents à cause de leur forme allongée. Réaction instinctive de survie. Ne répliquez pas chez vous !'},
-      {title:'Compilation chats vs concombres — 32M vues',url:'youtube.com/watch?v=chats',desc:'Les réactions des chats face aux concombres en vidéo 😂 — Hilarant et un peu cruel à la fois.'},
-      {title:'Reddit — Mon chat a failli avoir une crise cardiaque',url:'reddit.com/r/france/chats',desc:'"J\'ai vu la vidéo sur YouTube et j\'ai voulu tester avec Mr. Biscuit... Il a décollé à la verticale." 😂'},
-    ];
-  } else {
-    results=[
-      {title:'Résultats pour : '+q,url:'google.com/search',desc:'Environ '+(Math.floor(Math.random()*900)+100)+' 000 résultats. Essayez d\'affiner votre recherche pour de meilleurs résultats.'},
-      {title:'Vous cherchez : '+q+' — Pages Jaunes',url:'pagesjaunes.fr',desc:'Trouvez des professionnels, des services et des adresses pour "'+q+'" dans Los Santos et ses environs.'},
-    ];
-  }
-  const resHTML = results.map(r=>`<div class="g-result"><div class="g-result-title">${r.title}</div>${r.url?`<div class="g-result-url">${r.url}</div>`:''}<div class="g-result-desc">${r.desc}</div></div>`).join('');
-  return `<div class="bp bp-google" style="text-align:left;padding:20px 40px;">
-    <div class="g-logo" style="font-size:28px;margin-bottom:12px;text-align:left;cursor:pointer;" onclick="brNavigate('google.com')"><span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span></div>
-    <input class="g-searchbar" style="text-align:left;margin:0 0 6px 0;width:100%;max-width:580px;" value="${q||''}" readonly>
-    <div style="font-size:11px;color:#70757a;margin-bottom:14px;">Environ ${Math.floor(Math.random()*800+50)} 000 résultats (${(Math.random()*0.4+0.2).toFixed(2)} secondes)</div>
-    <div style="max-width:580px;">${resHTML}</div>
+  const results = (visit && visit.results) ? visit.results : [];
+  const resList = results.map(r=>`
+    <div class="g-result">
+      <div class="g-result-title">${r.title}</div>
+      ${r.url ? `<div class="g-result-url">${r.url}</div>` : ''}
+      <div class="g-result-desc">${r.desc}</div>
+    </div>`).join('');
+  return `<div class="bp bp-google">
+    <div class="g-logo" style="cursor:pointer;" onclick="brNavigate('google.com')"><span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span></div>
+    <input class="g-searchbar" value="${q||''}" readonly>
+    <div style="text-align:left;max-width:480px;margin:0 auto;font-size:12px;color:#70757a;margin-bottom:10px;">
+      ${results.length ? `Environ ${Math.floor(Math.random()*500+50)} 000 résultats` : 'Aucun résultat'}
+    </div>
+    ${resList || '<div class="g-result"><div class="g-result-desc" style="color:#888;">Aucun résultat trouvé pour cette recherche.</div></div>'}
   </div>`;
 }
 
@@ -2020,11 +1990,19 @@ function youtubePage(visit){
     meme:    {ico:'😂',title:'MEME MAFIA Italiana drôle compilation 2026 💀',ch:'MemesItaliani • 3.1M vues',rel:[{ico:'😂',t:'"Quand ta mamma trouve la dernière mozza mangée"',s:'2.4M vues'},{ico:'😂',t:'Nonna vs GPS — le clash 2026',s:'5.8M vues'},{ico:'😂',t:'Gestes italiens expliqués en 3min',s:'12M vues'}]},
     doc:     {ico:'🎬',title:'Cosa Nostra — L\'Histoire Secrète de la Mafia Italienne',ch:'DocHistoire • 9.2M vues',rel:[{ico:'🎬',t:'Camorra : la mafia napolitaine',s:'4.1M vues'},{ico:'🎬',t:'Ndrangheta : l\'organisation la plus puissante',s:'6.7M vues'},{ico:'🍝',t:'Recette pâtes de la mamma sicilienne',s:'1.2M vues'}]},
   };
-  const v=vids[visit.vidKey]||vids.volare;
-  const rel=v.rel.map(r=>`<div class="yt-card"><div class="yt-thumb">${r.ico}</div><div class="yt-info"><div class="yt-title">${r.t}</div><div class="yt-meta">${r.s}</div></div></div>`).join('');
+  // Supporte BR_VISITS (vidKey) ET HISTORY (vidTitle/channel/related directement)
+  let ico, title, ch, rel;
+  if(visit.vidTitle){
+    ico=visit.vid||'🎵'; title=visit.vidTitle; ch=visit.channel||'';
+    rel=(visit.related||[]).map(r=>`<div class="yt-card"><div class="yt-thumb">${r.ico}</div><div class="yt-info"><div class="yt-title">${r.title}</div><div class="yt-meta">${r.sub}</div></div></div>`).join('');
+  } else {
+    const v=vids[visit.vidKey]||vids.volare;
+    ico=v.ico; title=v.title; ch=v.ch;
+    rel=v.rel.map(r=>`<div class="yt-card"><div class="yt-thumb">${r.ico}</div><div class="yt-info"><div class="yt-title">${r.t}</div><div class="yt-meta">${r.s}</div></div></div>`).join('');
+  }
   return `<div class="bp bp-youtube">
-    <div class="yt-header"><div class="yt-logo">▶ YouTube</div><input class="yt-search" readonly value="${v.title}"></div>
-    <div class="yt-card" style="margin-bottom:16px;"><div class="yt-thumb" style="width:260px;height:150px;font-size:56px;">${v.ico}</div><div class="yt-info" style="padding:14px;"><div class="yt-title" style="font-size:15px;margin-bottom:6px;">${v.title}</div><div class="yt-meta">${v.ch}</div></div></div>
+    <div class="yt-header"><div class="yt-logo">▶ YouTube</div><input class="yt-search" readonly value="${title}"></div>
+    <div class="yt-card" style="margin-bottom:16px;"><div class="yt-thumb" style="width:260px;height:150px;font-size:56px;">${ico}</div><div class="yt-info" style="padding:14px;"><div class="yt-title" style="font-size:15px;margin-bottom:6px;">${title}</div><div class="yt-meta">${ch}</div></div></div>
     <div style="color:#aaa;font-size:12px;margin-bottom:8px;padding:0 4px;">Suggestions</div>${rel}
   </div>`;
 }
@@ -2036,9 +2014,17 @@ function spotifyPage(visit){
     pizzavino:{name:'Pizza & Vino 🍕',desc:'Per una serata perfetta',tracks:[{n:1,t:'Volare',a:'Domenico Modugno',d:'3:03'},{n:2,t:'Azzurro',a:'Adriano Celentano',d:'4:21'},{n:3,t:'That\'s Amore',a:'Dean Martin',d:'2:53'},{n:4,t:'Bella Ciao',a:'Matteo Romano',d:'3:18'},{n:5,t:'O Sole Mio',a:'Luciano Pavarotti',d:'3:42'},{n:6,t:'Caruso',a:'Lucio Dalla',d:'4:07'}]},
     notti:     {name:'Notti Italiane 🌙',desc:'Per sognare sotto le stelle',tracks:[{n:1,t:'Luna Rossa',a:'Claudio Villa',d:'3:25'},{n:2,t:'Malafemmena',a:'Totò',d:'3:12'},{n:3,t:'Core \'ngrato',a:'Roberto Murolo',d:'4:03'},{n:4,t:'Torna a Surriento',a:'Sergio Bruni',d:'3:48'},{n:5,t:'È vucchella',a:'Beniamino Gigli',d:'3:33'}]},
   };
-  const pl=pls[visit.plKey]||pls.pizzavino;
-  const tracks=pl.tracks.map(t=>`<div class="sp-track"><span class="sp-tnum">${t.n}</span><div class="sp-tinfo"><div class="sp-tname">${t.t}</div><div class="sp-tartist">${t.a}</div></div><span class="sp-tdur">${t.d}</span></div>`).join('');
-  return `<div class="bp bp-spotify"><div class="sp-header"><div class="sp-logo">● Spotify</div></div><div class="sp-playlist"><div class="sp-pl-header"><div class="sp-pl-cover">🎵</div><div class="sp-pl-info"><h3>${pl.name}</h3><p>${pl.desc}</p><p style="color:#1db954;margin-top:4px;font-size:12px;">▶ En cours de lecture</p></div></div>${tracks}</div></div>`;
+  // Supporte BR_VISITS (plKey) ET HISTORY (plName/plDesc/tracks directement)
+  let name, desc, tracks;
+  if(visit.plName){
+    name=visit.plName; desc=visit.plDesc||'';
+    tracks=(visit.tracks||[]).map(t=>`<div class="sp-track"><span class="sp-tnum">${t.n}</span><div class="sp-tinfo"><div class="sp-tname">${t.name||t.t}</div><div class="sp-tartist">${t.artist||t.a}</div></div><span class="sp-tdur">${t.dur||t.d}</span></div>`).join('');
+  } else {
+    const pl=pls[visit.plKey]||pls.pizzavino;
+    name=pl.name; desc=pl.desc;
+    tracks=pl.tracks.map(t=>`<div class="sp-track"><span class="sp-tnum">${t.n}</span><div class="sp-tinfo"><div class="sp-tname">${t.t}</div><div class="sp-tartist">${t.a}</div></div><span class="sp-tdur">${t.d}</span></div>`).join('');
+  }
+  return `<div class="bp bp-spotify"><div class="sp-header"><div class="sp-logo">● Spotify</div></div><div class="sp-playlist"><div class="sp-pl-header"><div class="sp-pl-cover">🎵</div><div class="sp-pl-info"><h3>${name}</h3><p>${desc}</p><p style="color:#1db954;margin-top:4px;font-size:12px;">▶ En cours de lecture</p></div></div>${tracks}</div></div>`;
 }
 
 function bookingPage(visit){
@@ -2046,16 +2032,19 @@ function bookingPage(visit){
     Ibiza:    [{ico:'🏖️',name:'Ushuaïa Beach Hotel ★★★★★',desc:'Vue mer panoramique · Piscine infinity · Plage privée',price:'480 €/nuit'},{ico:'🌅',name:'Hard Rock Hotel Ibiza ★★★★★',desc:'Sur la plage · Spa · 5 restaurants',price:'320 €/nuit'},{ico:'🏝️',name:'Aguas de Ibiza Grand Luxe ★★★★★',desc:'Port Santa Eulalia · Spa 1 400 m²',price:'290 €/nuit'}],
     Maldives: [{ico:'🌊',name:'Conrad Maldives Rangali Island ★★★★★',desc:'Bungalow sur pilotis · Restaurant sous-marin',price:'1 240 €/nuit'},{ico:'🐠',name:'Soneva Jani ★★★★★',desc:'Île privée · Toboggan dans la mer · Butler',price:'980 €/nuit'},{ico:'🌺',name:'Gili Lankanfushi ★★★★★',desc:'Villas sur pilotis · Plongée · Tout compris',price:'750 €/nuit'}],
   };
-  const hotels=(dests[visit.dest]||dests.Ibiza).map(h=>`<div class="bk-card"><div class="bk-img">${h.ico}</div><div class="bk-info"><h4>${h.name}</h4><p>${h.desc}</p><div class="bk-price">${h.price}</div></div></div>`).join('');
-  return `<div class="bp bp-booking"><div class="bk-header"><div class="bk-logo">🏨 Booking.com</div><div style="font-size:13px;margin-top:3px;">Résultats pour : <strong>${visit.dest}</strong></div></div>${hotels}</div>`;
+  // Supporte HISTORY (hotels[] directement) ET BR_VISITS (dest + dict)
+  const list = visit.hotels || dests[visit.dest] || dests.Ibiza;
+  const hotels=list.map(h=>`<div class="bk-card"><div class="bk-img">${h.ico}</div><div class="bk-info"><h4>${h.name}</h4><p>${h.desc}</p><div class="bk-price">${h.price}</div></div></div>`).join('');
+  return `<div class="bp bp-booking"><div class="bk-header"><div class="bk-logo">🏨 Booking.com</div><div style="font-size:13px;margin-top:3px;">Résultats pour : <strong>${visit.dest||'Séjour'}</strong></div></div>${hotels}</div>`;
 }
 
 function recettePage(visit){
   const recs={
     ossobuco:{plat:'Osso Buco alla Milanese 🍖',ingr:'Jarret de veau, oignon, carotte, céleri, vin blanc sec, bouillon de veau, concentré de tomates, gremolata',etapes:['Fariner les rouelles de veau et les dorer à feu vif dans le beurre clarifié.','Faire revenir les légumes (oignon, carotte, céleri) 5 min.','Déglacer avec le vin blanc, laisser réduire de moitié.','Ajouter le bouillon et le concentré. Cuire à couvert 1h30 à feu doux.','Servir avec un risotto alla milanese. Parsemer de gremolata.']},
   };
-  const r=recs[visit.recKey]||recs.ossobuco;
-  return `<div class="bp" style="background:#fff;padding:24px;"><div style="font-size:20px;font-weight:700;margin-bottom:6px;">${r.plat}</div><div style="color:#888;font-size:12px;margin-bottom:16px;">cucina-italiana.net — Recette authentique de la nonna</div><div style="background:#fff8f0;border-left:4px solid #e67e22;padding:12px;margin-bottom:16px;font-size:13px;"><strong>Ingrédients :</strong><br>${r.ingr}</div><div style="font-size:13px;line-height:1.8;color:#333;">${r.etapes.map((e,i)=>`<div style="margin-bottom:8px;"><strong>${i+1}.</strong> ${e}</div>`).join('')}</div><div style="margin-top:18px;font-size:12px;color:#888;font-style:italic;">🍝 Buon appetito ! Questa è la vera ricetta della nonna.</div></div>`;
+  // Supporte HISTORY (plat/ingr/etapes directement) ET BR_VISITS (recKey + dict)
+  const r = visit.plat ? visit : (recs[visit.recKey] || recs.ossobuco);
+  return `<div class="bp" style="background:#fff;padding:24px;"><div style="font-size:20px;font-weight:700;margin-bottom:6px;">${r.plat}</div><div style="color:#888;font-size:12px;margin-bottom:16px;">cucina-italiana.net — Recette authentique de la nonna</div><div style="background:#fff8f0;border-left:4px solid #e67e22;padding:12px;margin-bottom:16px;font-size:13px;"><strong>Ingrédients :</strong><br>${r.ingr}</div><div style="font-size:13px;line-height:1.8;color:#333;">${(r.etapes||[]).map((e,i)=>`<div style="margin-bottom:8px;"><strong>${i+1}.</strong> ${e}</div>`).join('')}</div><div style="margin-top:18px;font-size:12px;color:#888;font-style:italic;">🍝 Buon appetito ! Questa è la vera ricetta della nonna.</div></div>`;
 }
 
 function amazonPage(){ return `<div class="bp bp-google" style="text-align:left;"><div style="background:#232f3e;padding:10px 20px;margin-bottom:20px;color:#fff;font-size:18px;font-weight:700;">amazon<span style="color:#ff9900;">.fr</span></div><div style="padding:0 20px;"><div class="g-result"><div class="g-result-title" style="color:#c45500;">Marcato Atlas 150 — Machine à Pâtes Inox — Fabriqué en Italie</div><div class="g-result-url">amazon.fr › Marcato-Atlas-Machine-Pâtes-Inox</div><div class="g-result-desc">⭐⭐⭐⭐⭐ 4 847 avis · <strong>79,90 €</strong> · Livraison gratuite dès 25€<br>10 épaisseurs réglables. Rouleau chromé. Fait comme la nonna depuis 1930.</div></div><div class="g-result"><div class="g-result-title" style="color:#c45500;">Avis client — "Ma vie a changé"</div><div class="g-result-url">amazon.fr › avis-clients</div><div class="g-result-desc">⭐⭐⭐⭐⭐ "J'ai fait des tagliatelles à 2h du matin et je n'ai aucun regret. Ma femme était moins enthousiaste." — Carlo M., achat vérifié</div></div></div></div>`; }
