@@ -1639,12 +1639,12 @@ function agendaHTML(){
       { d:'Sam 05', rdvs:[{h:'14h00',t:'Déjeuner La Pergola avec Chiara & Mia 🥂',c:'resto'}]},
       { d:'Mar 08', rdvs:[{h:'09h00',t:'Séance coach perso — Salle Atlas Gym',c:'sport'}]},
       { d:'Ven 11', rdvs:[{h:'18h30',t:'Soirée rooftop — Cielo Bar 🥂',c:'social'}]},
-      { d:'Sam 12', rdvs:[{h:'11h00',t:'Coiffeur Di Luca — Balayage + soin kératine 💇‍♀️',c:'hair'},{h:'20h00',t:'Dîner Famiglia — Chez Enzo 🍽️',c:'famille'}]},
+      { d:'Sam 12', rdvs:[{h:'11h00',t:'Coiffeur Di Luca — Balayage + soin kératine 💇‍♀️',c:'hair'},{h:'20h00',t:'Dîner Famiglia 🍽️',c:'famille'}]},
       { d:'Mer 16', rdvs:[{h:'15h00',t:'Shopping — Vinewood Plaza 🛍️ (budget illimité 😅)',c:'shopping'}]},
       { d:'Sam 19', rdvs:[{h:'11h00',t:'Onglerie Prestige — Remplissage gel + nail art 💅',c:'beauty'},{h:'19h30',t:'Résa La Terrasse — Anniversaire Chiara 🎂',c:'social'}]},
       { d:'Mar 22', rdvs:[{h:'14h00',t:'Institut Bella — Épilation complète + sourcils',c:'spa'}]},
       { d:'Jeu 24', rdvs:[{h:'09h30',t:'Séance coach perso — Atlas Gym',c:'sport'}]},
-      { d:'Sam 26', rdvs:[{h:'10h30',t:'Hammam & massage — Spa Nuvola ☁️',c:'spa'},{h:'20h00',t:'Dîner El Cielo (Papa + cousins)',c:'famille'}]},
+      { d:'Sam 26', rdvs:[{h:'10h30',t:'Hammam & massage — Spa Nuvola ☁️',c:'spa'},{h:'20h00',t:'Dîner Famiglia (Papa + cousins)',c:'famille'}]},
       { d:'Mar 29', rdvs:[{h:'16h00',t:'Yoga — Studio Zen (premier cours)',c:'sport'}]},
     ]},
     { name:'MAI 2026', days:[
@@ -1656,14 +1656,14 @@ function agendaHTML(){
       { d:'Lun 11', rdvs:[{h:'14h30',t:'Retouches robe — Atelier Morini',c:'shopping'}]},
       { d:'Mar 12', rdvs:[{h:'11h00',t:'Teinture + brushing — Salon Di Luca 💇‍♀️',c:'hair'},{h:'20h00',t:'Résa Cipriani (avec Chiara, Elena, Mia)',c:'resto'}]},
       { d:'Mer 13', rdvs:[{h:'14h00',t:'Épilation & soin lèvres — Institut Bella',c:'spa'},{h:'21h00',t:'Cocktails rooftop Cielo Bar 🥂',c:'social'}]},
-      { d:'Jeu 14', rdvs:[{h:'09h30',t:'Séance coach perso 💪',c:'sport'},{h:'19h30',t:'⚠️ Dîner Famiglia — Chez Enzo (OBLIGATOIRE)',c:'famille'}]},
-      { d:'Ven 15', rdvs:[{h:'10h00',t:'Onglerie Prestige — Pose + nail art 🌸',c:'beauty',note:'⏳ À confirmer'},{h:'13h00',t:'Déjeuner Brasserie Flora avec Chiara',c:'resto'}]},
-      { d:'Lun 19', rdvs:[{h:'16h00',t:'Shopping — Nouvelle collection Gucci 🛍️',c:'shopping'}]},
-      { d:'Mer 21', rdvs:[{h:'11h00',t:'Massage aux pierres chaudes — Spa Nuvola 🧖‍♀️',c:'spa'}]},
-      { d:'Ven 23', rdvs:[{h:'14h00',t:'Brunch La Pergola avec les filles',c:'resto'},{h:'21h00',t:'Soirée anniversaire Luca — Villa Mare 🥂',c:'social'}]},
-      { d:'Sam 24', rdvs:[{h:'10h30',t:'Yoga — Studio Zen 🧘‍♀️',c:'sport'}]},
-      { d:'Mar 26', rdvs:[{h:'09h00',t:'Séance coach perso',c:'sport'},{h:'15h00',t:'Onglerie — Remplissage (❌ ANNULÉ)',c:'annule'}]},
-      { d:'Ven 30', rdvs:[{h:'19h00',t:'Réservation Il Borghese — dîner fin de mois 🍷',c:'resto'}]},
+      { d:'Jeu 14', rdvs:[{h:'09h30',t:'Séance coach perso 💪',c:'sport',x:true},{h:'19h30',t:'⚠️ Dîner Famiglia (OBLIGATOIRE)',c:'famille',x:true}]},
+      { d:'Ven 15', rdvs:[{h:'10h00',t:'Onglerie Prestige — Pose + nail art 🌸',c:'beauty',x:true},{h:'13h00',t:'Déjeuner Brasserie Flora avec Chiara',c:'resto',x:true}]},
+      { d:'Lun 19', rdvs:[{h:'16h00',t:'Shopping — Nouvelle collection Gucci 🛍️',c:'shopping',x:true}]},
+      { d:'Mer 21', rdvs:[{h:'11h00',t:'Massage aux pierres chaudes — Spa Nuvola 🧖‍♀️',c:'spa',x:true}]},
+      { d:'Ven 23', rdvs:[{h:'14h00',t:'Brunch La Pergola avec les filles',c:'resto',x:true},{h:'21h00',t:'Soirée anniversaire — Villa Mare 🥂',c:'social',x:true}]},
+      { d:'Sam 24', rdvs:[{h:'10h30',t:'Yoga — Studio Zen 🧘‍♀️',c:'sport',x:true}]},
+      { d:'Mar 26', rdvs:[{h:'09h00',t:'Séance coach perso',c:'sport',x:true},{h:'15h00',t:'Onglerie — Remplissage',c:'beauty',x:true}]},
+      { d:'Ven 30', rdvs:[{h:'19h00',t:'Réservation Il Borghese — dîner fin de mois 🍷',c:'resto',x:true}]},
     ]},
   ];
 
@@ -1680,14 +1680,17 @@ function agendaHTML(){
           <div style="width:3px;background:#f0f0f0;border-radius:3px;margin-top:2px;align-self:stretch;flex-shrink:0;"></div>
           <div style="flex:1;display:flex;flex-direction:column;gap:6px;">
             ${day.rdvs.map(r=>{
-              const cat = cats[r.c]||cats.beauty;
+              const cat = r.x ? cats.annule : (cats[r.c]||cats.beauty);
+              const xStyle = r.x ? 'opacity:.5;' : '';
+              const xText  = r.x ? 'text-decoration:line-through;color:#aaa;' : 'color:#333;';
+              const xBadge = r.x ? `<span style="font-size:9px;font-weight:700;color:#fff;background:#e53935;border-radius:3px;padding:1px 5px;margin-left:6px;vertical-align:middle;letter-spacing:.5px;">ANNULÉ</span>` : '';
               return `<div style="background:${cat.bg};border-left:3px solid ${cat.color};
-                          border-radius:0 6px 6px 0;padding:7px 10px;display:flex;align-items:center;gap:8px;">
-                <span style="font-size:14px;flex-shrink:0;">${cat.ico}</span>
+                          border-radius:0 6px 6px 0;padding:7px 10px;display:flex;align-items:center;gap:8px;${xStyle}">
+                <span style="font-size:14px;flex-shrink:0;">${r.x?'❌':cat.ico}</span>
                 <div style="flex:1;">
-                  <div style="font-size:11px;font-weight:700;color:#555;margin-bottom:1px;">${r.h}</div>
-                  <div style="font-size:12px;color:#333;line-height:1.4;">${r.t}</div>
-                  ${r.note?`<div style="font-size:10px;color:#e67e22;margin-top:2px;">${r.note}</div>`:''}
+                  <div style="font-size:11px;font-weight:700;color:#999;margin-bottom:1px;">${r.h}</div>
+                  <div style="font-size:12px;line-height:1.4;${xText}">${r.t}${xBadge}</div>
+                  ${r.note&&!r.x?`<div style="font-size:10px;color:#e67e22;margin-top:2px;">${r.note}</div>`:''}
                 </div>
               </div>`;
             }).join('')}
