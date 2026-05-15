@@ -84,6 +84,78 @@ body { font-family:'Segoe UI',Tahoma,sans-serif; width:100vw; height:100vh; over
 .login-sys-icons span { cursor:pointer; transition:color .15s; }
 .login-sys-icons span:hover { color:rgba(255,255,255,0.8); }
 
+/* ── DECRYPT MINI-GAME ── */
+#decrypt-panel {
+  position:relative; z-index:1;
+  background:rgba(0,18,0,0.82);
+  border:1px solid rgba(0,255,65,0.22);
+  border-radius:6px; padding:22px 26px;
+  max-width:470px; width:94%;
+  font-family:'Courier New',monospace;
+  box-shadow:0 0 50px rgba(0,255,65,0.06),inset 0 0 40px rgba(0,0,0,0.5);
+  margin-top:8px;
+}
+.dc-label { color:rgba(0,255,65,0.4); font-size:9px; letter-spacing:3px; text-transform:uppercase; text-align:center; margin-bottom:8px; }
+.dc-title { color:#00ff41; font-size:10px; letter-spacing:2px; text-align:center; margin-bottom:2px; text-transform:uppercase; }
+.dc-divider { border:none; border-top:1px solid rgba(0,255,65,0.18); margin:12px 0; }
+.dc-enc-label { color:rgba(0,255,65,0.4); font-size:9px; letter-spacing:2px; text-align:center; margin-bottom:6px; }
+.dc-encrypted {
+  background:rgba(0,0,0,0.55); border:1px solid rgba(0,255,65,0.18);
+  padding:13px; text-align:center; margin:0 0 14px;
+  letter-spacing:8px; font-size:22px; color:#00ff41;
+  text-shadow:0 0 14px rgba(0,255,65,0.5);
+}
+.polybius { border-collapse:collapse; margin:0 auto 6px; font-size:11px; }
+.polybius th {
+  background:rgba(0,255,65,0.10); color:#00ff41;
+  border:1px solid rgba(0,255,65,0.22); padding:5px 11px;
+  font-weight:700; letter-spacing:1px;
+}
+.polybius td {
+  border:1px solid rgba(0,255,65,0.16); padding:5px 11px;
+  text-align:center; color:#999;
+}
+.polybius td:first-child { color:#00ff41; background:rgba(0,255,65,0.07); font-weight:700; }
+.dc-coord-hint { color:rgba(0,255,65,0.35); font-size:9px; letter-spacing:1px; text-align:center; margin-bottom:14px; }
+.dc-input-row { display:flex; gap:8px; }
+#dc-input {
+  flex:1; background:rgba(0,0,0,0.65); border:1px solid rgba(0,255,65,0.32);
+  color:#00ff41; padding:9px 14px; font-family:'Courier New',monospace;
+  font-size:16px; letter-spacing:5px; outline:none; text-transform:uppercase;
+  transition:border-color .2s, box-shadow .2s;
+}
+#dc-input:focus { border-color:rgba(0,255,65,0.65); box-shadow:0 0 10px rgba(0,255,65,0.18); }
+#dc-input.dc-error { border-color:#ff4444 !important; box-shadow:0 0 10px rgba(255,0,0,0.25) !important; animation:dcShake .4s; }
+@keyframes dcShake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-6px)} 40%{transform:translateX(6px)} 60%{transform:translateX(-4px)} 80%{transform:translateX(4px)} }
+.dc-go {
+  background:rgba(0,90,0,0.55); border:1px solid rgba(0,255,65,0.38);
+  color:#00ff41; padding:9px 18px; cursor:pointer;
+  font-family:'Courier New',monospace; font-size:11px; letter-spacing:2px;
+  text-transform:uppercase; transition:background .2s, box-shadow .2s;
+}
+.dc-go:hover { background:rgba(0,140,0,0.6); box-shadow:0 0 12px rgba(0,255,65,0.12); }
+.dc-err { color:#ff5555; font-size:9px; letter-spacing:1px; margin-top:7px; min-height:13px; text-align:center; font-family:'Courier New',monospace; }
+.dc-hint-btn {
+  background:none; border:none; color:rgba(0,255,65,0.28); font-family:'Courier New',monospace;
+  font-size:9px; cursor:pointer; letter-spacing:1px; margin-top:10px;
+  display:block; width:100%; text-align:center; transition:color .2s;
+}
+.dc-hint-btn:hover { color:rgba(0,255,65,0.55); }
+.dc-hint-text { color:rgba(0,255,65,0.5); font-size:9px; letter-spacing:1px; text-align:center; margin-top:5px; min-height:13px; font-family:'Courier New',monospace; }
+/* Success overlay */
+#dc-success {
+  position:fixed; inset:0; z-index:99998; background:#000;
+  display:none; flex-direction:column; align-items:center; justify-content:center;
+  font-family:'Courier New',monospace; gap:10px;
+}
+.dc-s-line { color:#00ff41; letter-spacing:3px; text-transform:uppercase; opacity:0; }
+.dc-s-line.dc-appear { animation:dcFadeIn .5s forwards; }
+.dc-s-bar { width:320px; height:2px; background:rgba(0,255,65,0.15); margin:14px 0; border-radius:2px; overflow:hidden; }
+.dc-s-fill { height:100%; background:#00ff41; width:0; }
+.dc-s-fill.dc-fill { animation:dcFill 2s 1.5s forwards; }
+@keyframes dcFadeIn { to{opacity:1} }
+@keyframes dcFill { to{width:100%} }
+
 /* ── DESKTOP ── */
 #desktop {
   position:fixed; inset:0; display:none;
@@ -521,22 +593,51 @@ body { font-family:'Segoe UI',Tahoma,sans-serif; width:100vw; height:100vh; over
 
 <!-- ═══════════════════════════════ LOGIN ═══════════════════════════════ -->
 <div id="login-screen" style="display:none;">
-  <div style="position:relative;margin-bottom:16px;">
+  <div style="position:relative;margin-bottom:12px;">
     <div class="login-avatar" style="font-size:52px;background:linear-gradient(135deg,#3a1a2a,#1a1a2e);">🌹</div>
   </div>
   <div class="login-name">Rosalia Loredan</div>
-  <div class="login-box">
-    <input type="password" id="pwd-input" placeholder="Mot de passe" />
-    <button class="login-go" onclick="tryLogin()">→</button>
+
+  <!-- DECRYPT PANEL -->
+  <div id="decrypt-panel">
+    <div class="dc-label">⚠ Système de Sécurité — Loredan Corp. ⚠</div>
+    <div class="dc-title">▌ TERMINAL PROTÉGÉ — DÉCHIFFREMENT REQUIS ▐</div>
+    <hr class="dc-divider">
+    <div class="dc-enc-label">CODE CHIFFRÉ — TABLEAU DE POLYBE</div>
+    <div class="dc-encrypted">43 — 35 — 44 — 11</div>
+    <table class="polybius">
+      <tr><th></th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr>
+      <tr><td>1</td><td>A</td><td>B</td><td>C</td><td>D</td><td>E</td></tr>
+      <tr><td>2</td><td>F</td><td>G</td><td>H</td><td>I</td><td>J</td></tr>
+      <tr><td>3</td><td>K</td><td>L</td><td>M</td><td>N</td><td>O</td></tr>
+      <tr><td>4</td><td>P</td><td>Q</td><td>R</td><td>S</td><td>T</td></tr>
+      <tr><td>5</td><td>U</td><td>V</td><td>W</td><td>X</td><td>Y/Z</td></tr>
+    </table>
+    <div class="dc-coord-hint">Coordonnées : [LIGNE][COLONNE]</div>
+    <div class="dc-input-row">
+      <input type="text" id="dc-input" placeholder="CODE DÉCHIFFRÉ" maxlength="12" autocomplete="off" />
+      <button class="dc-go" onclick="tryDecrypt()">ENTRER</button>
+    </div>
+    <div class="dc-err" id="dc-err"></div>
+    <button class="dc-hint-btn" onclick="showDcHint()">[ AIDE ]</button>
+    <div class="dc-hint-text" id="dc-hint"></div>
   </div>
-  <div class="login-err" id="login-err"></div>
-  <div class="login-last">Dernière connexion : 14/05/2026 à 23:58</div>
-  <div class="login-footer">ROSALIA-PC &nbsp;·&nbsp; Windows 10 Pro</div>
+
+  <div class="login-footer" style="margin-top:16px;">ROSALIA-PC &nbsp;·&nbsp; Windows 10 Pro</div>
   <div class="login-sys-icons">
     <span title="Accessibilité">♿</span>
     <span title="Réseau">📶</span>
     <span title="Arrêter">⏻</span>
   </div>
+</div>
+
+<!-- SUCCESS OVERLAY -->
+<div id="dc-success">
+  <div class="dc-s-line" style="font-size:10px;color:rgba(0,255,65,0.45);">ROSALIA-PC // LOREDAN SECURITY SYSTEM v2.1</div>
+  <div class="dc-s-bar"><div class="dc-s-fill" id="dc-s-fill"></div></div>
+  <div class="dc-s-line" style="font-size:20px;letter-spacing:6px;">▌ ACCÈS ACCORDÉ ▐</div>
+  <div class="dc-s-line" style="font-size:12px;margin-top:4px;">IDENTITÉ VÉRIFIÉE — LOREDAN, Rosalia</div>
+  <div class="dc-s-line" style="font-size:10px;color:rgba(0,255,65,0.5);margin-top:10px;">Ouverture de session en cours...</div>
 </div>
 
 <!-- ═══════════════════════════════ DESKTOP ══════════════════════════════ -->
@@ -878,20 +979,44 @@ function iconFor(name){
   return '📄';
 }
 
-/* ═══════════════════════ LOGIN ═══════════════════════ */
-document.getElementById('pwd-input').addEventListener('keydown', e=>{ if(e.key==='Enter') tryLogin(); });
+/* ═══════════════════════ DECRYPT MINI-GAME ═══════════════════════ */
+document.getElementById('dc-input').addEventListener('keydown', e=>{ if(e.key==='Enter') tryDecrypt(); });
 
-function tryLogin(){
-  if(document.getElementById('pwd-input').value === '1234'){
-    document.getElementById('login-screen').style.display='none';
-    document.getElementById('desktop').style.display='block';
-    startClock();
-    scheduleNotif();
+let dcHintCount = 0;
+function showDcHint(){
+  dcHintCount++;
+  const h = document.getElementById('dc-hint');
+  if(dcHintCount===1) h.textContent = '▸ Chaque paire = coordonnées dans la grille [ligne][colonne]';
+  else if(dcHintCount===2) h.textContent = '▸ Exemple : 43 → ligne 4, colonne 3 → R';
+  else h.textContent = '▸ Le code correspond au prénom de la propriétaire';
+}
+
+function tryDecrypt(){
+  const val = document.getElementById('dc-input').value.trim().toUpperCase();
+  const inp = document.getElementById('dc-input');
+  if(val === 'ROSA'){
+    // Succès — afficher overlay terminal
+    const ov = document.getElementById('dc-success');
+    ov.style.display = 'flex';
+    const lines = ov.querySelectorAll('.dc-s-line');
+    lines.forEach((l,i) => setTimeout(()=>l.classList.add('dc-appear'), i*550));
+    document.getElementById('dc-s-fill').classList.add('dc-fill');
+    setTimeout(()=>{
+      ov.style.opacity='0'; ov.style.transition='opacity .6s';
+      setTimeout(()=>{
+        ov.style.display='none';
+        document.getElementById('login-screen').style.display='none';
+        document.getElementById('desktop').style.display='block';
+        startClock();
+        scheduleNotif();
+      }, 650);
+    }, 3800);
   } else {
-    const err = document.getElementById('login-err');
-    err.textContent = 'Mot de passe incorrect.';
-    document.getElementById('pwd-input').value='';
-    setTimeout(()=>err.textContent='', 2200);
+    const err = document.getElementById('dc-err');
+    err.textContent = '⚠ CODE INVALIDE — ACCÈS REFUSÉ — TENTATIVE ENREGISTRÉE';
+    inp.classList.add('dc-error');
+    inp.value = '';
+    setTimeout(()=>{ err.textContent=''; inp.classList.remove('dc-error'); }, 2800);
   }
 }
 
