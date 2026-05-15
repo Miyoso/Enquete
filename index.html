@@ -1896,13 +1896,29 @@ document.addEventListener('click', ()=>closeBrMenu());
 /* ─── PAGE RENDERER ─── */
 function renderBrPage(url, visit){
   const page = document.getElementById('br-page');
-  if(url==='google.com'||!url){ page.innerHTML=googleHome(); return; }
+  // Chrome pages (toujours prioritaires)
   if(url==='chrome://history'){ page.innerHTML=chromeHistory(); return; }
   if(url==='chrome://favoris'){ page.innerHTML=`<div style="padding:40px;font-family:sans-serif;color:#555;text-align:center;"><div style="font-size:48px;margin-bottom:16px;">⭐</div><div style="font-size:18px;color:#333;margin-bottom:8px;">Favoris</div><div style="font-size:13px;">Aucun favori enregistré.</div></div>`; return; }
+  // Si le visit a un type de page spécifique, on l'utilise EN PREMIER (même si url==='google.com')
+  if(visit && visit.page){
+    switch(visit.page){
+      case 'search':
+      case 'googleSearch': page.innerHTML=googleResults(visit.q, visit); return;
+      case 'youtube':      page.innerHTML=youtubePage(visit); return;
+      case 'instagram':    page.innerHTML=instagramPage(); return;
+      case 'spotify':      page.innerHTML=spotifyPage(visit); return;
+      case 'booking':      page.innerHTML=bookingPage(visit); return;
+      case 'recette':      page.innerHTML=recettePage(visit); return;
+      case 'amazon':       page.innerHTML=amazonPage(); return;
+      case 'wikipedia':    page.innerHTML=wikipediaPage(); return;
+      case 'fun':          page.innerHTML=funPage(visit); return;
+    }
+  }
+  // Fallback : routing par URL
+  if(url==='google.com'||!url){ page.innerHTML=googleHome(); return; }
   if(!visit){ visit=BR_VISITS.find(v=>v.url===url); }
   if(!visit){ page.innerHTML=pageNotFound(url); return; }
   switch(visit.page){
-    /* Types de BR_VISITS */
     case 'search':      page.innerHTML=googleResults(visit.q, visit); break;
     case 'youtube':     page.innerHTML=youtubePage(visit); break;
     case 'instagram':   page.innerHTML=instagramPage(); break;
@@ -1911,8 +1927,6 @@ function renderBrPage(url, visit){
     case 'recette':     page.innerHTML=recettePage(visit); break;
     case 'amazon':      page.innerHTML=amazonPage(); break;
     case 'wikipedia':   page.innerHTML=wikipediaPage(); break;
-    /* Types de HISTORY (même rendu, nom différent) */
-    case 'googleSearch':page.innerHTML=googleResults(visit.q, visit); break;
     case 'fun':         page.innerHTML=funPage(visit); break;
     default: page.innerHTML=pageNotFound(url);
   }
