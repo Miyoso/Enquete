@@ -227,7 +227,7 @@ body { font-family:'Segoe UI',Tahoma,sans-serif; width:100vw; height:100vh; over
 
 /* ── DESKTOP ── */
 #desktop {
-  position:fixed; inset:0; display:block;
+  position:fixed; inset:0; display:none;
   background:linear-gradient(160deg,#0d0d12 0%,#160a0a 50%,#0a0d16 100%);
 }
 #desktop::before {
@@ -1002,7 +1002,7 @@ input[type=range].vol-slider::-webkit-slider-thumb { -webkit-appearance:none; wi
 </div>
 
 <!-- ═══════════════════════════════ LOGIN ═══════════════════════════════ -->
-<div id="login-screen" style="display:none;">
+<div id="login-screen" style="display:flex;">
   <div style="position:relative;margin-bottom:16px;">
     <div class="login-avatar" style="font-size:52px;background:linear-gradient(135deg,#3a1a2a,#1a1a2e);">🌹</div>
   </div>
@@ -1725,7 +1725,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
 });
 
 function tryLogin(){
-  if(document.getElementById('pwd-input').value === '2947'){
+  if(document.getElementById('pwd-input').value === '1234'){
     document.getElementById('login-screen').style.display='none';
     document.getElementById('desktop').style.display='block';
     startClock();
