@@ -1193,7 +1193,7 @@ input[type=range].vol-slider::-webkit-slider-thumb { -webkit-appearance:none; wi
     <div class="flm-err" id="flm-err"></div>
     <div class="flm-hint" onclick="toggleFlmHint()">▾ Indice</div>
     <div id="flm-hint-text" style="display:none;margin-top:8px;font-size:10px;color:rgba(255,180,40,0.5);letter-spacing:.5px;">
-      « Le pseudo qu'ils partagent tous les deux »
+      « RÉVOLUTION »
     </div>
     <div style="margin-top:14px;"><button onclick="document.getElementById('flm').classList.remove('show')" style="background:none;border:none;color:rgba(255,255,255,0.2);font-size:11px;cursor:pointer;">Annuler</button></div>
   </div>
@@ -1871,7 +1871,7 @@ function toggleFlmHint(){
 function checkLockPwd(){
   const val = document.getElementById('flm-pwd').value.trim().toUpperCase();
   const errEl = document.getElementById('flm-err');
-  if(val === 'BIRDIE'){
+  if(val === 'BATTICUORE'){
     document.getElementById('flm').classList.remove('show');
     document.getElementById('flm-icon').textContent = '🔓';
     setTimeout(()=>openFolder('CONFIDENTIEL_UNLOCKED'), 100);
