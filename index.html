@@ -1541,9 +1541,9 @@ const FS = {
   'OPS-INTERNAL':              { type:'folder', children:['ORDRE_ELIMINATION.doc','RENSEIGNEMENTS_POLICIERS'] },
   'RENSEIGNEMENTS_POLICIERS':  { type:'folder', children:['SUBJ_68_RICK_CASH.doc','SUBJ_96_JERRY_SIGNAL.doc'] },
   'Mes Documents':             { type:'folder', children:['agenda.doc'] },
-  'CONFIDENTIEL_UNLOCKED': { type:'folder', children:[
-    { name:'photo_labo.jpg', type:'file', icon:'🖼️', _photo:'https://i.goopics.net/61slje.png', content: photoViewer('https://i.goopics.net/61slje.png','Photo — Laboratoire') },
-    { name:'budget_opération.txt', type:'file', content:`BUDGET OPÉRATION — MAI/JUIN 2026
+  'CONFIDENTIEL_UNLOCKED': { type:'folder', children:['conf_photo_labo.jpg','conf_budget.txt'] },
+  'conf_photo_labo.jpg': { type:'file', icon:'🖼️', _photo:'https://i.goopics.net/61slje.png', content: photoViewer('https://i.goopics.net/61slje.png','Photo — Laboratoire') },
+  'conf_budget.txt': { type:'file', icon:'📄', content:`BUDGET OPÉRATION — MAI/JUIN 2026
 
 ENTRÉES :
   Virement 1 (03/05) ............. 18 500 €
@@ -1560,7 +1560,6 @@ SORTIES :
   TOTAL SORTIES .................. 23 600 €
 
 SOLDE NET ........................ 14 900 €` },
-  ]},
   'Corbeille': { type:'folder', children:[
     'Cde_Farine_#001_La_Molisana.doc','Cde_Farine_#002_Divella.doc',
     'Cde_Farine_#003_La_Molisana.doc','Cde_Farine_#004_Caputo.doc',
