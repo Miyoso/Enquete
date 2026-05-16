@@ -1475,7 +1475,7 @@ const FS = {
   'La_Plus_Belle_des_Loredan_et_des_Autres.jpg':  { type:'file', icon:'🖼️', _photo:'https://i.goopics.net/yw7rcn.png', content: photoViewer('https://i.goopics.net/yw7rcn.png','La Plus Belle des Loredan et des Autres') },
   'Divinité_Contemporaine_Auto-Portrait.jpg':     { type:'file', icon:'🖼️', _photo:'https://i.goopics.net/tsdmkz.png', content: photoViewer('https://i.goopics.net/tsdmkz.png','Divinité Contemporaine — Auto-Portrait') },
   'OPS-INTERNAL':              { type:'folder', children:['ORDRE_ELIMINATION.doc','RENSEIGNEMENTS_POLICIERS'] },
-  'RENSEIGNEMENTS_POLICIERS':  { type:'folder', children:['SUBJ_68_RICK_CASH.doc','SUBJ_45_JERRY_SIGNAL.doc'] },
+  'RENSEIGNEMENTS_POLICIERS':  { type:'folder', children:['SUBJ_68_RICK_CASH.doc','SUBJ_96_JERRY_SIGNAL.doc'] },
   'Mes Documents':             { type:'folder', children:['notes_perso.txt','agenda.doc'] },
   'CONFIDENTIEL_UNLOCKED': { type:'folder', children:[
     { name:'budget_opération.txt', type:'file', content:`BUDGET OPÉRATION — MAI/JUIN 2026
@@ -1516,7 +1516,7 @@ SOLDE NET ........................ 14 900 €` },
   'Cde_Farine_#010_Garofalo.doc':    { type:'file', icon:'📄', content: bonCommande(10,'Pasta Garofalo S.p.A.','Gragnano (NA)','type 00 Biologica',60,'10 mai 2026','LS-FREIGHT-2026-K105',97) },
   'ORDRE_ELIMINATION.doc': { type:'file', icon:'📄', content: docElimination() },
   'SUBJ_68_RICK_CASH.doc': { type:'file', icon:'📄', content: docRick() },
-  'SUBJ_45_JERRY_SIGNAL.doc': { type:'file', icon:'📄', content: docJerry() },
+  'SUBJ_96_JERRY_SIGNAL.doc': { type:'file', icon:'📄', content: docJerry() },
   'notes_perso.txt': { type:'file', icon:'📝', content:`<div class="simpledoc"><h3>NOTES PERSONNELLES</h3>
 — Réunion famille : vendredi 22h, chez Enzo<br>
 — Changer les codes du coffre (demander à Papa)<br>
@@ -2846,9 +2846,9 @@ function docElimination(){ return `
   </div>
 
   <div class="dv-subject">
-    <div class="subj-photo">ID_SUBJ_45</div>
+    <div class="subj-photo">ID_SUBJ_96</div>
     <div class="subj-info">
-      <div class="subj-name">SUJET #45 &nbsp;:&nbsp; JERRY SIGNAL</div>
+      <div class="subj-name">SUJET #96 &nbsp;:&nbsp; JERRY SIGNAL</div>
       <div class="irow"><span class="ilbl">PSEUDO :</span><span>@jerrysignal</span></div>
       <div class="irow"><span class="ilbl">STATUT :</span><span class="sbadge">À TRAITER</span></div>
       <div class="irow"><span class="ilbl">VÉHICULE :</span><span>Bifta (Custom)</span></div>
@@ -2883,7 +2883,7 @@ function docRick(){ return `
     </div>
     <div style="display:flex;gap:30px;flex-wrap:wrap;">
       <div style="flex:1;min-width:180px;">
-        <div class="irow"><span class="ilbl">PSEUDO GTA :</span><span style="font-weight:700;">Birdie</span></div>
+        <div class="irow"><span class="ilbl">PSEUDO GTA :</span><span style="font-weight:700;">Birdie : Rick</span></div>
         <div class="irow"><span class="ilbl">N° SUJET :</span><span>#68</span></div>
         <div class="irow"><span class="ilbl">STATUT :</span><span class="sbadge">À TRAITER</span></div>
         <div class="irow"><span class="ilbl">PRIORITÉ :</span><span style="color:#c00;font-weight:700;">⚠ HAUTE</span></div>
@@ -2914,13 +2914,13 @@ function docJerry(){ return `
 <div class="docview">
   <div class="dv-header">
     <div class="dv-title">FICHE DE RENSEIGNEMENT</div>
-    <div class="dv-ref">RÉFÉRENCE : SUBJ_45 / RENS-PD — FAMIGLIA LOREDAN</div>
+    <div class="dv-ref">RÉFÉRENCE : SUBJ_96 / RENS-PD — FAMIGLIA LOREDAN</div>
     <div class="dv-ref" style="font-style:italic;color:#999;margin-top:3px;">Usage interne uniquement — Accès restreint</div>
     <div class="dv-stamp">CONFIDENTIEL</div>
   </div>
 
   <div class="dv-subject" style="display:block;">
-    <div class="subj-name" style="font-size:18px;margin-bottom:14px;">SUJET #45 — JERRY SIGNAL</div>
+    <div class="subj-name" style="font-size:18px;margin-bottom:14px;">SUJET #96 — JERRY SIGNAL</div>
     <div style="margin-bottom:16px;">
       <img src="https://i.goopics.net/gswgp5.png"
            style="width:110px;height:140px;object-fit:cover;border-radius:4px;border:2px solid #8b0000;box-shadow:0 4px 14px rgba(0,0,0,0.5);display:block;">
@@ -2928,7 +2928,7 @@ function docJerry(){ return `
     </div>
     <div style="display:flex;gap:30px;flex-wrap:wrap;">
       <div style="flex:1;min-width:180px;">
-        <div class="irow"><span class="ilbl">PSEUDO GTA :</span><span style="font-weight:700;">Birdie</span></div>
+        <div class="irow"><span class="ilbl">PSEUDO GTA :</span><span style="font-weight:700;">Birdie : jerrysignal</span></div>
         <div class="irow"><span class="ilbl">N° SUJET :</span><span>#45</span></div>
         <div class="irow"><span class="ilbl">STATUT :</span><span class="sbadge">À TRAITER</span></div>
         <div class="irow"><span class="ilbl">PRIORITÉ :</span><span style="color:#c00;font-weight:700;">⚠ HAUTE</span></div>
@@ -2956,7 +2956,7 @@ function docJerry(){ return `
     Profiter des déplacements en zone isolée.
   </div>
 
-  <div class="dv-foot">— DOCUMENT RÉSERVÉ — USAGE INTERNE FAMIGLIA LOREDAN — SUBJ_45 —</div>
+  <div class="dv-foot">— DOCUMENT RÉSERVÉ — USAGE INTERNE FAMIGLIA LOREDAN — SUBJ_96 —</div>
 </div>`; }
 </script>
 </body>
