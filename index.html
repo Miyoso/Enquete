@@ -512,19 +512,32 @@ input[type=range].vol-slider::-webkit-slider-thumb { -webkit-appearance:none; wi
 .dv-title { font-size:22px; font-weight:900; letter-spacing:5px; margin-bottom:8px; }
 .dv-ref { font-size:11px; color:#666; margin-bottom:4px; }
 .dv-stamp {
-  display:inline-block; border:3px solid #cc0000; color:#cc0000;
-  padding:4px 16px; font-weight:900; font-size:17px; letter-spacing:4px;
-  transform:rotate(-4deg); margin:10px 0;
+  display:inline-block; border:4px solid #cc0000; color:#cc0000;
+  padding:5px 22px; font-weight:900; font-size:18px; letter-spacing:5px;
+  transform:rotate(-3deg); margin:12px 0;
+  text-shadow:1px 1px 0 rgba(200,0,0,0.15);
+  box-shadow:inset 0 0 0 1px rgba(200,0,0,0.2);
+  opacity:0.92;
 }
 .dv-subject {
-  border:1px solid #bbb; margin:18px 0; padding:18px;
-  background:#fff; display:flex; gap:18px;
+  border:1px solid #999; border-left:4px solid #8b0000;
+  margin:22px 0; padding:20px 20px 20px 18px;
+  background:#fff; display:flex; gap:22px;
+  box-shadow:2px 2px 6px rgba(0,0,0,0.08);
 }
 .subj-photo {
-  width:90px; height:110px; background:#999; border:2px solid #666;
-  display:flex; align-items:center; justify-content:center;
-  color:#ddd; font-size:10px; text-align:center; flex-shrink:0;
-  font-family:'Courier New',monospace; padding:5px;
+  width:110px; height:135px; background:#888; border:3px solid #555;
+  flex-shrink:0; overflow:hidden; position:relative;
+}
+.subj-photo img {
+  width:100%; height:100%; object-fit:cover; object-position:center top;
+  filter:grayscale(30%) contrast(1.05);
+}
+.subj-photo-label {
+  position:absolute; bottom:0; left:0; right:0;
+  background:rgba(0,0,0,0.55); color:#fff; font-size:8px;
+  letter-spacing:1.5px; text-align:center; padding:2px 0;
+  font-family:'Courier New',monospace;
 }
 .subj-info { flex:1; }
 .subj-name {
@@ -2834,7 +2847,10 @@ function docElimination(){ return `
   </div>
 
   <div class="dv-subject">
-    <div class="subj-photo">ID_SUBJ_68</div>
+    <div class="subj-photo">
+        <img src="https://i.goopics.net/p88ww4.png" alt="SUBJ_68">
+        <div class="subj-photo-label">SUBJ #68</div>
+      </div>
     <div class="subj-info">
       <div class="subj-name">SUJET #68 &nbsp;:&nbsp; RICK CASH</div>
       <div class="irow"><span class="ilbl">PSEUDO :</span><span>@rick</span></div>
@@ -2846,7 +2862,10 @@ function docElimination(){ return `
   </div>
 
   <div class="dv-subject">
-    <div class="subj-photo">ID_SUBJ_96</div>
+    <div class="subj-photo">
+        <img src="https://i.goopics.net/gswgp5.png" alt="SUBJ_96">
+        <div class="subj-photo-label">SUBJ #96</div>
+      </div>
     <div class="subj-info">
       <div class="subj-name">SUJET #96 &nbsp;:&nbsp; JERRY SIGNAL</div>
       <div class="irow"><span class="ilbl">PSEUDO :</span><span>@jerrysignal</span></div>
