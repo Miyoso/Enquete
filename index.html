@@ -227,7 +227,7 @@ body { font-family:'Segoe UI',Tahoma,sans-serif; width:100vw; height:100vh; over
 
 /* ── DESKTOP ── */
 #desktop {
-  position:fixed; inset:0; display:none;
+  position:fixed; inset:0; display:block;
   background:linear-gradient(160deg,#0d0d12 0%,#160a0a 50%,#0a0d16 100%);
 }
 #desktop::before {
@@ -857,7 +857,7 @@ input[type=range].vol-slider::-webkit-slider-thumb { -webkit-appearance:none; wi
 <body>
 
 <!-- ═══════════════════════════════ BOOT SCREEN ══════════════════════════ -->
-<div id="boot-screen">
+<div id="boot-screen" style="display:none;">
   <div class="boot-logo">⊞</div>
   <div class="boot-spinner">
     <div class="boot-dot"></div><div class="boot-dot"></div>
@@ -1321,17 +1321,7 @@ input[type=range].vol-slider::-webkit-slider-thumb { -webkit-appearance:none; wi
 
 <script>
 /* ═══════════════════════ BOOT ═══════════════════════ */
-window.addEventListener('DOMContentLoaded', ()=>{
-  setTimeout(()=>{
-    document.getElementById('boot-screen').style.transition='opacity .5s';
-    document.getElementById('boot-screen').style.opacity='0';
-    setTimeout(()=>{
-      document.getElementById('boot-screen').style.display='none';
-      document.getElementById('puzzle-screen').style.display='flex';
-      initPuzzleScreen();
-    }, 500);
-  }, 2800);
-});
+/* boot bypass — desktop affiché directement via CSS */
 
 /* ═══════════════════════ MAIL DATA ═══════════════════════ */
 const MAILS = {
@@ -1728,6 +1718,8 @@ function triggerPuzzleSuccess(){
 /* ═══════════════════════ LOGIN ═══════════════════════ */
 document.addEventListener('DOMContentLoaded', ()=>{
   initBattery();
+  startClock();
+  scheduleNotif();
   const pi = document.getElementById('pwd-input');
   if(pi) pi.addEventListener('keydown', e=>{ if(e.key==='Enter') tryLogin(); });
 });
