@@ -865,6 +865,102 @@ input[type=range].vol-slider::-webkit-slider-thumb { -webkit-appearance:none; wi
   0%{opacity:.22;transform:scale(.98)} 60%{opacity:1;transform:scale(1.01)} 100%{opacity:1;transform:scale(1)}
 }
 .pz-mod-unlocking { animation:pzModUnlock .55s ease forwards; }
+
+/* ══════════════════ PUZZLE LOGIN ══════════════════ */
+.plz-wrap {
+  position:relative; z-index:1;
+  display:flex; flex-direction:column; align-items:center;
+  width:100%; max-width:500px; padding:0 16px; gap:14px;
+  font-family:'Courier New',monospace;
+}
+.plz-head { text-align:center; margin-bottom:6px; }
+.plz-sys {
+  color:rgba(200,50,0,0.5); font-size:9px; letter-spacing:3px;
+  text-transform:uppercase; margin-bottom:6px;
+}
+.plz-title {
+  color:#e0e0e0; font-size:26px; font-weight:700; letter-spacing:8px;
+  text-transform:uppercase; margin-bottom:6px;
+  text-shadow:0 0 30px rgba(200,40,0,0.4);
+}
+.plz-sub { color:rgba(255,255,255,0.3); font-size:11px; letter-spacing:2px; }
+.plz-card {
+  width:100%; background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.1);
+  border-left:3px solid rgba(200,40,0,0.6);
+  padding:14px 18px; border-radius:3px;
+}
+.plz-decoder-card { border-left-color:rgba(200,150,0,0.6); }
+.plz-card-lbl {
+  color:rgba(255,255,255,0.25); font-size:9px; letter-spacing:2px;
+  text-transform:uppercase; margin-bottom:8px;
+}
+.plz-encoded {
+  color:#cc2200; font-size:22px; letter-spacing:4px; text-align:center;
+  text-shadow:0 0 18px rgba(200,30,0,0.5);
+  padding:8px 0;
+}
+.plz-shift-row {
+  display:flex; align-items:center; justify-content:center; gap:22px;
+  margin:4px 0 4px;
+}
+.plz-arrow {
+  background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.15);
+  color:#fff; width:38px; height:38px; font-size:16px; cursor:pointer;
+  border-radius:3px; transition:background .15s, transform .1s;
+  font-family:'Courier New',monospace;
+}
+.plz-arrow:hover { background:rgba(200,40,0,0.35); border-color:rgba(200,40,0,0.5); }
+.plz-arrow:active { transform:scale(0.92); }
+.plz-shift-num {
+  color:#fff; font-size:36px; font-weight:700; min-width:60px; text-align:center;
+  text-shadow:0 0 20px rgba(255,255,255,0.3);
+  transition:color .2s;
+}
+.plz-shift-num.correct { color:#00e676; text-shadow:0 0 20px rgba(0,230,118,0.5); }
+.plz-preview {
+  color:rgba(255,255,255,0.35); font-size:18px; letter-spacing:3px;
+  text-align:center; padding:6px 0; min-height:32px;
+  transition:color .3s, text-shadow .3s;
+}
+.plz-preview.correct {
+  color:#00e676 !important;
+  text-shadow:0 0 16px rgba(0,230,118,0.6);
+}
+.plz-btn {
+  width:100%; padding:12px; background:rgba(200,40,0,0.5);
+  border:1px solid rgba(200,40,0,0.5); color:#fff;
+  font-family:'Courier New',monospace; font-size:12px; letter-spacing:3px;
+  cursor:pointer; border-radius:3px; transition:background .2s, box-shadow .2s;
+  text-transform:uppercase;
+}
+.plz-btn:hover { background:rgba(220,50,0,0.7); box-shadow:0 0 20px rgba(200,40,0,0.3); }
+.plz-btn.ready {
+  background:rgba(0,180,80,0.5); border-color:rgba(0,200,80,0.5);
+  box-shadow:0 0 24px rgba(0,200,80,0.2);
+  animation:plzPulse 1.4s ease-in-out infinite;
+}
+@keyframes plzPulse {
+  0%,100% { box-shadow:0 0 18px rgba(0,200,80,0.2); }
+  50% { box-shadow:0 0 32px rgba(0,200,80,0.45); }
+}
+.plz-err { color:#ff6060; font-size:11px; letter-spacing:1px; min-height:16px; text-align:center; }
+.plz-hint-toggle {
+  color:rgba(255,255,255,0.2); font-size:11px; letter-spacing:1px;
+  cursor:pointer; transition:color .2s;
+}
+.plz-hint-toggle:hover { color:rgba(255,255,255,0.5); }
+.plz-hint-box {
+  display:none; color:rgba(255,200,50,0.55); font-size:11px;
+  letter-spacing:.5px; text-align:center; font-style:italic;
+  padding:8px 16px; border:1px solid rgba(255,200,50,0.15);
+  background:rgba(255,200,50,0.04); border-radius:3px;
+  width:100%; box-sizing:border-box;
+}
+.plz-footer {
+  color:rgba(255,255,255,0.12); font-size:10px; letter-spacing:2px;
+  text-transform:uppercase; margin-top:4px;
+}
 </style>
 </head>
 <body>
@@ -1014,24 +1110,52 @@ input[type=range].vol-slider::-webkit-slider-thumb { -webkit-appearance:none; wi
   <div class="pz-s-line" style="margin-top:18px;font-size:9px;color:rgba(200,50,0,0.55);">Mémorisez ce code · Redirection vers l'écran de connexion...</div>
 </div>
 
-<!-- ═══════════════════════════════ LOGIN ═══════════════════════════════ -->
+<!-- ═══════════════════════════════ LOGIN / PUZZLE ═══════════════════════════════ -->
 <div id="login-screen" style="display:flex;">
-  <div style="position:relative;margin-bottom:16px;">
-    <div class="login-avatar" style="font-size:52px;background:linear-gradient(135deg,#3a1a2a,#1a1a2e);">🌹</div>
+
+  <div class="plz-wrap">
+    <!-- Header -->
+    <div class="plz-head">
+      <div class="plz-sys">⬛ ROSALIA-PC &nbsp;·&nbsp; LOREDAN SECURITY v4.2</div>
+      <div class="plz-title">SYSTÈME VERROUILLÉ</div>
+      <div class="plz-sub">Déchiffrement requis pour accéder au bureau</div>
+    </div>
+
+    <!-- Fichier chiffré -->
+    <div class="plz-card">
+      <div class="plz-card-lbl">📁 FICHIER CHIFFRÉ DÉTECTÉ &nbsp;·&nbsp; MÉTHODE : CÉSAR</div>
+      <div class="plz-encoded" id="plz-encoded">O&thinsp;·&thinsp;D&thinsp;·&thinsp;S&thinsp;·&thinsp;O&thinsp;·&thinsp;X&thinsp;·&thinsp;V&thinsp;·&thinsp;E&thinsp;·&thinsp;H&thinsp;·&thinsp;O&thinsp;·&thinsp;O&thinsp;·&thinsp;H</div>
+      <div class="plz-card-lbl" style="margin-top:8px;">LONGUEUR : 11 CARACTÈRES &nbsp;·&nbsp; LANGUE : FR</div>
+    </div>
+
+    <!-- Décodeur interactif -->
+    <div class="plz-card plz-decoder-card">
+      <div class="plz-card-lbl">DÉCALAGE CÉSAR</div>
+      <div class="plz-shift-row">
+        <button class="plz-arrow" onclick="plzAdjust(-1)">◀</button>
+        <div class="plz-shift-num" id="plz-shift-num">0</div>
+        <button class="plz-arrow" onclick="plzAdjust(+1)">▶</button>
+      </div>
+      <div class="plz-card-lbl" style="margin-top:12px;">APERÇU DU DÉCODAGE</div>
+      <div class="plz-preview" id="plz-preview">?&thinsp;·&thinsp;?&thinsp;·&thinsp;?&thinsp;·&thinsp;?&thinsp;·&thinsp;?&thinsp;·&thinsp;?&thinsp;·&thinsp;?&thinsp;·&thinsp;?&thinsp;·&thinsp;?&thinsp;·&thinsp;?&thinsp;·&thinsp;?</div>
+    </div>
+
+    <!-- Validation -->
+    <button class="plz-btn" id="plz-btn" onclick="plzConfirm()">▶ DÉVERROUILLER LE SYSTÈME</button>
+    <div class="plz-err" id="plz-err"></div>
+
+    <!-- Indice -->
+    <div class="plz-hint-toggle" onclick="plzHintToggle()">▾ Indice</div>
+    <div class="plz-hint-box" id="plz-hint-box">
+      « Méthode classique de Jules César — il utilisait un décalage de 3 lettres »
+    </div>
+
+    <div class="plz-footer">ROSALIA-PC &nbsp;·&nbsp; Windows 10 Pro &nbsp;·&nbsp; 16/05/2026</div>
   </div>
-  <div class="login-name">Rosalia Loredan</div>
-  <div class="login-box">
-    <input type="password" id="pwd-input" placeholder="Code d'accès" />
-    <button class="login-go" onclick="tryLogin()">→</button>
-  </div>
-  <div class="login-err" id="login-err"></div>
-  <div class="login-last">Dernière connexion : 14/05/2026 à 23:58</div>
-  <div class="login-footer">ROSALIA-PC &nbsp;·&nbsp; Windows 10 Pro</div>
-  <div class="login-sys-icons">
-    <span title="Accessibilité">♿</span>
-    <span title="Réseau">📶</span>
-    <span title="Arrêter">⏻</span>
-  </div>
+
+  <!-- Fallback input hidden (gardé pour compatibilité) -->
+  <input type="hidden" id="pwd-input">
+  <div class="login-err" id="login-err" style="display:none;"></div>
 </div>
 
 <!-- ═══════════════════════════════ DESKTOP ══════════════════════════════ -->
