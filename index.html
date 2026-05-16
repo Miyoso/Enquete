@@ -1304,7 +1304,7 @@ input[type=range].vol-slider::-webkit-slider-thumb { -webkit-appearance:none; wi
       <!-- Sidebar -->
       <div class="mail-sidebar">
         <div class="mail-sidebar-header">📬 Dossiers</div>
-        <div class="mail-folder active" onclick="switchMailFolder('boite')">📥 Boîte de réception <span class="mf-count">1</span></div>
+        <div class="mail-folder active" onclick="switchMailFolder('boite')">📥 Boîte de réception <span class="mf-count">2</span></div>
         <div class="mail-folder" onclick="switchMailFolder('envoyes')">📤 Messages envoyés</div>
         <div class="mail-folder" onclick="switchMailFolder('brouillons')">📝 Brouillons</div>
         <div class="mail-folder" onclick="switchMailFolder('supprimes')">🗑️ Éléments supprimés</div>
@@ -1336,6 +1336,32 @@ window.addEventListener('DOMContentLoaded', ()=>{
 /* ═══════════════════════ MAIL DATA ═══════════════════════ */
 const MAILS = {
   boite: [
+    {
+      id:'m3', unread:true,
+      from:'Alejandro Reyes <a.reyes.coaching@gmail.com>',
+      fromShort:'Alejandro Reyes',
+      date:'15/05/2026 — 07:14',
+      subject:'Séance de demain — Vespucci Beach 💪',
+      preview:'Rosalia ! Tout est calé pour vendredi matin. Rendez-vous à 7h30 au...',
+      body:`<p>Rosalia !</p>
+<p>Tout est calé pour vendredi matin. Voici le plan :</p>
+<p><strong>📍 Rendez-vous : 7h30</strong><br>
+Parking de la plage de Vespucci, côté <em>Del Perro Freeway</em> — t'arrives par le sud, tu rates pas le panneau "Vespucci Beach". Je serai déjà là avec le matos.</p>
+<p><strong>🏋️ Programme du jour :</strong></p>
+<ul style="padding-left:18px;line-height:2;">
+  <li>Échauffement 10 min — jogging sur la promenade (vers le pier)</li>
+  <li>Circuit cardio × 4 — sprint 30m / burpees / corde à sauter</li>
+  <li>Gainage + abdos — sur le sable, face à la mer (plus instable, meilleur pour le core)</li>
+  <li>Étirements + récup — 15 min</li>
+</ul>
+<p><strong>⚠ À ne pas oublier :</strong> crème solaire (le soleil tape tôt là-bas), chaussures de trail (le sable mouillé près des rochers c'est traître), et ta bouteille de 1,5L minimum.</p>
+<p>Après la séance si t'as encore de l'énergie, on peut finir par quelques longueurs dans l'eau — la température est bonne en ce moment vers le pier nord.</p>
+<p>Bon courage d'avance, et oublie pas : <em>"La douleur d'aujourd'hui, c'est la force de demain."</em> 💪</p>`,
+      sig:'— Alejandro Reyes
+Coach personnel certifié · LS Fitness Pro
+☎ 555-0293',
+      attachments:[]
+    },
     {
       id:'m1', unread:true,
       from:'Adriano Loredan <adriano.loredan@famiglia-loredan.it>',
