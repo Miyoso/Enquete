@@ -1345,10 +1345,10 @@ const MAILS = {
       fromShort:'Alejandro Reyes',
       date:'15/05/2026 — 07:14',
       subject:'Séance de demain — Vespucci Beach 💪',
-      preview:'Rosalia ! Tout est calé pour vendredi matin. Rendez-vous à 7h30 au...',
+      preview:'Rosalia ! Tout est calé pour vendredi soir. Rendez-vous entre 20h et 00h au...',
       body:`<p>Rosalia !</p>
 <p>Tout est calé pour vendredi matin. Voici le plan :</p>
-<p><strong>📍 Rendez-vous : 7h30</strong><br>
+<p><strong>📍 Rendez-vous : entre 20h et 00h</strong><br>
 Parking de la plage de Vespucci, côté <em>Del Perro Freeway</em> — t'arrives par le sud, tu rates pas le panneau "Vespucci Beach". Je serai déjà là avec le matos.</p>
 <p><strong>🏋️ Programme du jour :</strong></p>
 <ul style="padding-left:18px;line-height:2;">
@@ -1400,7 +1400,60 @@ Parking de la plage de Vespucci, côté <em>Del Perro Freeway</em> — t'arrives
     }
   ],
   brouillons: [],
-  supprimes: []
+  supprimes: [
+    {
+      id:'d2', unread:false,
+      from:'Rosalia Loredan <rosalia.loredan@famiglia-loredan.it>',
+      fromShort:'Moi → Romano',
+      date:'13/05/2026 — 22:58',
+      subject:'Re: JE L\'AI FAIT !!!!! 🔥🔥🔥',
+      preview:'Romano... "Batticuore". C\'est comme ça qu\'on va l\'appeler...',
+      body:`<p>Romano,</p>
+<p>Je viens de finir de lire et j'ai dû tout relire deux fois tellement c'est énorme.</p>
+<p>Tu réalises ce que t'as fait ?? Tu viens littéralement de <strong>révolutionner le marché</strong>. Cinq minutes de coup de foudre chimique garanti, suivi d'un vide affectif qui pousse à reprendre — c'est pas une drogue, c'est un piège parfait. La plus belle des machines à fidéliser.</p>
+<p>On va <strong>inonder Los Santos</strong> avec ça. Les clubs, les hôtels, les soirées privées — partout. Même les riches vont vouloir y goûter. Et quand ils auront goûté... ils reviendront. Toujours.</p>
+<p>Pour le nom — j'ai réfléchi. Il faut que ça sonne comme une promesse, quelque chose d'italien, de poétique, qui évoque l'amour sans que ça fasse peur.</p>
+<p><strong>👉 "Batticuore".</strong></p>
+<p>Battement de cœur, en italien. C'est exactement ce que ça fait. C'est beau, ça se retient, et personne saura ce que c'est au premier abord. Parfait pour la rue.</p>
+<p>Réunion demain soir chez moi. Préviens Adriano.</p>
+<p>Brava, fratello. 🖤</p>`,
+      sig:'— Rosalia\nFamiglia Loredan',
+      attachments:[]
+    },
+    {
+      id:'d1', unread:true,
+      from:'Romano Loredan <romano.loredan@famiglia-loredan.it>',
+      fromShort:'Romano Loredan',
+      date:'13/05/2026 — 21:33',
+      subject:'JE L\'AI FAIT !!!!! 🔥🔥🔥',
+      preview:'Rosalia. Je l\'ai fait. Trois ans de travail, des centaines d\'essais ratés...',
+      body:`<p><strong>Rosalia.</strong></p>
+<p>Je l'ai fait.</p>
+<p>Trois ans de travail. Des centaines d'essais ratés. Des nuits sans dormir. Des fois où j'avais envie de tout brûler et d'arrêter. Et là — là — la formule est stable. Elle est parfaite. Je l'ai testée ce soir et ça marche exactement comme je l'avais imaginé.</p>
+<p>Laisse-moi t'expliquer.</p>
+
+<p><strong>⚡ L'Étincelle Immédiate</strong><br>
+Dès l'ingestion de quelques gouttes — ça se dissout dans n'importe quelle boisson, tu sentes rien — le cœur s'emballe doucement et une vague de chaleur traverse le corps de haut en bas. Et là, la première personne que le consommateur regarde... sa voix devient une mélodie. Irresistible. Il peut pas s'en détacher.</p>
+
+<p><strong>💘 Le Coup de Foudre Chimique</strong><br>
+La substance force le cerveau à calquer ses ondes cérébrales sur celles de la personne en face. Le résultat : euphorie totale, fascination esthétique absolue, et la certitude intérieure d'avoir trouvé son âme sœur. C'est pas une impression. Le cerveau y croit vraiment. À 100%.</p>
+
+<p><strong>🤝 L'Empathie Absolue</strong><br>
+Toutes les barrières psychologiques s'effondrent. J'ai fait un test avec deux sujets qui se détestaient — je te jure, Rosalia, ils ont fini par s'embrasser en pleurant, convaincus d'être liés par le destin. C'était magnifique à voir.</p>
+
+<p><strong>⏱ Durée : exactement 5 minutes.</strong></p>
+
+<p><strong>⚠️ Le Contrecoup — c'est là que c'est génial</strong><br>
+Quand la molécule cesse d'agir, l'illusion s'effondre. Brutalement. Le consommateur ressent un vide affectif immense — une sorte de deuil amoureux. Totalement artificiel, mais psychologiquement dévastateur. Et instinctivement, il veut reprendre une dose pour retrouver "l'élu(e)" de son cœur.</p>
+
+<p>Tu comprends ce que ça veut dire ? <strong>Elle se revend toute seule.</strong></p>
+
+<p>Il nous faut juste un nom. Quelque chose qui sonne bien. Tu as toujours eu le sens des mots — je te laisse décider.</p>
+<p>Appelle-moi dès que tu lis ça.</p>`,
+      sig:'— Romano\nFamiglia Loredan — Laboratoire',
+      attachments:[]
+    }
+  ]
 };
 
 let curMailFolder = 'boite';
@@ -1489,7 +1542,7 @@ const FS = {
   'Divinité_Contemporaine_Auto-Portrait.jpg':     { type:'file', icon:'🖼️', _photo:'https://i.goopics.net/tsdmkz.png', content: photoViewer('https://i.goopics.net/tsdmkz.png','Divinité Contemporaine — Auto-Portrait') },
   'OPS-INTERNAL':              { type:'folder', children:['ORDRE_ELIMINATION.doc','RENSEIGNEMENTS_POLICIERS'] },
   'RENSEIGNEMENTS_POLICIERS':  { type:'folder', children:['SUBJ_68_RICK_CASH.doc','SUBJ_96_JERRY_SIGNAL.doc'] },
-  'Mes Documents':             { type:'folder', children:['notes_perso.txt','agenda.doc'] },
+  'Mes Documents':             { type:'folder', children:['agenda.doc'] },
   'CONFIDENTIEL_UNLOCKED': { type:'folder', children:[
     { name:'budget_opération.txt', type:'file', content:`BUDGET OPÉRATION — MAI/JUIN 2026
 
@@ -1530,12 +1583,6 @@ SOLDE NET ........................ 14 900 €` },
   'ORDRE_ELIMINATION.doc': { type:'file', icon:'📄', content: docElimination() },
   'SUBJ_68_RICK_CASH.doc': { type:'file', icon:'📄', content: docRick() },
   'SUBJ_96_JERRY_SIGNAL.doc': { type:'file', icon:'📄', content: docJerry() },
-  'notes_perso.txt': { type:'file', icon:'📝', content:`<div class="simpledoc"><h3>NOTES PERSONNELLES</h3>
-— Réunion famille : vendredi 22h, chez Enzo<br>
-— Changer les codes du coffre (demander à Papa)<br>
-— Appeler Marco pour le transfert du Nord<br>
-— NE PAS oublier : supprimer les fichiers OPS avant jeudi
-</div>` },
   'agenda.doc': { type:'file', icon:'📅', content: agendaHTML() }
 };
 
