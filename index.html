@@ -257,11 +257,44 @@ body { font-family:'Segoe UI',Tahoma,sans-serif; width:100vw; height:100vh; over
   display:flex; align-items:center; padding:0 8px; z-index:500;
 }
 .tb-start {
-  background:linear-gradient(135deg,#8b0000,#c0392b);
-  color:#fff; border:none; padding:4px 12px; border-radius:3px;
-  font-size:11px; font-weight:700; cursor:pointer; margin-right:10px;
-  letter-spacing:1px; text-transform:uppercase;
+  background:transparent; border:none; cursor:pointer;
+  width:36px; height:36px; display:flex; align-items:center; justify-content:center;
+  border-radius:6px; margin-right:4px; transition:background .15s; flex-shrink:0;
 }
+.tb-start:hover { background:rgba(255,255,255,0.1); }
+.tb-start.active { background:rgba(255,255,255,0.15); }
+.tb-start svg { width:16px; height:16px; display:block; }
+/* Menu démarrer */
+#start-menu {
+  position:fixed; bottom:44px; left:6px; width:320px;
+  background:rgba(10,12,22,0.97); backdrop-filter:blur(24px);
+  border:1px solid rgba(255,255,255,0.1); border-radius:12px;
+  box-shadow:0 -8px 40px rgba(0,0,0,0.8); display:none; z-index:8000;
+  overflow:hidden;
+}
+#start-menu.show { display:block; }
+.sm-user { display:flex; align-items:center; gap:12px; padding:16px 18px 14px;
+  border-bottom:1px solid rgba(255,255,255,0.07); }
+.sm-avatar { width:38px; height:38px; border-radius:50%;
+  background:linear-gradient(135deg,#5a0010,#a02030);
+  display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
+.sm-name { font-size:13px; font-weight:600; color:#fff; }
+.sm-role { font-size:10px; color:rgba(255,255,255,0.35); letter-spacing:.5px; margin-top:1px; }
+.sm-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:2px; padding:12px 10px 8px; }
+.sm-app { display:flex; flex-direction:column; align-items:center; gap:5px;
+  padding:10px 6px; border-radius:8px; cursor:pointer; transition:background .12s; }
+.sm-app:hover { background:rgba(255,255,255,0.08); }
+.sm-app-ico { font-size:22px; line-height:1; }
+.sm-app-lbl { font-size:9.5px; color:rgba(255,255,255,0.6); text-align:center; letter-spacing:.2px; }
+.sm-sep { height:1px; background:rgba(255,255,255,0.07); margin:0 14px; }
+.sm-footer { display:flex; align-items:center; justify-content:space-between;
+  padding:10px 16px; }
+.sm-pc { font-size:11px; color:rgba(255,255,255,0.4); display:flex; align-items:center; gap:6px; }
+.sm-power { display:flex; gap:4px; }
+.sm-power-btn { background:rgba(255,255,255,0.06); border:none; color:rgba(255,255,255,0.5);
+  font-size:14px; width:30px; height:30px; border-radius:6px; cursor:pointer;
+  display:flex; align-items:center; justify-content:center; transition:background .12s; }
+.sm-power-btn:hover { background:rgba(255,60,40,0.25); color:#ff6b6b; }
 .tb-apps { display:flex; gap:4px; flex:1; overflow:hidden; }
 .tb-btn {
   background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.1);
@@ -276,7 +309,61 @@ body { font-family:'Segoe UI',Tahoma,sans-serif; width:100vw; height:100vh; over
 .tb-tray { display:flex; align-items:center; gap:10px; margin-right:8px; }
 .tb-tray-icon { color:rgba(255,255,255,0.55); font-size:13px; cursor:default; }
 .tb-tray-icon:hover { color:rgba(255,255,255,0.9); }
-.tb-clock { color:rgba(255,255,255,0.75); font-size:11px; text-align:right; line-height:1.4; cursor:default; min-width:52px; }
+.tb-clock { color:rgba(255,255,255,0.75); font-size:11px; text-align:right; line-height:1.4; cursor:pointer; min-width:52px; }
+.tb-clock:hover { color:#fff; }
+.tb-tray-wrap { position:relative; display:flex; align-items:center; }
+.tb-tray-icon { color:rgba(255,255,255,0.6); font-size:14px; cursor:pointer; padding:4px 5px; border-radius:4px; transition:background .15s,color .15s; user-select:none; }
+.tb-tray-icon:hover { background:rgba(255,255,255,0.1); color:#fff; }
+.tb-tray-icon.active { background:rgba(255,255,255,0.15); color:#fff; }
+.tray-panel {
+  position:fixed; bottom:44px; background:rgba(12,15,26,0.97);
+  border:1px solid rgba(255,255,255,0.13); border-radius:10px;
+  box-shadow:0 -6px 32px rgba(0,0,0,0.7); display:none; z-index:8000;
+  backdrop-filter:blur(20px); min-width:230px; overflow:hidden;
+}
+.tray-panel.show { display:block; }
+.tp-header { padding:12px 14px 8px; font-size:11px; letter-spacing:1.5px; color:rgba(255,255,255,0.35); text-transform:uppercase; border-bottom:1px solid rgba(255,255,255,0.07); }
+.tp-body { padding:10px; }
+/* WiFi */
+.wifi-net { display:flex; align-items:center; gap:10px; padding:7px 8px; border-radius:6px; cursor:pointer; transition:background .12s; }
+.wifi-net:hover { background:rgba(255,255,255,0.07); }
+.wifi-net.connected { color:#4ade80; }
+.wifi-name { font-size:12px; flex:1; color:rgba(255,255,255,0.85); }
+.wifi-net.connected .wifi-name { color:#4ade80; font-weight:600; }
+.wifi-bars { display:flex; align-items:flex-end; gap:1.5px; height:12px; }
+.wifi-bars span { display:block; width:3px; background:rgba(255,255,255,0.25); border-radius:1px; }
+.wifi-bars.s4 span { background:rgba(255,255,255,0.7); }
+.wifi-bars.s3 span:nth-child(-n+3) { background:rgba(255,255,255,0.7); }
+.wifi-bars.s2 span:nth-child(-n+2) { background:rgba(255,255,255,0.7); }
+.wifi-bars.s1 span:nth-child(-n+1) { background:rgba(255,255,255,0.7); }
+.wifi-net.connected .wifi-bars span { background:#4ade80; }
+/* Volume */
+.vol-row { display:flex; align-items:center; gap:10px; padding:8px; }
+.vol-icon { font-size:18px; cursor:pointer; user-select:none; width:24px; text-align:center; }
+.vol-pct { font-size:12px; color:rgba(255,255,255,0.6); min-width:32px; text-align:right; }
+input[type=range].vol-slider { flex:1; -webkit-appearance:none; height:4px; border-radius:2px; background:rgba(255,255,255,0.15); outline:none; cursor:pointer; }
+input[type=range].vol-slider::-webkit-slider-thumb { -webkit-appearance:none; width:14px; height:14px; border-radius:50%; background:#fff; cursor:pointer; }
+/* Battery */
+.bat-visual { display:flex; align-items:center; gap:10px; padding:10px 8px; }
+.bat-body { width:54px; height:20px; border:2px solid rgba(255,255,255,0.4); border-radius:4px; position:relative; padding:2px; }
+.bat-body::after { content:''; position:absolute; right:-6px; top:50%; transform:translateY(-50%); width:4px; height:10px; background:rgba(255,255,255,0.4); border-radius:0 2px 2px 0; }
+.bat-fill { height:100%; border-radius:2px; transition:width .5s; }
+.bat-info { font-size:12px; color:rgba(255,255,255,0.8); }
+.bat-status { font-size:10px; color:rgba(255,255,255,0.4); margin-top:2px; }
+/* Dossier verrou */
+.folder-lock-modal { position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:9500; display:none; align-items:center; justify-content:center; }
+.folder-lock-modal.show { display:flex; }
+.flm-box { background:#1e2330; border:1px solid rgba(255,255,255,0.15); border-radius:10px; padding:28px 32px; width:320px; text-align:center; box-shadow:0 20px 60px rgba(0,0,0,0.8); }
+.flm-icon { font-size:40px; margin-bottom:12px; }
+.flm-title { color:#fff; font-size:14px; font-weight:600; margin-bottom:4px; }
+.flm-sub { color:rgba(255,255,255,0.4); font-size:11px; margin-bottom:18px; letter-spacing:.5px; }
+.flm-input { width:100%; background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.15); border-radius:6px; color:#fff; padding:9px 12px; font-size:14px; text-align:center; letter-spacing:4px; outline:none; box-sizing:border-box; }
+.flm-input:focus { border-color:rgba(180,40,0,0.7); }
+.flm-btn { width:100%; margin-top:12px; background:rgba(140,25,0,0.8); border:none; color:#fff; padding:9px; border-radius:6px; cursor:pointer; font-size:13px; letter-spacing:1px; }
+.flm-btn:hover { background:rgba(180,30,0,0.9); }
+.flm-err { color:#ff4422; font-size:10px; margin-top:8px; min-height:14px; letter-spacing:.5px; }
+.flm-hint { color:rgba(255,255,255,0.2); font-size:9px; margin-top:14px; letter-spacing:.5px; cursor:pointer; }
+.flm-hint:hover { color:rgba(255,255,255,0.5); }
 /* right-click menu */
 #ctx-menu {
   position:fixed; z-index:9000; background:#1e2330;
@@ -961,19 +1048,141 @@ body { font-family:'Segoe UI',Tahoma,sans-serif; width:100vw; height:100vh; over
       <div class="di">🗑️</div>
       <div class="dl">Corbeille</div>
     </div>
+    <div class="d-icon" ondblclick="openLockedFolder()" onclick="selIcon(this)">
+      <div class="di">🔐</div>
+      <div class="dl">CONFIDENTIEL</div>
+    </div>
   </div>
 
   <!-- TASKBAR -->
   <div id="taskbar">
-    <button class="tb-start" onclick="toggleStart()">⊞</button>
+    <button class="tb-start" id="tb-start-btn" onclick="toggleStart()">
+      <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="0" width="5.5" height="5.5" rx="0.5" fill="rgba(255,255,255,0.85)"/>
+        <rect x="6.5" y="0" width="5.5" height="5.5" rx="0.5" fill="rgba(255,255,255,0.85)"/>
+        <rect x="0" y="6.5" width="5.5" height="5.5" rx="0.5" fill="rgba(255,255,255,0.85)"/>
+        <rect x="6.5" y="6.5" width="5.5" height="5.5" rx="0.5" fill="rgba(255,255,255,0.85)"/>
+      </svg>
+    </button>
+    <!-- MENU DÉMARRER -->
+    <div id="start-menu">
+      <div class="sm-user">
+        <div class="sm-avatar">🌹</div>
+        <div>
+          <div class="sm-name">Rosalia Loredan</div>
+          <div class="sm-role">ROSALIA-PC · Administrateur</div>
+        </div>
+      </div>
+      <div style="padding:10px 12px 4px;font-size:9px;color:rgba(255,255,255,0.25);letter-spacing:2px;">ÉPINGLÉS</div>
+      <div class="sm-grid">
+        <div class="sm-app" onclick="openFolder('Mes Documents');toggleStart()">
+          <div class="sm-app-ico">📂</div><div class="sm-app-lbl">Documents</div>
+        </div>
+        <div class="sm-app" onclick="openBrowser();toggleStart()">
+          <div class="sm-app-ico">🌐</div><div class="sm-app-lbl">Internet</div>
+        </div>
+        <div class="sm-app" onclick="openMail();toggleStart()">
+          <div class="sm-app-ico">📧</div><div class="sm-app-lbl">Messagerie</div>
+        </div>
+        <div class="sm-app" onclick="openFolder('OPS-INTERNAL');toggleStart()">
+          <div class="sm-app-ico">📁</div><div class="sm-app-lbl">OPS-INTERNAL</div>
+        </div>
+        <div class="sm-app" onclick="openFolder('✨ MOI — L'Icône Absolue de Sa Génération ✨');toggleStart()">
+          <div class="sm-app-ico">📸</div><div class="sm-app-lbl">Photos</div>
+        </div>
+        <div class="sm-app" onclick="openLockedFolder();toggleStart()">
+          <div class="sm-app-ico">🔐</div><div class="sm-app-lbl">Confidentiel</div>
+        </div>
+        <div class="sm-app" onclick="openFolder('Corbeille');toggleStart()">
+          <div class="sm-app-ico">🗑️</div><div class="sm-app-lbl">Corbeille</div>
+        </div>
+        <div class="sm-app" onclick="document.getElementById('sticky-note').style.display='block';toggleStart()">
+          <div class="sm-app-ico">📝</div><div class="sm-app-lbl">Notes</div>
+        </div>
+      </div>
+      <div class="sm-sep"></div>
+      <div class="sm-footer">
+        <div class="sm-pc">💻 <span>ROSALIA-PC</span></div>
+        <div class="sm-power">
+          <button class="sm-power-btn" title="Paramètres" onclick="toggleStart()">⚙</button>
+          <button class="sm-power-btn" title="Verrouiller" onclick="toggleStart()">🔒</button>
+          <button class="sm-power-btn" title="Éteindre" onclick="toggleStart()">⏻</button>
+        </div>
+      </div>
+    </div>
     <div class="tb-apps" id="tb-apps"></div>
-    <div class="tb-tray">
-      <span class="tb-tray-icon" title="Réseau">📶</span>
-      <span class="tb-tray-icon" title="Son">🔊</span>
-      <span class="tb-tray-icon" title="Batterie">🔋</span>
+    <div class="tb-tray" id="tb-tray">
+
+      <!-- WiFi -->
+      <div class="tb-tray-wrap">
+        <span class="tb-tray-icon" id="tray-wifi" title="Wi-Fi" onclick="toggleTray('wifi-panel',this)">▲▲▲</span>
+        <div class="tray-panel" id="wifi-panel" style="right:180px;">
+          <div class="tp-header">Wi-Fi · Connecté</div>
+          <div class="tp-body">
+            <div class="wifi-net connected">
+              <div class="wifi-bars s4"><span style="height:3px"></span><span style="height:6px"></span><span style="height:9px"></span><span style="height:12px"></span></div>
+              <span class="wifi-name">LOREDAN_HOME_5G</span><span style="font-size:10px;color:#4ade80;">✓</span>
+            </div>
+            <div class="wifi-net"><div class="wifi-bars s3"><span style="height:3px"></span><span style="height:6px"></span><span style="height:9px"></span><span style="height:12px;opacity:.2"></span></div><span class="wifi-name">VOISIN-BBOX-5GHz</span></div>
+            <div class="wifi-net"><div class="wifi-bars s3"><span style="height:3px"></span><span style="height:6px"></span><span style="height:9px"></span><span style="height:12px;opacity:.2"></span></div><span class="wifi-name">FREE_WIFI_A4B2</span></div>
+            <div class="wifi-net"><div class="wifi-bars s2"><span style="height:3px"></span><span style="height:6px"></span><span style="height:9px;opacity:.2"></span><span style="height:12px;opacity:.2"></span></div><span class="wifi-name">AndroidAP_K9</span><span style="font-size:10px;color:rgba(255,255,255,0.3);">🔒</span></div>
+            <div class="wifi-net"><div class="wifi-bars s1"><span style="height:3px"></span><span style="height:6px;opacity:.2"></span><span style="height:9px;opacity:.2"></span><span style="height:12px;opacity:.2"></span></div><span class="wifi-name">linksys</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Volume -->
+      <div class="tb-tray-wrap">
+        <span class="tb-tray-icon" id="tray-vol" title="Son" onclick="toggleTray('vol-panel',this)">🔊</span>
+        <div class="tray-panel" id="vol-panel" style="right:120px;min-width:240px;">
+          <div class="tp-header">Volume système</div>
+          <div class="tp-body">
+            <div class="vol-row">
+              <span class="vol-icon" id="vol-icon" onclick="toggleMute()">🔊</span>
+              <input type="range" class="vol-slider" id="vol-slider" min="0" max="100" value="74" oninput="updateVol(this.value)">
+              <span class="vol-pct" id="vol-pct">74%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Batterie -->
+      <div class="tb-tray-wrap">
+        <span class="tb-tray-icon" id="tray-bat" title="Batterie" onclick="toggleTray('bat-panel',this)">🔋</span>
+        <div class="tray-panel" id="bat-panel" style="right:60px;min-width:200px;">
+          <div class="tp-header">Batterie</div>
+          <div class="tp-body">
+            <div class="bat-visual">
+              <div class="bat-body"><div class="bat-fill" id="bat-fill" style="width:73%;background:#4ade80;"></div></div>
+              <div><div class="bat-info" id="bat-pct">73%</div><div class="bat-status" id="bat-status">⚡ Branché · En charge</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <span class="tb-tray-icon" id="tb-notif" title="Notifications" onclick="showNotif()">🔔</span>
     </div>
-    <div class="tb-clock" id="clock">--:--<br><span id="clock-date" style="font-size:10px;color:rgba(255,255,255,0.5);">--/--/----</span></div>
+    <div class="tb-clock" id="clock" onclick="toggleTray('clock-panel',this)" style="cursor:pointer;">
+      --:--<br><span id="clock-date" style="font-size:10px;color:rgba(255,255,255,0.5);">--/--/----</span>
+    </div>
+  </div>
+</div>
+
+<!-- DOSSIER VERROUILLÉ -->
+<div class="folder-lock-modal" id="flm">
+  <div class="flm-box">
+    <div class="flm-icon" id="flm-icon">🔐</div>
+    <div class="flm-title">CONFIDENTIEL — Accès restreint</div>
+    <div class="flm-sub">Ce dossier est chiffré · Entrez le mot de passe</div>
+    <input class="flm-input" id="flm-pwd" type="password" maxlength="20" placeholder="••••••" autocomplete="off"
+      onkeydown="if(event.key==='Enter')checkLockPwd()">
+    <button class="flm-btn" onclick="checkLockPwd()">→ DÉVERROUILLER</button>
+    <div class="flm-err" id="flm-err"></div>
+    <div class="flm-hint" onclick="toggleFlmHint()">▾ Indice</div>
+    <div id="flm-hint-text" style="display:none;margin-top:8px;font-size:10px;color:rgba(255,180,40,0.5);letter-spacing:.5px;">
+      « Le pseudo qu'ils partagent tous les deux »
+    </div>
+    <div style="margin-top:14px;"><button onclick="document.getElementById('flm').classList.remove('show')" style="background:none;border:none;color:rgba(255,255,255,0.2);font-size:11px;cursor:pointer;">Annuler</button></div>
   </div>
 </div>
 
@@ -1254,6 +1463,25 @@ const FS = {
   'OPS-INTERNAL':              { type:'folder', children:['ORDRE_ELIMINATION.doc','RENSEIGNEMENTS_POLICIERS'] },
   'RENSEIGNEMENTS_POLICIERS':  { type:'folder', children:['SUBJ_68_RICK_CASH.doc','SUBJ_45_JERRY_SIGNAL.doc'] },
   'Mes Documents':             { type:'folder', children:['notes_perso.txt','agenda.doc'] },
+  'CONFIDENTIEL_UNLOCKED': { type:'folder', children:[
+    { name:'budget_opération.txt', type:'file', content:`BUDGET OPÉRATION — MAI/JUIN 2026
+
+ENTRÉES :
+  Virement 1 (03/05) ............. 18 500 €
+  Virement 2 (28/05) ............. 12 000 €
+  Liquide reçu (Javier, 10/05).... 8 000 €
+  TOTAL ENTRÉES .................. 38 500 €
+
+SORTIES :
+  Transport + logistique .......... 4 200 €
+  Hébergement Rome (4 nuits) ...... 1 800 €
+  Birdie (mission) ................ 6 000 €
+  Il Marchese (commission) ........ 9 500 €
+  Imprévus / sécurité ............. 2 100 €
+  TOTAL SORTIES .................. 23 600 €
+
+SOLDE NET ........................ 14 900 €` },
+  ]},
   'Corbeille': { type:'folder', children:[
     'Cde_Farine_#001_La_Molisana.doc','Cde_Farine_#002_Divella.doc',
     'Cde_Farine_#003_La_Molisana.doc','Cde_Farine_#004_Caputo.doc',
@@ -1473,6 +1701,7 @@ function triggerPuzzleSuccess(){
 
 /* ═══════════════════════ LOGIN ═══════════════════════ */
 document.addEventListener('DOMContentLoaded', ()=>{
+  initBattery();
   const pi = document.getElementById('pwd-input');
   if(pi) pi.addEventListener('keydown', e=>{ if(e.key==='Enter') tryLogin(); });
 });
@@ -1492,6 +1721,95 @@ function tryLogin(){
 }
 
 /* ═══════════════════════ CLOCK ═══════════════════════ */
+/* ═══════════════ SYSTEM TRAY ═══════════════ */
+let openTrayPanel = null;
+
+function toggleTray(id, btn){
+  const panel = document.getElementById(id);
+  if(!panel) return;
+  const isOpen = panel.classList.contains('show');
+  // Fermer tous les panneaux
+  document.querySelectorAll('.tray-panel').forEach(p=>p.classList.remove('show'));
+  document.querySelectorAll('.tb-tray-icon').forEach(i=>i.classList.remove('active'));
+  if(!isOpen){
+    panel.classList.add('show');
+    if(btn) btn.classList.add('active');
+    openTrayPanel = id;
+  } else {
+    openTrayPanel = null;
+  }
+}
+
+document.addEventListener('click', e=>{
+  if(!e.target.closest('.tb-tray-wrap') && !e.target.closest('#clock') && !e.target.closest('.tray-panel')){
+    document.querySelectorAll('.tray-panel').forEach(p=>p.classList.remove('show'));
+    document.querySelectorAll('.tb-tray-icon').forEach(i=>i.classList.remove('active'));
+    openTrayPanel = null;
+  }
+});
+
+let isMuted = false;
+let lastVol = 74;
+function updateVol(v){
+  document.getElementById('vol-pct').textContent = v + '%';
+  document.getElementById('vol-icon').textContent = v==0 ? '🔇' : v<40 ? '🔉' : '🔊';
+  lastVol = v > 0 ? v : lastVol;
+  isMuted = (v == 0);
+}
+function toggleMute(){
+  const slider = document.getElementById('vol-slider');
+  isMuted = !isMuted;
+  slider.value = isMuted ? 0 : lastVol;
+  updateVol(slider.value);
+}
+
+function initBattery(){
+  if(navigator.getBattery){
+    navigator.getBattery().then(bat=>{
+      function updateBat(){
+        const pct = Math.round(bat.level * 100);
+        document.getElementById('bat-pct').textContent = pct + '%';
+        document.getElementById('bat-fill').style.width = pct + '%';
+        document.getElementById('bat-fill').style.background = pct > 20 ? '#4ade80' : '#ef4444';
+        document.getElementById('bat-status').textContent = bat.charging ? '⚡ Branché · En charge' : (pct < 20 ? '⚠ Batterie faible' : 'Sur batterie');
+      }
+      updateBat();
+      bat.addEventListener('levelchange', updateBat);
+      bat.addEventListener('chargingchange', updateBat);
+    });
+  }
+}
+
+/* ═══════════════ DOSSIER VERROUILLÉ ═══════════════ */
+function openLockedFolder(){
+  document.getElementById('flm').classList.add('show');
+  document.getElementById('flm-pwd').value = '';
+  document.getElementById('flm-err').textContent = '';
+  document.getElementById('flm-hint-text').style.display = 'none';
+  setTimeout(()=>document.getElementById('flm-pwd').focus(), 100);
+}
+
+function toggleFlmHint(){
+  const h = document.getElementById('flm-hint-text');
+  h.style.display = h.style.display === 'none' ? 'block' : 'none';
+}
+
+function checkLockPwd(){
+  const val = document.getElementById('flm-pwd').value.trim().toUpperCase();
+  const errEl = document.getElementById('flm-err');
+  if(val === 'BIRDIE'){
+    document.getElementById('flm').classList.remove('show');
+    document.getElementById('flm-icon').textContent = '🔓';
+    setTimeout(()=>openFolder('CONFIDENTIEL_UNLOCKED'), 100);
+  } else {
+    errEl.textContent = '⚠ MOT DE PASSE INCORRECT';
+    document.getElementById('flm-pwd').value = '';
+    document.getElementById('flm-pwd').classList.add('pz-mi-err');
+    setTimeout(()=>{ document.getElementById('flm-pwd').classList.remove('pz-mi-err'); errEl.textContent=''; }, 1800);
+    document.getElementById('flm-pwd').focus();
+  }
+}
+
 function startClock(){
   const tick=()=>{
     const n=new Date();
@@ -1537,7 +1855,21 @@ function showNotif(){
 // Show notification 4s after login
 function scheduleNotif(){ setTimeout(()=>{ showNotif(); document.getElementById('tb-notif').style.color='#ff7043'; }, 4000); }
 
-function toggleStart(){} // placeholder
+function toggleStart(){
+  const menu = document.getElementById('start-menu');
+  const btn  = document.getElementById('tb-start-btn');
+  const open = menu.classList.toggle('show');
+  btn.classList.toggle('active', open);
+  // Fermer les panneaux tray si ouverts
+  document.querySelectorAll('.tray-panel').forEach(p=>p.classList.remove('show'));
+  document.querySelectorAll('.tb-tray-icon').forEach(i=>i.classList.remove('active'));
+}
+document.addEventListener('click', e=>{
+  if(!e.target.closest('#start-menu') && !e.target.closest('#tb-start-btn')){
+    document.getElementById('start-menu').classList.remove('show');
+    document.getElementById('tb-start-btn').classList.remove('active');
+  }
+}, true);
 
 /* ═══════════════════════ DESKTOP ICON SELECT ═══════════════════════ */
 function selIcon(el){
