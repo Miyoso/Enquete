@@ -961,6 +961,38 @@ input[type=range].vol-slider::-webkit-slider-thumb { -webkit-appearance:none; wi
   color:rgba(255,255,255,0.12); font-size:10px; letter-spacing:2px;
   text-transform:uppercase; margin-top:4px;
 }
+
+.plz-polybe-wrap { display:flex; gap:18px; align-items:flex-start; margin-top:6px; flex-wrap:wrap; }
+.plz-grid {
+  border-collapse:collapse; font-family:'Courier New',monospace; font-size:12px;
+  flex-shrink:0;
+}
+.plz-grid th {
+  background:rgba(200,40,0,0.25); color:rgba(200,40,0,0.9);
+  border:1px solid rgba(200,40,0,0.3); padding:6px 10px;
+  font-weight:700; letter-spacing:1px; text-align:center;
+}
+.plz-grid td {
+  border:1px solid rgba(255,255,255,0.1); padding:6px 10px;
+  text-align:center; color:#ccc; background:rgba(255,255,255,0.02);
+  transition:background .15s;
+}
+.plz-grid td:hover { background:rgba(200,40,0,0.15); color:#fff; cursor:default; }
+.plz-cipher-col { flex:1; min-width:180px; display:flex; flex-direction:column; gap:6px; }
+.plz-encoded {
+  color:#cc2200; font-size:17px; letter-spacing:2px;
+  text-shadow:0 0 14px rgba(200,30,0,0.4);
+  padding:10px 0; line-height:1.8; word-break:break-all;
+}
+.plz-input-row { display:flex; gap:10px; align-items:center; margin-top:6px; }
+.plz-answer-input {
+  flex:1; background:rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.2);
+  color:#fff; padding:10px 14px; font-family:'Courier New',monospace;
+  font-size:15px; letter-spacing:4px; outline:none; border-radius:3px;
+  text-transform:lowercase; transition:border-color .2s;
+}
+.plz-answer-input:focus { border-color:rgba(200,40,0,0.6); }
+.plz-answer-input::placeholder { letter-spacing:6px; color:rgba(255,255,255,0.15); font-size:11px; }
 </style>
 </head>
 <body>
@@ -1112,48 +1144,60 @@ input[type=range].vol-slider::-webkit-slider-thumb { -webkit-appearance:none; wi
 
 <!-- ═══════════════════════════════ LOGIN / PUZZLE ═══════════════════════════════ -->
 <div id="login-screen" style="display:flex;">
-
   <div class="plz-wrap">
-    <!-- Header -->
+
     <div class="plz-head">
       <div class="plz-sys">⬛ ROSALIA-PC &nbsp;·&nbsp; LOREDAN SECURITY v4.2</div>
-      <div class="plz-title">SYSTÈME VERROUILLÉ</div>
-      <div class="plz-sub">Déchiffrement requis pour accéder au bureau</div>
+      <div class="plz-title">ACCÈS REFUSÉ</div>
+      <div class="plz-sub">Déchiffrez le fichier pour vous authentifier</div>
     </div>
 
-    <!-- Fichier chiffré -->
+    <!-- Méthode + fichier -->
     <div class="plz-card">
-      <div class="plz-card-lbl">📁 FICHIER CHIFFRÉ DÉTECTÉ &nbsp;·&nbsp; MÉTHODE : CÉSAR</div>
-      <div class="plz-encoded" id="plz-encoded">O&thinsp;·&thinsp;D&thinsp;·&thinsp;S&thinsp;·&thinsp;O&thinsp;·&thinsp;X&thinsp;·&thinsp;V&thinsp;·&thinsp;E&thinsp;·&thinsp;H&thinsp;·&thinsp;O&thinsp;·&thinsp;O&thinsp;·&thinsp;H</div>
-      <div class="plz-card-lbl" style="margin-top:8px;">LONGUEUR : 11 CARACTÈRES &nbsp;·&nbsp; LANGUE : FR</div>
-    </div>
-
-    <!-- Décodeur interactif -->
-    <div class="plz-card plz-decoder-card">
-      <div class="plz-card-lbl">DÉCALAGE CÉSAR</div>
-      <div class="plz-shift-row">
-        <button class="plz-arrow" onclick="plzAdjust(-1)">◀</button>
-        <div class="plz-shift-num" id="plz-shift-num">0</div>
-        <button class="plz-arrow" onclick="plzAdjust(+1)">▶</button>
+      <div class="plz-card-lbl">📁 FICHIER CRYPTÉ #4471 &nbsp;·&nbsp; MÉTHODE : CARRÉ DE POLYBE</div>
+      <div class="plz-polybe-wrap">
+        <!-- Grille Polybe -->
+        <table class="plz-grid">
+          <tr><th></th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr>
+          <tr><th>1</th><td>A</td><td>B</td><td>C</td><td>D</td><td>E</td></tr>
+          <tr><th>2</th><td>F</td><td>G</td><td>H</td><td>I</td><td>K</td></tr>
+          <tr><th>3</th><td>L</td><td>M</td><td>N</td><td>O</td><td>P</td></tr>
+          <tr><th>4</th><td>Q</td><td>R</td><td>S</td><td>T</td><td>U</td></tr>
+          <tr><th>5</th><td>V</td><td>W</td><td>X</td><td>Y</td><td>Z</td></tr>
+        </table>
+        <!-- Texte chiffré -->
+        <div class="plz-cipher-col">
+          <div class="plz-card-lbl">TEXTE CHIFFRÉ</div>
+          <div class="plz-encoded">
+            31&thinsp;·&thinsp;11&thinsp;·&thinsp;35&thinsp;·&thinsp;31&thinsp;·&thinsp;45&thinsp;·&thinsp;43&thinsp;·&thinsp;12&thinsp;·&thinsp;15&thinsp;·&thinsp;31&thinsp;·&thinsp;31&thinsp;·&thinsp;15
+          </div>
+          <div class="plz-card-lbl" style="margin-top:6px;">11 PAIRES &nbsp;·&nbsp; CHAQUE PAIRE = LIGNE · COLONNE</div>
+        </div>
       </div>
-      <div class="plz-card-lbl" style="margin-top:12px;">APERÇU DU DÉCODAGE</div>
-      <div class="plz-preview" id="plz-preview">?&thinsp;·&thinsp;?&thinsp;·&thinsp;?&thinsp;·&thinsp;?&thinsp;·&thinsp;?&thinsp;·&thinsp;?&thinsp;·&thinsp;?&thinsp;·&thinsp;?&thinsp;·&thinsp;?&thinsp;·&thinsp;?&thinsp;·&thinsp;?</div>
     </div>
 
-    <!-- Validation -->
-    <button class="plz-btn" id="plz-btn" onclick="plzConfirm()">▶ DÉVERROUILLER LE SYSTÈME</button>
-    <div class="plz-err" id="plz-err"></div>
+    <!-- Zone de réponse -->
+    <div class="plz-card plz-decoder-card">
+      <div class="plz-card-lbl">SAISIR LE MOT DÉCHIFFRÉ</div>
+      <div class="plz-input-row">
+        <input class="plz-answer-input" id="plz-answer" type="text" maxlength="20"
+          placeholder="_ _ _ _ _ _ _ _ _ _ _"
+          autocomplete="off" spellcheck="false"
+          onkeydown="if(event.key==='Enter')plzConfirm()">
+        <button class="plz-btn" id="plz-btn" onclick="plzConfirm()">▶ VALIDER</button>
+      </div>
+      <div class="plz-err" id="plz-err"></div>
+    </div>
 
     <!-- Indice -->
     <div class="plz-hint-toggle" onclick="plzHintToggle()">▾ Indice</div>
     <div class="plz-hint-box" id="plz-hint-box">
-      « Méthode classique de Jules César — il utilisait un décalage de 3 lettres »
+      « Premier chiffre = numéro de ligne &nbsp;·&nbsp; Second chiffre = numéro de colonne &nbsp;·&nbsp; I et J partagent la même case »
     </div>
 
     <div class="plz-footer">ROSALIA-PC &nbsp;·&nbsp; Windows 10 Pro &nbsp;·&nbsp; 16/05/2026</div>
   </div>
 
-  <!-- Fallback input hidden (gardé pour compatibilité) -->
   <input type="hidden" id="pwd-input">
   <div class="login-err" id="login-err" style="display:none;"></div>
 </div>
@@ -1935,46 +1979,31 @@ document.addEventListener('DOMContentLoaded', ()=>{
   if(pi) pi.addEventListener('keydown', e=>{ if(e.key==='Enter') tryLogin(); });
 });
 
-/* ══════════════════ PUZZLE LOGIN ══════════════════ */
-const PLZ_ENCODED = 'ODSOXVEHOOH';
-let plzCurrentShift = 0;
-
-function plzAdjust(delta){
-  plzCurrentShift = ((plzCurrentShift + delta + 26) % 26);
-  const shiftEl = document.getElementById('plz-shift-num');
-  const previewEl = document.getElementById('plz-preview');
-  const btnEl = document.getElementById('plz-btn');
-  const decoded = PLZ_ENCODED.split('').map(c=>{
-    const code = c.charCodeAt(0) - 65;
-    return String.fromCharCode(((code - plzCurrentShift + 26) % 26) + 65);
-  }).join('');
-  shiftEl.textContent = plzCurrentShift;
-  previewEl.innerHTML = decoded.split('').join('&thinsp;&middot;&thinsp;');
-  const ok = decoded.toLowerCase() === 'laplusbelle';
-  shiftEl.classList.toggle('correct', ok);
-  previewEl.classList.toggle('correct', ok);
-  btnEl.classList.toggle('ready', ok);
-}
-
+/* ══════════════════ PUZZLE LOGIN — CARRÉ DE POLYBE ══════════════════ */
 function plzConfirm(){
-  const decoded = PLZ_ENCODED.split('').map(c=>{
-    const code = c.charCodeAt(0) - 65;
-    return String.fromCharCode(((code - plzCurrentShift + 26) % 26) + 65);
-  }).join('').toLowerCase();
-  if(decoded === 'laplusbelle'){
+  const val = (document.getElementById('plz-answer').value||'').trim().toLowerCase().replace(/\s/g,'');
+  if(val === 'laplusbelle'){
     const screen = document.getElementById('login-screen');
-    screen.style.transition = 'opacity .7s';
+    screen.style.transition = 'opacity .8s';
     screen.style.opacity = '0';
     setTimeout(()=>{
       screen.style.display = 'none';
       document.getElementById('desktop').style.display = 'block';
       startClock();
       scheduleNotif();
-    }, 700);
+    }, 800);
   } else {
     const err = document.getElementById('plz-err');
-    err.textContent = '⚠ DÉCHIFFRAGE INCORRECT — RÉESSAYEZ';
-    setTimeout(()=>{ err.textContent = ''; }, 2000);
+    const btn = document.getElementById('plz-btn');
+    err.textContent = '⚠ MOT INCORRECT — RECOMMENCEZ';
+    btn.style.background = 'rgba(180,0,0,0.6)';
+    const inp = document.getElementById('plz-answer');
+    inp.style.borderColor = 'rgba(255,60,60,0.6)';
+    setTimeout(()=>{
+      err.textContent = '';
+      btn.style.background = '';
+      inp.style.borderColor = '';
+    }, 2000);
   }
 }
 
