@@ -1935,19 +1935,56 @@ document.addEventListener('DOMContentLoaded', ()=>{
   if(pi) pi.addEventListener('keydown', e=>{ if(e.key==='Enter') tryLogin(); });
 });
 
-function tryLogin(){
-  if(document.getElementById('pwd-input').value === '1234'){
-    document.getElementById('login-screen').style.display='none';
-    document.getElementById('desktop').style.display='block';
-    startClock();
-    scheduleNotif();
+/* ══════════════════ PUZZLE LOGIN ══════════════════ */
+const PLZ_ENCODED = 'ODSOXVEHOOH';
+let plzCurrentShift = 0;
+
+function plzAdjust(delta){
+  plzCurrentShift = ((plzCurrentShift + delta + 26) % 26);
+  const shiftEl = document.getElementById('plz-shift-num');
+  const previewEl = document.getElementById('plz-preview');
+  const btnEl = document.getElementById('plz-btn');
+  const decoded = PLZ_ENCODED.split('').map(c=>{
+    const code = c.charCodeAt(0) - 65;
+    return String.fromCharCode(((code - plzCurrentShift + 26) % 26) + 65);
+  }).join('');
+  shiftEl.textContent = plzCurrentShift;
+  previewEl.innerHTML = decoded.split('').join('&thinsp;&middot;&thinsp;');
+  const ok = decoded.toLowerCase() === 'laplusbelle';
+  shiftEl.classList.toggle('correct', ok);
+  previewEl.classList.toggle('correct', ok);
+  btnEl.classList.toggle('ready', ok);
+}
+
+function plzConfirm(){
+  const decoded = PLZ_ENCODED.split('').map(c=>{
+    const code = c.charCodeAt(0) - 65;
+    return String.fromCharCode(((code - plzCurrentShift + 26) % 26) + 65);
+  }).join('').toLowerCase();
+  if(decoded === 'laplusbelle'){
+    const screen = document.getElementById('login-screen');
+    screen.style.transition = 'opacity .7s';
+    screen.style.opacity = '0';
+    setTimeout(()=>{
+      screen.style.display = 'none';
+      document.getElementById('desktop').style.display = 'block';
+      startClock();
+      scheduleNotif();
+    }, 700);
   } else {
-    const err = document.getElementById('login-err');
-    err.textContent = 'Code d\'accès incorrect.';
-    document.getElementById('pwd-input').value='';
-    setTimeout(()=>err.textContent='', 2200);
+    const err = document.getElementById('plz-err');
+    err.textContent = '⚠ DÉCHIFFRAGE INCORRECT — RÉESSAYEZ';
+    setTimeout(()=>{ err.textContent = ''; }, 2000);
   }
 }
+
+function plzHintToggle(){
+  const h = document.getElementById('plz-hint-box');
+  h.style.display = h.style.display === 'none' ? 'block' : 'none';
+}
+
+function tryLogin(){ /* conservé pour compatibilité */ }
+
 
 /* ═══════════════════════ CLOCK ═══════════════════════ */
 /* ═══════════════ SYSTEM TRAY ═══════════════ */
