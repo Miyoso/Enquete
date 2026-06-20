@@ -141,7 +141,9 @@
             
             // Chargement de l'image externe depuis l'URL
             const img = new Image();
-            img.crossOrigin = "Anonymous"; // Autorisation demandée pour analyser l'image ensuite
+            
+            // Suppression de img.crossOrigin = "Anonymous" car Goopics le bloque,
+            // ce qui déclenchait l'erreur "Image introuvable".
             
             img.onload = function() {
                 // On dessine l'image sur tout le canvas (320x320)
@@ -241,9 +243,10 @@
                     triggerWin();
                 }
             } catch (error) {
-                // FALLBACK CORS : Si Goopics bloque la sécurité du Canvas ("Tainted Canvas"),
-                // on bascule sur une victoire basée sur la quantité de coups de grattage.
-                if (scratchCount > 150) {
+                // FALLBACK CORS : Puisque l'image vient d'un autre site (Goopics), le navigateur 
+                // bloque l'accès aux pixels (Tainted Canvas). On bascule donc sur une victoire basée 
+                // sur la quantité de coups de grattage.
+                if (scratchCount > 100) { // Réduit à 100 pour être plus rapide
                     triggerWin();
                 }
             }
