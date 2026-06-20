@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Téléphone – Jeu d'Enquête</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #1a1a2e;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 30px 20px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+
+  /* ── PHONE SHELL ── */
+  .phone {
+    width: 360px;
+    background: #111;
+    border-radius: 48px;
+    padding: 18px;
+    box-shadow: 0 0 0 2px #333, 0 30px 80px rgba(0,0,0,0.6);
+    flex-shrink: 0;
+  }
+
+  .phone-inner {
+    background: #000;
+    border-radius: 34px;
+    overflow: hidden;
+    height: 720px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── STATUS BAR ── */
+  .status-bar {
+    background: #000;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px 6px;
+    font-size: 12px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  /* ── SCREEN AREA ── */
+  .screen {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* all views stacked, only active one shown */
+  .view {
+    position: absolute;
+    inset: 0;
+    overflow-y: auto;
+    display: none;
+    flex-direction: column;
+    background: #f2f2f7;
+  }
+  .view.active { display: flex; }
+
+  /* ── HOME SCREEN ── */
+  #view-home {
+    background: linear-gradient(160deg, #0f2027, #203a43, #2c5364);
+    padding: 24px 16px;
+    justify-content: flex-start;
+    gap: 16px;
+  }
+
+  .home-time { color: #fff; text-align: center; margin-bottom: 8px; }
+  .home-time .time { font-size: 62px; font-weight: 200; letter-spacing: -2px; }
+  .home-time .date { font-size: 16px; opacity: .7; }
+
+  .lock-notif {
+    background: rgba(255,255,255,.15);
+    backdrop-filter: blur(10px);
+    border-radius: 14px;
+    padding: 12px 16px;
+    color: #fff;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .lock-notif .notif-header { font-size: 11px; opacity: .6; margin-bottom: 4px; }
+
+  .app-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-top: auto;
+    padding: 8px;
+  }
+
+  .app-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    transition: transform .12s;
+  }
+  .app-icon:active { transform: scale(.92); }
+
+  .app-icon .icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    box-shadow: 0 4px 12px rgba(0,0,0,.35);
+    position: relative;
+  }
+  .app-icon .badge {
+    position: absolute;
+    top: -4px; right: -4px;
+    background: #ff3b30;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #000;
+    padding: 0 3px;
+  }
+  .app-icon span { color: #fff; font-size: 11px; text-shadow: 0 1px 3px rgba(0,0,0,.8); }
+
+  /* ── APP HEADER ── */
+  .app-header {
+    background: rgba(255,255,255,.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    padding: 14px 16px 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .back-btn {
+    color: #007aff;
+    font-size: 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    white-space: nowrap;
+  }
+  .app-header h2 { font-size: 17px; font-weight: 600; flex: 1; }
+
+  /* ── MESSAGES ── */
+  #view-messages { background: #fff; }
+
+  .conv-list { padding: 0; }
+  .conv-item {
+    display: flex;
+    gap: 12px;
+    padding: 14px 16px;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+    transition: background .1s;
+  }
+  .conv-item:active { background: #f5f5f5; }
+  .conv-avatar {
+    width: 50px; height: 50px;
+    border-radius: 25px;
+    font-size: 22px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .conv-info { flex: 1; min-width: 0; }
+  .conv-name { font-weight: 600; font-size: 15px; }
+  .conv-preview { color: #888; font-size: 13px; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .conv-time { font-size: 11px; color: #aaa; flex-shrink: 0; }
+  .unread-dot { width: 10px; height: 10px; background: #007aff; border-radius: 5px; margin-top: 6px; flex-shrink: 0; }
+
+  /* ── CHAT VIEW ── */
+  #view-chat { background: #fff; }
+  .chat-messages { flex: 1; padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+
+  .msg-bubble { max-width: 75%; padding: 10px 14px; border-radius: 18px; font-size: 14px; line-height: 1.4; }
+  .msg-bubble.received { background: #e9e9eb; align-self: flex-start; border-bottom-left-radius: 4px; color: #000; }
+  .msg-bubble.sent { background: #007aff; align-self: flex-end; border-bottom-right-radius: 4px; color: #fff; }
+  .msg-time { font-size: 11px; color: #aaa; text-align: center; margin: 4px 0; }
+
+  /* ── NOTES ── */
+  #view-notes { background: #f2f2f7; }
+  .notes-list { padding: 0 16px; }
+  .note-item {
+    background: #fff;
+    border-radius: 12px;
+    padding: 14px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0,0,0,.06);
+    transition: transform .1s;
+  }
+  .note-item:active { transform: scale(.98); }
+  .note-title { font-weight: 600; font-size: 15px; color: #1c1c1e; }
+  .note-preview { font-size: 13px; color: #888; margin-top: 4px; }
+  .note-date { font-size: 11px; color: #bbb; margin-top: 6px; }
+
+  #view-note-detail { background: #fffde7; }
+  .note-content { padding: 20px; font-size: 15px; line-height: 1.7; white-space: pre-wrap; color: #333; }
+
+  /* ── PHOTOS ── */
+  #view-photos { background: #000; }
+  .photo-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; padding: 2px; }
+  .photo-thumb {
+    aspect-ratio: 1;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 48px;
+    background: #222;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: opacity .1s;
+  }
+  .photo-thumb:active { opacity: .7; }
+  .photo-thumb .photo-label {
+    position: absolute; bottom: 4px; left: 0; right: 0;
+    text-align: center; color: #fff; font-size: 10px;
+    background: rgba(0,0,0,.5); padding: 2px 4px;
+  }
+
+  #view-photo-detail { background: #000; justify-content: center; align-items: center; }
+  .photo-full {
+    display: flex; flex-direction: column; align-items: center;
+    padding: 20px; gap: 16px;
+  }
+  .photo-big { font-size: 100px; }
+  .photo-meta { color: #aaa; font-size: 13px; text-align: center; line-height: 1.6; }
+  .photo-clue-tag {
+    background: #ff9500; color: #fff;
+    border-radius: 20px; padding: 6px 16px;
+    font-size: 13px; font-weight: 600;
+  }
+
+  /* ── EMAIL ── */
+  #view-email { background: #f2f2f7; }
+  .email-item {
+    background: #fff;
+    padding: 14px 16px;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+    transition: background .1s;
+  }
+  .email-item:active { background: #f5f5f5; }
+  .email-from { font-weight: 600; font-size: 14px; }
+  .email-subject { font-size: 13px; color: #333; margin-top: 2px; }
+  .email-preview { font-size: 12px; color: #aaa; margin-top: 2px; }
+
+  #view-email-detail { background: #fff; }
+  .email-content { padding: 16px; }
+  .email-content .from { font-size: 13px; color: #666; margin-bottom: 4px; }
+  .email-content h3 { font-size: 17px; font-weight: 700; margin-bottom: 12px; }
+  .email-content .body { font-size: 14px; line-height: 1.7; color: #333; white-space: pre-wrap; }
+
+  /* ── CALENDAR ── */
+  #view-calendar { background: #f2f2f7; }
+  .cal-month { padding: 16px; font-size: 20px; font-weight: 700; color: #1c1c1e; }
+  .cal-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 0; padding: 0 8px; }
+  .cal-day-header { text-align: center; font-size: 11px; color: #888; padding: 4px 0; }
+  .cal-day {
+    text-align: center; padding: 6px 2px; font-size: 13px; cursor: default;
+    border-radius: 20px; margin: 1px;
+  }
+  .cal-day.has-event { color: #007aff; font-weight: 700; cursor: pointer; }
+  .cal-day.has-event:hover { background: #e5f0ff; }
+  .cal-day.today { background: #007aff; color: #fff !important; font-weight: 700; border-radius: 20px; }
+  .cal-events { padding: 16px; }
+  .cal-event-item {
+    background: #fff;
+    border-left: 4px solid #ff3b30;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.06);
+    cursor: pointer;
+    transition: transform .1s;
+  }
+  .cal-event-item:active { transform: scale(.98); }
+  .cal-event-title { font-weight: 600; font-size: 14px; }
+  .cal-event-time { font-size: 12px; color: #888; margin-top: 3px; }
+  .cal-event-note { font-size: 12px; color: #ff3b30; margin-top: 4px; }
+
+  /* ── INDICE PANEL ── */
+  .clue-panel {
+    width: 300px;
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 20px;
+    padding: 20px;
+    color: #fff;
+    align-self: flex-start;
+    margin-top: 0;
+  }
+  .clue-panel h2 { font-size: 18px; margin-bottom: 4px; }
+  .clue-panel .subtitle { font-size: 12px; color: #aaa; margin-bottom: 16px; }
+  .clue-count { font-size: 13px; color: #f4d03f; margin-bottom: 12px; }
+
+  .clue-entry {
+    background: rgba(255,255,255,.07);
+    border-radius: 10px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    font-size: 13px;
+    border-left: 3px solid #f4d03f;
+    line-height: 1.5;
+    animation: fadeIn .3s ease;
+  }
+  @keyframes fadeIn { from { opacity:0; transform: translateY(6px); } to { opacity:1; transform: translateY(0); } }
+
+  .clue-entry .clue-src { font-size: 10px; color: #f4d03f; margin-bottom: 3px; text-transform: uppercase; letter-spacing: .5px; }
+
+  .empty-clues { color: #555; font-size: 13px; text-align: center; margin-top: 20px; }
+
+  /* ── HOME BUTTON ── */
+  .home-button-bar {
+    background: #000;
+    padding: 12px;
+    display: flex;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .home-btn {
+    width: 44px; height: 44px;
+    border-radius: 22px;
+    background: #1a1a1a;
+    border: 2px solid #333;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    transition: background .1s;
+  }
+  .home-btn:active { background: #333; }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed;
+    bottom: 40px; left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: rgba(30,30,30,.95);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 13px;
+    opacity: 0;
+    transition: all .3s;
+    pointer-events: none;
+    z-index: 999;
+    white-space: nowrap;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════ PHONE ════════════════════════ -->
+<div class="phone">
+  <div class="phone-inner">
+
+    <!-- STATUS BAR -->
+    <div class="status-bar">
+      <span>9:41</span>
+      <span>📶 🔋</span>
+    </div>
+
+    <div class="screen">
+
+      <!-- ══ HOME SCREEN ══ -->
+      <div class="view active" id="view-home">
+        <div class="home-time">
+          <div class="time">21:47</div>
+          <div class="date">Mercredi 18 juin</div>
+        </div>
+
+        <div class="lock-notif">
+          <div class="notif-header">💬 Messages · il y a 2 h</div>
+          Marc : « N'oublie pas le rendez-vous demain… »
+        </div>
+
+        <div class="app-grid">
+          <div class="app-icon" onclick="showView('messages')">
+            <div class="icon" style="background:linear-gradient(135deg,#34c759,#30d158)">💬<span class="badge">3</span></div>
+            <span>Messages</span>
+          </div>
+          <div class="app-icon" onclick="showView('notes')">
+            <div class="icon" style="background:linear-gradient(135deg,#ffd60a,#ffcc00)">📝</div>
+            <span>Notes</span>
+          </div>
+          <div class="app-icon" onclick="showView('photos')">
+            <div class="icon" style="background:linear-gradient(135deg,#ff9f0a,#ff375f,#bf5af2)">🌅</div>
+            <span>Photos</span>
+          </div>
+          <div class="app-icon" onclick="showView('email')">
+            <div class="icon" style="background:linear-gradient(135deg,#007aff,#5ac8fa)">📧<span class="badge">2</span></div>
+            <span>Mail</span>
+          </div>
+          <div class="app-icon" onclick="showView('calendar')">
+            <div class="icon" style="background:linear-gradient(135deg,#ff3b30,#ff6b6b)">📅</div>
+            <span>Calendrier</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ MESSAGES LIST ══ -->
+      <div class="view" id="view-messages">
+        <div class="app-header">
+          <span class="back-btn" onclick="goHome()">◀ Retour</span>
+          <h2>Messages</h2>
+        </div>
+        <div class="conv-list">
+          <div class="conv-item" onclick="showChat('marc')">
+            <div class="conv-avatar" style="background:#ffd60a">🧔</div>
+            <div class="conv-info">
+              <div class="conv-name">Marc Dupont</div>
+              <div class="conv-preview">N'oublie pas le rendez-vous demain…</div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+              <span class="conv-time">21:31</span>
+              <div class="unread-dot"></div>
+            </div>
+          </div>
+          <div class="conv-item" onclick="showChat('sophie')">
+            <div class="conv-avatar" style="background:#ff9f0a">👩</div>
+            <div class="conv-info">
+              <div class="conv-name">Sophie</div>
+              <div class="conv-preview">Combien tu en veux ? Je peux apporter le double.</div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+              <span class="conv-time">18:14</span>
+              <div class="unread-dot"></div>
+            </div>
+          </div>
+          <div class="conv-item" onclick="showChat('inconnu')">
+            <div class="conv-avatar" style="background:#636366">❓</div>
+            <div class="conv-info">
+              <div class="conv-name">Numéro inconnu</div>
+              <div class="conv-preview">La clé est sous le pot de fleurs.</div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+              <span class="conv-time">Hier</span>
+              <div class="unread-dot"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ CHAT: MARC ══ -->
+      <div class="view" id="view-chat-marc">
+        <div class="app-header">
+          <span class="back-btn" onclick="showView('messages')">◀ Messages</span>
+          <h2>Marc Dupont</h2>
+        </div>
+        <div class="chat-messages">
+          <div class="msg-time">Hier 14:02</div>
+          <div class="msg-bubble sent">Salut Marc, t'as vu les nouvelles ?</div>
+          <div class="msg-bubble received">Ouais… c'est bizarre comme histoire.</div>
+          <div class="msg-bubble sent">Tu penses que c'est lui ?</div>
+          <div class="msg-bubble received">Je sais pas. Mais il était là le soir du 17.</div>
+          <div class="msg-time">Aujourd'hui 21:31</div>
+          <div class="msg-bubble received" data-clue="Marc Dupont confirme : le suspect était sur place le soir du 17 juin.">
+            N'oublie pas le rendez-vous demain. Entrepôt rue des Acacias, 23h. Viens seul. 🔑
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ CHAT: SOPHIE ══ -->
+      <div class="view" id="view-chat-sophie">
+        <div class="app-header">
+          <span class="back-btn" onclick="showView('messages')">◀ Messages</span>
+          <h2>Sophie</h2>
+        </div>
+        <div class="chat-messages">
+          <div class="msg-time">Aujourd'hui 17:50</div>
+          <div class="msg-bubble sent">Sophie, t'as ce qu'il faut ?</div>
+          <div class="msg-bubble received">Oui, les documents sont prêts. 3 exemplaires comme prévu.</div>
+          <div class="msg-bubble sent">Et les photos ?</div>
+          <div class="msg-bubble received" data-clue="Sophie mentionne des photos compromettantes dans le tiroir du bureau.">
+            Les photos sont dans le tiroir du bureau, enveloppe marron. Ne les laisse surtout pas traîner…</div>
+          <div class="msg-time">18:14</div>
+          <div class="msg-bubble received">Combien tu en veux ? Je peux apporter le double.</div>
+        </div>
+      </div>
+
+      <!-- ══ CHAT: INCONNU ══ -->
+      <div class="view" id="view-chat-inconnu">
+        <div class="app-header">
+          <span class="back-btn" onclick="showView('messages')">◀ Messages</span>
+          <h2>Numéro inconnu</h2>
+        </div>
+        <div class="chat-messages">
+          <div class="msg-time">Hier 02:17</div>
+          <div class="msg-bubble received" data-clue="Un message anonyme indique : la clé est cachée sous le pot de fleurs.">
+            La clé est sous le pot de fleurs. Tu sais lequel. Ne tarde pas.
+          </div>
+          <div class="msg-bubble sent">Qui êtes-vous ?</div>
+          <div class="msg-bubble received">Quelqu'un qui veut t'aider. Méfie-toi de Viktor.</div>
+        </div>
+      </div>
+
+      <!-- ══ NOTES LIST ══ -->
+      <div class="view" id="view-notes">
+        <div class="app-header">
+          <span class="back-btn" onclick="goHome()">◀ Retour</span>
+          <h2>Notes</h2>
+        </div>
+        <div class="notes-list" style="padding-top:12px">
+          <div class="note-item" onclick="showNote('courses')">
+            <div class="note-title">🛒 Liste de courses</div>
+            <div class="note-preview">Pain, lait, fromage, aspirine…</div>
+            <div class="note-date">18 juin</div>
+          </div>
+          <div class="note-item" onclick="showNote('mdp')">
+            <div class="note-title">🔐 Mots de passe (PRIVÉ)</div>
+            <div class="note-preview">Ne pas perdre cette note !</div>
+            <div class="note-date">12 juin</div>
+          </div>
+          <div class="note-item" onclick="showNote('plan')">
+            <div class="note-title">📋 Plan de la soirée</div>
+            <div class="note-preview">17h dîner, 21h rendez-vous, apporter…</div>
+            <div class="note-date">17 juin</div>
+          </div>
+          <div class="note-item" onclick="showNote('adresse')">
+            <div class="note-title">📍 Adresse importante</div>
+            <div class="note-preview">Ne pas oublier…</div>
+            <div class="note-date">15 juin</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ NOTE DETAILS ══ -->
+      <div class="view" id="view-note-courses">
+        <div class="app-header">
+          <span class="back-btn" onclick="showView('notes')">◀ Notes</span>
+          <h2>🛒 Liste de courses</h2>
+        </div>
+        <div class="note-content">Pain
+Lait (demi-écrémé)
+Fromage (le camembert de Viktor si possible)
+Aspirine × 2 boîtes
+Café (pas le Nescafé — l'autre)
+Ruban adhésif large
+Sacs poubelle noirs (grands)</div>
+      </div>
+
+      <div class="view" id="view-note-mdp">
+        <div class="app-header">
+          <span class="back-btn" onclick="showView('notes')">◀ Notes</span>
+          <h2>🔐 Mots de passe</h2>
+        </div>
+        <div class="note-content" data-clue="Note secrète : le coffre-fort est dans la cave, combinaison 4-7-19.">🔐 CONFIDENTIEL — ne pas partager
+
+Coffre-fort cave : 4 - 7 - 19
+Email pro : Azerty@2024!
+Alarme maison : 1967 (année naissance papa)
+
+⚠️ Effacer cette note après mémorisation</div>
+      </div>
+
+      <div class="view" id="view-note-plan">
+        <div class="app-header">
+          <span class="back-btn" onclick="showView('notes')">◀ Notes</span>
+          <h2>📋 Plan soirée 17 juin</h2>
+        </div>
+        <div class="note-content" data-clue="Plan du 17 juin : rendez-vous à 21h avec Viktor à l'entrepôt. Apporter la valise bleue.">17:00 – Dîner chez maman, ne pas être en retard
+19:30 – Passer récupérer le colis (voir Sophie)
+21:00 – RDV Viktor @ Entrepôt rue des Acacias
+           → Apporter la valise BLEUE
+           → Ne pas oublier le contrat signé
+
+⚠️ Pas de téléphone pendant la réunion</div>
+      </div>
+
+      <div class="view" id="view-note-adresse">
+        <div class="app-header">
+          <span class="back-btn" onclick="showView('notes')">◀ Notes</span>
+          <h2>📍 Adresse importante</h2>
+        </div>
+        <div class="note-content" data-clue="Adresse secrète : Entrepôt au 14 rue des Acacias — accès par la porte latérale, code 2209.">Entrepôt – 14 rue des Acacias, Bâtiment B
+
+Accès : porte latérale (pas l'entrée principale !)
+Code digicode : 2209
+
+Parking en face, côté impasse.
+Ne pas stationner devant.</div>
+      </div>
+
+      <!-- ══ PHOTOS ══ -->
+      <div class="view" id="view-photos">
+        <div class="app-header" style="background:#111;border-color:#333">
+          <span class="back-btn" style="color:#007aff" onclick="goHome()">◀ Retour</span>
+          <h2 style="color:#fff">Photos</h2>
+        </div>
+        <div class="photo-grid">
+          <div class="photo-thumb" onclick="showPhoto('vacances')">🏖️<div class="photo-label">Vacances</div></div>
+          <div class="photo-thumb" onclick="showPhoto('valise')">🧳<div class="photo-label">17 juin</div></div>
+          <div class="photo-thumb" onclick="showPhoto('rencontre')">🤝<div class="photo-label">Réunion</div></div>
+          <div class="photo-thumb" onclick="showPhoto('cafe')">☕<div class="photo-label">Café</div></div>
+          <div class="photo-thumb" onclick="showPhoto('nuit')">🌃<div class="photo-label">Nuit</div></div>
+          <div class="photo-thumb" onclick="showPhoto('document')">📄<div class="photo-label">Scan</div></div>
+        </div>
+      </div>
+
+      <!-- ══ PHOTO DETAIL ══ -->
+      <div class="view" id="view-photo-detail">
+        <div class="app-header" style="background:#111;border-color:#333">
+          <span class="back-btn" style="color:#007aff" onclick="showView('photos')">◀ Photos</span>
+          <h2 style="color:#fff" id="photo-title">Photo</h2>
+        </div>
+        <div class="photo-full" id="photo-content"></div>
+      </div>
+
+      <!-- ══ EMAIL ══ -->
+      <div class="view" id="view-email">
+        <div class="app-header">
+          <span class="back-btn" onclick="goHome()">◀ Retour</span>
+          <h2>Mail – Boîte de réception</h2>
+        </div>
+        <div class="email-item" onclick="showEmail('avocat')">
+          <div class="email-from">📩 Me. Blanchard (Avocat)</div>
+          <div class="email-subject">RE : Contrat de transfert – URGENT</div>
+          <div class="email-preview">…le document doit être signé avant minuit, sinon…</div>
+        </div>
+        <div class="email-item" onclick="showEmail('banque')">
+          <div class="email-from">🏦 Crédit Général – Alerte</div>
+          <div class="email-subject">Virement inhabituel détecté</div>
+          <div class="email-preview">Un virement de 45 000 € a été effectué vers…</div>
+        </div>
+        <div class="email-item" onclick="showEmail('promo')">
+          <div class="email-from">🛒 SuperMarché Plus</div>
+          <div class="email-subject">-50% ce week-end !</div>
+          <div class="email-preview">Profitez de nos promotions exceptionnelles…</div>
+        </div>
+      </div>
+
+      <!-- ══ EMAIL DETAIL ══ -->
+      <div class="view" id="view-email-detail">
+        <div class="app-header">
+          <span class="back-btn" onclick="showView('email')">◀ Mail</span>
+          <h2 id="email-subject-title">Email</h2>
+        </div>
+        <div class="email-content" id="email-body-content"></div>
+      </div>
+
+      <!-- ══ CALENDAR ══ -->
+      <div class="view" id="view-calendar">
+        <div class="app-header">
+          <span class="back-btn" onclick="goHome()">◀ Retour</span>
+          <h2>Calendrier – Juin 2026</h2>
+        </div>
+        <div id="cal-grid-container"></div>
+        <div class="cal-events">
+          <div style="font-weight:700;font-size:14px;color:#1c1c1e;margin-bottom:10px">Événements à venir</div>
+          <div class="cal-event-item" onclick="collectClue('Calendrier : rendez-vous secret le 19 juin à 23h, lieu : entrepôt. Mention de Viktor.')">
+            <div class="cal-event-title">🔴 RDV Entrepôt</div>
+            <div class="cal-event-time">19 juin · 23:00</div>
+            <div class="cal-event-note">⚠️ Confidentiel – Viktor</div>
+          </div>
+          <div class="cal-event-item" onclick="collectClue('Calendrier : dîner chez maman le 17 juin à 17h — alibi possible pour la soirée.')">
+            <div class="cal-event-title">🍽️ Dîner chez maman</div>
+            <div class="cal-event-time">17 juin · 17:00</div>
+            <div class="cal-event-note" style="color:#34c759">Présence confirmée</div>
+          </div>
+          <div class="cal-event-item">
+            <div class="cal-event-title">💊 Médecin (Dr. Lefèvre)</div>
+            <div class="cal-event-time">22 juin · 10:30</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end .screen -->
+
+    <!-- HOME BUTTON -->
+    <div class="home-button-bar">
+      <div class="home-btn" onclick="goHome()">⬜</div>
+    </div>
+
+  </div>
+</div><!-- end .phone -->
+
+<!-- carnet supprimé -->
+<div id="clue-count" style="display:none"></div>
+<div id="clue-list" style="display:none"></div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ─── DATA ───────────────────────────────────────────────
+const photos = {
+  vacances: {
+    emoji: '🏖️', title: 'Vacances',
+    meta: '14 juillet · Nice',
+    desc: 'Photo de plage. Rien d\'inhabituel.',
+    clue: null
+  },
+  valise: {
+    emoji: '🧳', title: 'Valise bleue – 17 juin',
+    meta: '17 juin · 20:48 · [Domicile]',
+    desc: 'Une valise bleue fermée posée près de la porte d\'entrée.',
+    clue: 'Photo trouvée : une valise bleue prête à partir le soir du 17 juin à 20h48.'
+  },
+  rencontre: {
+    emoji: '🤝', title: 'Réunion',
+    meta: '10 juin · [Lieu inconnu]',
+    desc: 'Photo floue. On distingue deux silhouettes qui se serrent la main.',
+    clue: 'Photo floue d\'une rencontre le 10 juin — identité des deux personnes inconnue.'
+  },
+  cafe: {
+    emoji: '☕', title: 'Café',
+    meta: '18 juin · Café de la Paix',
+    desc: 'Table de café. Sur la nappe : une note griffonnée "V – ne pas oublier 2209".',
+    clue: 'Dans la photo du café : note griffonnée "V – ne pas oublier 2209" (code de l\'entrepôt ?).'
+  },
+  nuit: {
+    emoji: '🌃', title: 'Photo de nuit',
+    meta: '17 juin · 22:54 · [GPS désactivé]',
+    desc: 'Vue nocturne d\'un bâtiment industriel. Ressemble à un entrepôt.',
+    clue: 'Photo prise à 22h54 le 17 juin — bâtiment industriel, GPS désactivé volontairement.'
+  },
+  document: {
+    emoji: '📄', title: 'Scan document',
+    meta: '16 juin',
+    desc: 'Scan partiel d\'un contrat. On lit : "…transfert de propriété… signataire : V. Orlov… montant : 45 000 €…"',
+    clue: 'Document scanné : contrat au nom de V. Orlov pour 45 000 €, signé le 16 juin.'
+  }
+};
+
+const emails = {
+  avocat: {
+    subject: 'RE : Contrat de transfert – URGENT',
+    from: 'Me. Blanchard <blanchard-avocat@cabinet-bb.fr>',
+    body: `Maître,
+
+Suite à notre entretien de ce matin, je vous rappelle que le contrat de transfert doit impérativement être signé avant minuit le 19 juin.
+
+Passé ce délai, les fonds bloqués en séquestre seront libérés automatiquement vers le compte de M. Orlov, et toute procédure de contestation deviendra très difficile.
+
+Je reste joignable ce soir jusqu'à 22h.
+
+Cordialement,
+Me. Isabelle Blanchard`,
+    clue: 'Email de l\'avocat : le contrat doit être signé avant minuit le 19 juin, sinon 45 000 € vont à M. Orlov.'
+  },
+  banque: {
+    subject: 'Alerte : Virement inhabituel détecté',
+    from: 'alertes@credit-general.fr',
+    body: `Bonjour,
+
+Notre système a détecté un virement inhabituel sur votre compte :
+
+  Montant : 45 000,00 €
+  Bénéficiaire : ORLOV V. — compte LU28 0019 4006 4475 0000
+  Date : 16/06/2026 à 23:17
+
+Si vous n'êtes pas à l'origine de cette opération, contactez-nous immédiatement au 0800 123 456.
+
+Crédit Général — Service Sécurité`,
+    clue: 'Alerte bancaire : virement de 45 000 € vers "ORLOV V." le 16 juin à 23h17.'
+  },
+  promo: {
+    subject: '-50% ce week-end seulement !',
+    from: 'promo@supermarche-plus.fr',
+    body: `Bonjour,
+
+Profitez de -50% sur tous nos produits ce week-end !
+
+Offre valable samedi et dimanche uniquement.
+
+L'équipe SuperMarché Plus`,
+    clue: null
+  }
+};
+
+// ─── STATE ──────────────────────────────────────────────
+const foundClues = new Set();
+const totalClues = 9;
+
+// ─── NAVIGATION ─────────────────────────────────────────
+function showView(id) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  const el = document.getElementById('view-' + id);
+  if (el) { el.classList.add('active'); el.scrollTop = 0; }
+}
+
+function goHome() { showView('home'); }
+
+function showChat(who) {
+  showView('chat-' + who);
+  // auto-collect clues from chat bubbles
+  setTimeout(() => {
+    document.querySelectorAll('#view-chat-' + who + ' [data-clue]').forEach(el => {
+      collectClue(el.dataset.clue);
+    });
+  }, 600);
+}
+
+function showNote(id) {
+  showView('note-' + id);
+  setTimeout(() => {
+    const el = document.querySelector('#view-note-' + id + ' [data-clue]');
+    if (el) collectClue(el.dataset.clue);
+  }, 400);
+}
+
+function showPhoto(id) {
+  const p = photos[id];
+  if (!p) return;
+  document.getElementById('photo-title').textContent = p.title;
+  const c = document.getElementById('photo-content');
+  c.innerHTML = `
+    <div class="photo-big">${p.emoji}</div>
+    <div class="photo-meta">${p.meta}<br><br>${p.desc}</div>
+    ${p.clue ? '<div class="photo-clue-tag">🔍 Indice trouvé !</div>' : ''}
+  `;
+  showView('photo-detail');
+  if (p.clue) setTimeout(() => collectClue(p.clue), 500);
+}
+
+function showEmail(id) {
+  const e = emails[id];
+  if (!e) return;
+  document.getElementById('email-subject-title').textContent = e.subject;
+  document.getElementById('email-body-content').innerHTML = `
+    <div class="from">De : ${e.from}</div>
+    <h3>${e.subject}</h3>
+    <div class="body">${e.body}</div>
+    ${e.clue ? '<br><div style="background:#fff3cd;border-left:3px solid #f4d03f;padding:10px;border-radius:8px;font-size:13px;color:#856404">🔍 Indice relevé !</div>' : ''}
+  `;
+  showView('email-detail');
+  if (e.clue) setTimeout(() => collectClue(e.clue), 500);
+}
+
+// ─── CALENDAR ───────────────────────────────────────────
+function buildCalendar() {
+  const eventDays = new Set([17, 19, 22]);
+  const days = ['L','M','M','J','V','S','D'];
+  let html = '<div class="cal-month">Juin 2026</div><div class="cal-grid">';
+  days.forEach(d => html += `<div class="cal-day-header">${d}</div>`);
+  // June 2026 starts on Monday (offset 0)
+  for (let i = 1; i <= 30; i++) {
+    const isToday = i === 20;
+    const hasEv = eventDays.has(i);
+    let cls = 'cal-day';
+    if (isToday) cls += ' today';
+    else if (hasEv) cls += ' has-event';
+    html += `<div class="${cls}">${i}</div>`;
+  }
+  html += '</div>';
+  document.getElementById('cal-grid-container').innerHTML = html;
+}
+
+// ─── CLUES ──────────────────────────────────────────────
+function collectClue(text) {
+  if (!text || foundClues.has(text)) return;
+  foundClues.add(text);
+
+  const list = document.getElementById('clue-list');
+  if (list.querySelector('.empty-clues')) list.innerHTML = '';
+
+  const entry = document.createElement('div');
+  entry.className = 'clue-entry';
+  entry.innerHTML = `<div class="clue-src">Indice #${foundClues.size}</div>${text}`;
+  list.appendChild(entry);
+  list.scrollTop = list.scrollHeight;
+
+  document.getElementById('clue-count').textContent =
+    `${foundClues.size} / ${totalClues} indices trouvés`;
+
+  showToast('🔍 Nouvel indice trouvé !');
+
+  if (foundClues.size >= totalClues) {
+    setTimeout(() => showToast('🎉 Tous les indices sont réunis !'), 1500);
+  }
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ─── INIT ────────────────────────────────────────────────
+buildCalendar();
+</script>
+</body>
+</html>
